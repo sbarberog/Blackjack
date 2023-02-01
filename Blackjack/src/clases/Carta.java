@@ -3,7 +3,7 @@ package clases;
 public class Carta {
 
 	
-	public enum Palo { TREBOLES, DIAMANTES, CORAZONES, PICAS };
+	public enum Palo { TRÉBOLES, DIAMANTES, CORAZONES, PICAS };
 	public static int valor[]= {11,2,3,4,5,6,7,8,9,10,10,10,10};
 	public static String numCarta[]= {"AS","2","3","4","5","6","7","8","9","10","J","Q","K"};	
 	
