@@ -5,39 +5,45 @@ import java.util.Collections;
 import java.util.List;
 
 import clases.Carta.Palo;
+import excepciones.NoHayCartasExcepcion;
 
 public class Mazo {
 
-	private List<Carta> cartas;
-
+	protected List<Carta> cartas;
+	
 	public Mazo() {
-		cartas=new ArrayList<Carta>();
-		int num;
-		for(Palo p: Palo.values()) {
-			for(num=1; num>13; num++) {
-				Carta c= new Carta(num, p);
-				cartas.add(c);
+		this.cartas = new ArrayList<Carta>();	
+		for(Palo palo: Palo.values()) {
+			for (int i = 1; i <= 13; i++) {
+				Carta carta = new Carta(i,palo);
+				this.cartas.add(carta);
 			}
 		}
-	}	
+	}
+	
 	
 	public void barajar() {
-		Collections.shuffle(this.cartas);
+		Collections.shuffle(cartas);
 	}
+
 
 	@Override
 	public String toString() {
-		String texto="";
-		for(Carta c: cartas) {
-			texto=texto+"\n"+c.toString();
+		String res="";
+		for (Carta carta : cartas) {
+			res=res+carta.toString()+ "\n";
 		}
-		return texto;
+		return res;
 	}
 	
-	public Carta solicitarCarta() {
-		Carta c= new Carta(this.cartas.get(0).getNumero(), this.cartas.get(0).getPalo());
-		cartas.remove(0);	// controlar caso de array vacío?
-		return c;
+	public Carta solicitarCarta() throws NoHayCartasExcepcion {
+		if (this.cartas.size()==0) {
+			throw new NoHayCartasExcepcion();
+		}
+		Carta carta = this.cartas.get(0);
+		this.cartas.remove(0);
+		return carta;
 	}
+	
 	
 }
