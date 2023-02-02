@@ -28,6 +28,7 @@ public class Blackjack extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panel1;
+	private JPanel panel2;
 
 	/**
 	 * Launch the application.
@@ -57,22 +58,22 @@ public class Blackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow][150]", "[][][][:250:250,grow][:250:250,grow][]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][][250,grow][][250,grow][][63.00]"));
 		
 		JButton btnNuevoJuego = new JButton("Nueva Partida");
-		contentPane.add(btnNuevoJuego, "cell 0 0,alignx center");
+		contentPane.add(btnNuevoJuego, "cell 0 0 2 1,alignx center");
 		
-		JLabel lblNewLabel = new JLabel("Mazo:");
-		contentPane.add(lblNewLabel, "cell 1 1,alignx center");
+		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
+		contentPane.add(lblNewLabel, "cell 2 1,alignx center");
 		
 		panel1 = new JPanel();
 		panel1.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(panel1, "cell 0 1 1 3,grow");
+		contentPane.add(panel1, "cell 0 1 2 3,grow");
 		FlowLayout fl_panel1 = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panel1.setLayout(fl_panel1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "cell 1 2 1 3,grow");
+		contentPane.add(scrollPane, "cell 2 2 1 4,grow");
 		
 		JTextArea txtMazo = new JTextArea();
 		scrollPane.setViewportView(txtMazo);
@@ -84,17 +85,34 @@ public class Blackjack extends JFrame {
 			}
 		});
 		
-		JPanel panel2 = new JPanel();
+		JLabel lblNewLabel_1 = new JLabel("Puntos: ");
+		contentPane.add(lblNewLabel_1, "cell 0 4,alignx right");
+		
+		JLabel lblPuntos1 = new JLabel("");
+		contentPane.add(lblPuntos1, "cell 1 4");
+		
+		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		contentPane.add(panel2, "cell 0 4,grow");
-		contentPane.add(btnPedirCarta, "flowx,cell 0 5");
+		contentPane.add(panel2, "cell 0 5 2 1,grow");
+		
+		JLabel lblNewLabel_2 = new JLabel("Puntos: ");
+		contentPane.add(lblNewLabel_2, "cell 0 6,alignx right");
+		
+		JLabel lblPuntos2 = new JLabel("");
+		contentPane.add(lblPuntos2, "cell 1 6");
+		contentPane.add(btnPedirCarta, "flowx,cell 0 7 2 1");
+		FlowLayout fl_panel2 = new FlowLayout(FlowLayout.LEFT, 5, 5);
+		panel2.setLayout(fl_panel2);
 		
 		JButton btnPlantarse = new JButton("Plantarse");
-		btnPlantarse.setEnabled(false);
-		contentPane.add(btnPlantarse, "cell 0 5");
+		btnPlantarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		contentPane.add(btnPlantarse, "cell 0 7 2 1");
 		
 		JButton btnSalir = new JButton("Salir del juego");
-		contentPane.add(btnSalir, "cell 1 5");
+		contentPane.add(btnSalir, "cell 2 7");
 	}
 	
 	private void pruebaCarta() {
@@ -110,6 +128,9 @@ public class Blackjack extends JFrame {
 		panel1.add(new JLabel(image), FlowLayout.LEFT);
 		panel1.revalidate();
 		panel1.repaint();
+		panel2.add(new JLabel(image), FlowLayout.LEFT);
+		panel2.revalidate();
+		panel2.repaint();
 	}
 
 }

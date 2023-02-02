@@ -3,12 +3,16 @@ import gui.Blackjack;
 
 public class Juego {
 	
-	static Blackjack blackjack;
+	static Blackjack frame;
 
 	public static void main(String[] args) {
 
-		blackjack=new Blackjack();
-		blackjack.setVisible(true);
+		try {
+			frame = new Blackjack();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
