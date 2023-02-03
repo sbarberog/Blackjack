@@ -76,7 +76,7 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][center][top][250,center][top][63.00]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][48.00][center][top][250,center][top][63.00]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -92,10 +92,10 @@ public class GuiBlackjack extends JFrame {
 				System.exit(0);
 			}
 		});
-		contentPane.add(btnSalir, "cell 2 0");
+		contentPane.add(btnSalir, "cell 2 0,alignx center");
 		
 		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
-		contentPane.add(lblNewLabel, "cell 2 1,alignx center");
+		contentPane.add(lblNewLabel, "cell 2 1,alignx center,aligny bottom");
 		
 		panelJ = new JPanel();
 		panelJ.setMinimumSize(new Dimension(600, 250));
@@ -127,13 +127,13 @@ public class GuiBlackjack extends JFrame {
 		});
 		
 		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(100, 30));
-		panel.setMaximumSize(new Dimension(100, 30));
+		panel.setPreferredSize(new Dimension(160, 30));
+		panel.setMaximumSize(new Dimension(160, 30));
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		contentPane.add(panel, "cell 1 3,alignx left,growy");
 		panel.setLayout(new MigLayout("", "[grow]", "[]"));
 		
-		JLabel lblNewLabel_1 = new JLabel("Puntos: ");
+		JLabel lblNewLabel_1 = new JLabel("Puntos de tu mano:");
 		panel.add(lblNewLabel_1, "flowx,cell 0 0");
 		
 		lblPuntosJ = new JLabel("");
@@ -148,12 +148,12 @@ public class GuiBlackjack extends JFrame {
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1.setPreferredSize(new Dimension(100, 30));
-		panel_1.setMaximumSize(new Dimension(100, 30));
+		panel_1.setPreferredSize(new Dimension(160, 30));
+		panel_1.setMaximumSize(new Dimension(160, 30));
 		contentPane.add(panel_1, "cell 1 5,grow");
 		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
 		
-		JLabel lblNewLabel_2 = new JLabel("Puntos: ");
+		JLabel lblNewLabel_2 = new JLabel("Puntos: de la banca:");
 		panel_1.add(lblNewLabel_2, "flowx,cell 0 0");
 		
 		lblPuntosB = new JLabel("");
@@ -197,7 +197,7 @@ public class GuiBlackjack extends JFrame {
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
-		lblEstado.setText("¿Pides carta o te plantas?");
+		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21)");
 		actualizaMazo();
 	}
 	
