@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import clases.Carta.Palo;
-import excepciones.NoHayCartasExcepcion;
+import excepciones.NoHayCartasException;
 
 public class Mazo {
 
@@ -36,9 +36,9 @@ public class Mazo {
 		return res;
 	}
 	
-	public Carta solicitarCarta() throws NoHayCartasExcepcion {
+	public Carta solicitarCarta() throws NoHayCartasException {
 		if (this.cartas.size()==0) {
-			throw new NoHayCartasExcepcion();
+			throw new NoHayCartasException();
 		}
 		Carta carta = this.cartas.get(0);
 		this.cartas.remove(0);

@@ -1,13 +1,13 @@
 package clases;
-import excepciones.NoHayCartasExcepcion;
+import excepciones.NoHayCartasException;
 import gui.GuiBlackjack;
 
 public class Juego {
 	
 	static GuiBlackjack frame;
-	private Mazo baraja;
-	private Mano jugador;
-	private Mano banca;
+	public static Mazo baraja;
+	private static Mano jugador;
+	private static Mano banca;
 
 	public static void main(String[] args) {
 
@@ -20,16 +20,18 @@ public class Juego {
 
 	}
 	
-	public void nuevoJuego() {
+	public static void nuevoJuego() {
 		baraja=new Mazo();
+		baraja.barajar();
 		jugador=new Mano();
 		banca=new Mano();
 	}
 	
-	public void pedirCarta() {
+	public static void pedirCarta() throws NoHayCartasException {
 		try {
 			jugador.pedirCarta(baraja);
-		} catch (NoHayCartasExcepcion e) {
+			frame.muestraCartaJ(jugador.ultimaCarta());
+		} catch (NoHayCartasException e) {
 			System.out.println("No hay más cartas en la baraja");
 		}
 		if(jugador.finDeJuego()) {
@@ -37,8 +39,37 @@ public class Juego {
 		}
 	}
 	
-	public void juegaBanca() {
+	public static void juegaBanca() throws NoHayCartasException {
+		do {
+			banca.pedirCarta(baraja);
+		} while (banca.valorMano()<17 && (!banca.finDeJuego() || banca.valorMano() < jugador.valorMano()
+				|| jugador.valorMano()<=21));
+		quienGana();
+	}
+	
+	public static void quienGana() {
+		if (banca.valorMano()>=jugador.valorMano() && banca.valorMano() <= 21) {
+			ganaBanca();
+		} else if(jugador.valorMano()<=21){
+			ganasTu();
+		} else {
+			ganaNadie();
+		}
+	}	
+	
+	private static void ganaNadie() {
 		
+	}
+
+	private static void ganaBanca() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void ganasTu() {
+		// TODO Auto-generated method stub
+		
+	}
 	}
 	
 //	@SuppressWarnings("resource")
@@ -47,25 +78,25 @@ public class Juego {
 //	mazo.barajar();
 //	System.out.println(mazo);
 //
-//	Mano mano = new Mano();
+//	Mano jugador = new Mano();
 //	boolean sigue = true;
 //
 //	do {
 //		System.out.println("¿Quiere una carta? S/N");
 //		String respuesta = teclado.nextLine().toLowerCase();
 //		if (respuesta.equals("s")) {
-//			mano.pedirCarta(mazo);
-//			System.out.println(mano);
+//			jugador.pedirCarta(mazo);
+//			System.out.println(jugador);
 //		} else if (respuesta.equals("n")) {
 //			sigue = false;
-//			System.out.println("Te has plantado. Puntuación final: " + mano.valorMano());
+//			System.out.println("Te has plantado. Puntuación final: " + jugador.valorMano());
 //		}
-//	} while (sigue && !mano.finDeJuego());
+//	} while (sigue && !jugador.finDeJuego());
 //
-//	if (mano.finDeJuego()) {
+//	if (jugador.finDeJuego()) {
 //		System.out.println("Has perdido... ");
 //	}
 //
 //}
 
-}
+

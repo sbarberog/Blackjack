@@ -20,6 +20,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Frame;
 import javax.swing.border.TitledBorder;
+
+import clases.Carta;
+import clases.Juego;
+import excepciones.NoHayCartasException;
+
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -29,6 +34,10 @@ public class GuiBlackjack extends JFrame {
 	private JPanel contentPane;
 	private JPanel panel1;
 	private JPanel panel2;
+	private JButton btnPlantarse;
+	private JButton btnPedirCarta;
+	private JTextArea txtMazo;
+	private JLabel lblEstado;
 
 	/**
 	 * Launch the application.
@@ -61,6 +70,15 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][][250,grow][][250,grow][][63.00]"));
 		
 		JButton btnNuevoJuego = new JButton("Nueva Partida");
+		btnNuevoJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Juego.nuevoJuego();
+				btnPedirCarta.setEnabled(true);
+				btnPlantarse.setEnabled(true);
+				lblEstado.setText("¿Pides carta o te plantas?");
+				actualizaMazo();
+			}
+		});
 		contentPane.add(btnNuevoJuego, "cell 0 0 2 1,alignx center");
 		
 		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
@@ -75,13 +93,19 @@ public class GuiBlackjack extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "cell 2 2 1 4,grow");
 		
-		JTextArea txtMazo = new JTextArea();
+		txtMazo = new JTextArea();
 		scrollPane.setViewportView(txtMazo);
 		
-		JButton btnPedirCarta = new JButton("Pedir Carta");
+		btnPedirCarta = new JButton("Pedir Carta");
+		btnPedirCarta.setEnabled(false);
 		btnPedirCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pruebaCarta();
+				try {
+					Juego.pedirCarta();
+				} catch (NoHayCartasException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -100,21 +124,35 @@ public class GuiBlackjack extends JFrame {
 		
 		JLabel lblPuntos2 = new JLabel("");
 		contentPane.add(lblPuntos2, "cell 1 6");
-		contentPane.add(btnPedirCarta, "flowx,cell 0 7 2 1");
+		contentPane.add(btnPedirCarta, "flowx,cell 0 7");
 		FlowLayout fl_panel2 = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panel2.setLayout(fl_panel2);
 		
-		JButton btnPlantarse = new JButton("Plantarse");
+		btnPlantarse = new JButton("Plantarse");
+		btnPlantarse.setEnabled(false);
 		btnPlantarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		contentPane.add(btnPlantarse, "cell 0 7 2 1");
+		contentPane.add(btnPlantarse, "flowx,cell 0 7 2 1");
 		
 		JButton btnSalir = new JButton("Salir del juego");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		contentPane.add(btnSalir, "cell 2 7");
+		
+		lblEstado = new JLabel("");
+		contentPane.add(lblEstado, "cell 1 7");
 	}
 	
+	protected void actualizaMazo() {
+		txtMazo.setText(Juego.baraja.toString());
+		txtMazo.setCaretPosition(0);;
+	}
+
 	private void pruebaCarta() {
 		// temporal, para testeo
 		ImageIcon image = null;
@@ -133,4 +171,30 @@ public class GuiBlackjack extends JFrame {
 		panel2.repaint();
 	}
 
+	public void muestraCartaJ(Carta c) {
+		ImageIcon image = null;
+		try {
+			image = new ImageIcon(
+			        ImageIO.read(getClass().getResource("/poker/"+"ace_of_spades")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		panel1.add(new JLabel(image), FlowLayout.LEFT);
+		panel1.revalidate();
+		panel1.repaint();
+	}
+	
+	public void muestraCartaB(Carta c) {
+		ImageIcon image = null;
+		try {
+			image = new ImageIcon(
+			        ImageIO.read(getClass().getResource("/poker/"+c.imagenCarta())));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		panel2.add(new JLabel(image), FlowLayout.LEFT);
+		panel2.revalidate();
+	}
 }

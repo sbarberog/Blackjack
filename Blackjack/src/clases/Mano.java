@@ -2,7 +2,7 @@ package clases;
 
 import java.util.ArrayList;
 
-import excepciones.NoHayCartasExcepcion;
+import excepciones.NoHayCartasException;
 
 public class Mano extends Mazo {
 
@@ -32,11 +32,13 @@ public class Mano extends Mazo {
 		return res;
 	}
 	
-	public void pedirCarta(Mazo m) throws NoHayCartasExcepcion {
+	public void pedirCarta(Mazo m) throws NoHayCartasException {
 		Carta c = m.solicitarCarta();
 		this.cartas.add(c);
 	}
 	
-	
+	public Carta ultimaCarta() {
+		return this.cartas.get(this.cartas.size()-1);
+	}
 	
 }
