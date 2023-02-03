@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import excepciones.NoHayCartasException;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -126,7 +128,12 @@ public class Gui extends JFrame {
 	private void juegaBanca() {
 		mBanca = new Mano();
 		do {
-			mBanca.pedirCarta(mazo);
+			try {
+				mBanca.pedirCarta(mazo);
+			} catch (NoHayCartasException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (mano.valorMano() > 21) {
 				ganaBanca();
 				return;
@@ -160,7 +167,12 @@ public class Gui extends JFrame {
 	}
 
 	protected void pedirCarta() {
-		mano.pedirCarta(mazo);
+		try {
+			mano.pedirCarta(mazo);
+		} catch (NoHayCartasException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		actualizaMano();
 		actualizaMazo();
 
