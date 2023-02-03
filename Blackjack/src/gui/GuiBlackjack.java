@@ -76,12 +76,12 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][][][250][][63.00]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][center][top][250,center][top][63.00]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Juego.nuevoJuego();
+				Juego.setTurnoJugador(true);
 			}
 		});
 		contentPane.add(btnNuevoJuego, "cell 0 0 2 1,alignx center");
@@ -111,23 +111,24 @@ public class GuiBlackjack extends JFrame {
 		contentPane.add(scrollPane, "cell 2 2 1 4,grow");
 		
 		txtMazo = new JTextArea();
+		txtMazo.setEditable(false);
 		scrollPane.setViewportView(txtMazo);
 		
 		btnPedirCarta = new JButton("Pedir Carta");
 		btnPedirCarta.setEnabled(false);
 		btnPedirCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Juego.pideCarta();
-				} catch (NoHayCartasException e1) {
-					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+					try {
+						Juego.pideCarta();
+					} catch (NoHayCartasException e1) {
+						JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 			}
 		});
 		
 		panel = new JPanel();
 		panel.setPreferredSize(new Dimension(100, 30));
-		panel.setMaximumSize(new Dimension(100, 32767));
+		panel.setMaximumSize(new Dimension(100, 30));
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		contentPane.add(panel, "cell 1 3,alignx left,growy");
 		panel.setLayout(new MigLayout("", "[grow]", "[]"));
@@ -148,7 +149,7 @@ public class GuiBlackjack extends JFrame {
 		panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setPreferredSize(new Dimension(100, 30));
-		panel_1.setMaximumSize(new Dimension(100, 32767));
+		panel_1.setMaximumSize(new Dimension(100, 30));
 		contentPane.add(panel_1, "cell 1 5,grow");
 		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
 		
@@ -165,7 +166,7 @@ public class GuiBlackjack extends JFrame {
 		btnPlantarse.setEnabled(false);
 		btnPlantarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				turnoBanca();
+				Juego.setTurnoJugador(false);
 			}
 		});
 		contentPane.add(btnPlantarse, "flowx,cell 0 6");
@@ -191,7 +192,11 @@ public class GuiBlackjack extends JFrame {
 		btnPedirCarta.setEnabled(true);
 		btnPlantarse.setEnabled(true);
 		panelJ.removeAll();
+		panelJ.revalidate();
+		panelJ.repaint();
 		panelB.removeAll();
+		panelB.revalidate();
+		panelB.repaint();
 		lblEstado.setText("¿Pides carta o te plantas?");
 		actualizaMazo();
 	}
@@ -226,6 +231,7 @@ public class GuiBlackjack extends JFrame {
 			panelB.add(new JLabel(image), pos);
 			panelB.revalidate();
 			panelB.repaint();
+			actualizaPuntos();
 			actualizaMazo();
 		} catch(IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
@@ -240,17 +246,6 @@ public class GuiBlackjack extends JFrame {
 		lblEstado.setText("Turno de la banca...");
 		JOptionPane.showMessageDialog(this, "Tu turno ha terminado.\n"+ "Valor de la mano: "
 				+Juego.jugador.valorMano()+"\nTurno de la banca...", "Fin de tu turno", JOptionPane.INFORMATION_MESSAGE);
-
-		try {
-			Juego.juegaBanca();
-		} catch (NoHayCartasException e) {
-			JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-//		try {
-//			Juego.juegaBanca();
-//		} catch (NoHayCartasException e) {
-//			JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
-//		}
 	}
 
 	public void actualizaPuntos() {
@@ -263,7 +258,7 @@ public class GuiBlackjack extends JFrame {
 		int seguir=JOptionPane.showConfirmDialog(this, "¿Deseas seguir jugando?\nPiénsatelo bien...", "¿Seguir jugando?", JOptionPane.YES_NO_OPTION);
 		
 		switch (seguir) {
-		case JOptionPane.YES_OPTION: {Juego.nuevoJuego();break;}
+		case JOptionPane.YES_OPTION: Juego.setTurnoJugador(true);
 		case JOptionPane.NO_OPTION:
 		default: btnNuevoJuego.setEnabled(true);
 		}

@@ -8,41 +8,51 @@ public class Juego {
 	public static Mazo baraja;
 	public static Mano jugador;
 	public static Mano banca;
+	private static boolean turnoJugador;
 
 	public static void main(String[] args) {
 
 		try {
 			frame = new GuiBlackjack();
 			frame.setVisible(true);
-//			nuevoJuego();
+			setTurnoJugador(true);
+			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	public static void nuevoJuego() {
-		baraja=new Mazo();
-		baraja.barajar();
-		jugador=new Mano();
-		banca=new Mano();
-		frame.empiezaJuego();
+	public static void nuevoJuego() throws NoHayCartasException {
+		do{
+			baraja=new Mazo();
+			baraja.barajar();
+			jugador=new Mano();
+			banca=new Mano();
+			setTurnoJugador(true);
+			frame.empiezaJuego();
+			while(isTurnoJugador()) {
+				Thread.onSpinWait();
+			};
+			frame.turnoBanca();
+			juegaBanca();
+			quienGana();
+			frame.finDePartida();
+			while(!isTurnoJugador()) {
+				Thread.onSpinWait();
+			};
+		} while(isTurnoJugador());
 	}
 	
 	public static void pideCarta() throws NoHayCartasException {
-		try {
 			jugador.pedirCarta(baraja);
 			frame.muestraCartaJ(jugador.ultimaCarta(),jugador.cartas.size()-1);
 			frame.actualizaPuntos();
 			if(jugador.finDeJuego()) {
-				frame.turnoBanca();
+				setTurnoJugador(false);
 			}
-		} catch (NoHayCartasException e) {
-			System.err.println("No hay más cartas en la baraja");
 		}
-		
-	}
-	
+			
 	public static void juegaBanca() throws NoHayCartasException {
 		do {
 			try {
@@ -53,11 +63,10 @@ public class Juego {
 				System.err.println("Error al esperar.");
 			}
 		} while (banca.valorMano()<17 && !banca.finDeJuego());
-		quienGana();
 	}
 	
 	public static void quienGana() {
-		frame.actualizaPuntos();
+//		frame.actualizaPuntos();
 		frame.puntuacionFinal();
 		if (banca.valorMano() <= 21 && (jugador.valorMano()<=banca.valorMano() || jugador.valorMano()>21)) {
 			frame.ganaBanca();
@@ -66,7 +75,14 @@ public class Juego {
 		} else {
 			frame.ganaNadie();
 		}
-		frame.finDePartida();
+	}
+
+	public static boolean isTurnoJugador() {
+		return turnoJugador;
+	}
+
+	public static void setTurnoJugador(boolean turnoJugador) {
+		Juego.turnoJugador = turnoJugador;
 	}	
 	
 	
