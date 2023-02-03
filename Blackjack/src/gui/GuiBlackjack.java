@@ -47,6 +47,9 @@ public class GuiBlackjack extends JFrame {
 	private JPanel panel_1;
 	private AbstractButton btnNuevoJuego;
 	private JCheckBox chkMazo;
+	private JLabel lblVictorias;
+	private JLabel lblEmpates;
+	private JLabel lblDerrotas;
 
 	/**
 	 * Launch the application.
@@ -76,7 +79,7 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][48.00][center][top][250,center][top][63.00]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][grow][150]", "[][][48.00][center][top][250,center][top][63.00]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -84,7 +87,7 @@ public class GuiBlackjack extends JFrame {
 				Juego.setTurnoJugador(true);
 			}
 		});
-		contentPane.add(btnNuevoJuego, "cell 0 0 2 1,alignx center");
+		contentPane.add(btnNuevoJuego, "cell 0 0 3 1,alignx center");
 		
 		JButton btnSalir = new JButton("Salir del juego");
 		btnSalir.addActionListener(new ActionListener() {
@@ -92,27 +95,7 @@ public class GuiBlackjack extends JFrame {
 				System.exit(0);
 			}
 		});
-		contentPane.add(btnSalir, "cell 2 0,alignx center");
-		
-		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
-		contentPane.add(lblNewLabel, "cell 2 1,alignx center,aligny bottom");
-		
-		panelJ = new JPanel();
-		panelJ.setMinimumSize(new Dimension(600, 250));
-		panelJ.setBackground(new Color(0, 255, 127));
-		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
-				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		contentPane.add(panelJ, "cell 0 1 2 2,grow");
-		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
-//		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVisible(false);
-		contentPane.add(scrollPane, "cell 2 2 1 4,grow");
-		
-		txtMazo = new JTextArea();
-		txtMazo.setEditable(false);
-		scrollPane.setViewportView(txtMazo);
+		contentPane.add(btnSalir, "cell 3 0,alignx center");
 		
 		btnPedirCarta = new JButton("Pedir Carta");
 		btnPedirCarta.setEnabled(false);
@@ -125,12 +108,36 @@ public class GuiBlackjack extends JFrame {
 					}
 			}
 		});
+		contentPane.add(btnPedirCarta, "flowx,cell 0 1");
+		
+		lblEstado = new JLabel("");
+		contentPane.add(lblEstado, "flowx,cell 1 1 2 1");
+		
+		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
+		contentPane.add(lblNewLabel, "cell 3 2,alignx center,aligny bottom");
+		
+		panelJ = new JPanel();
+		panelJ.setMinimumSize(new Dimension(600, 250));
+		panelJ.setBackground(new Color(0, 255, 127));
+		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
+				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		contentPane.add(panelJ, "cell 0 2 3 2,grow");
+		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+//		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVisible(false);
+		contentPane.add(scrollPane, "cell 3 3 1 3,grow");
+		
+		txtMazo = new JTextArea();
+		txtMazo.setEditable(false);
+		scrollPane.setViewportView(txtMazo);
 		
 		panel = new JPanel();
 		panel.setPreferredSize(new Dimension(160, 30));
 		panel.setMaximumSize(new Dimension(160, 30));
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		contentPane.add(panel, "cell 1 3,alignx left,growy");
+		contentPane.add(panel, "cell 1 4,alignx left,growy");
 		panel.setLayout(new MigLayout("", "[grow]", "[]"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Puntos de tu mano:");
@@ -144,13 +151,13 @@ public class GuiBlackjack extends JFrame {
 		panelB.setBackground(new Color(0, 255, 127));
 		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 
 				"Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
-		contentPane.add(panelB, "cell 0 4 2 1,grow");
+		contentPane.add(panelB, "cell 0 5 3 1,grow");
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setPreferredSize(new Dimension(160, 30));
 		panel_1.setMaximumSize(new Dimension(160, 30));
-		contentPane.add(panel_1, "cell 1 5,grow");
+		contentPane.add(panel_1, "cell 1 6,grow");
 		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
 		
 		JLabel lblNewLabel_2 = new JLabel("Puntos: de la banca:");
@@ -158,7 +165,6 @@ public class GuiBlackjack extends JFrame {
 		
 		lblPuntosB = new JLabel("");
 		panel_1.add(lblPuntosB, "cell 0 0");
-		contentPane.add(btnPedirCarta, "flowx,cell 0 6");
 		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panelB.setLayout(fl_panelB);
 		
@@ -169,10 +175,7 @@ public class GuiBlackjack extends JFrame {
 				Juego.setTurnoJugador(false);
 			}
 		});
-		contentPane.add(btnPlantarse, "flowx,cell 0 6");
-		
-		lblEstado = new JLabel("");
-		contentPane.add(lblEstado, "flowx,cell 1 6");
+		contentPane.add(btnPlantarse, "cell 0 1");
 		
 		chkMazo = new JCheckBox("Mostrar/Ocultar mazo");
 		chkMazo.addItemListener(new ItemListener() {
@@ -184,7 +187,16 @@ public class GuiBlackjack extends JFrame {
 				 }
 			}
 		});
-		contentPane.add(chkMazo, "cell 2 6");
+		
+		lblVictorias = new JLabel("");
+		contentPane.add(lblVictorias, "flowx,cell 2 6");
+		contentPane.add(chkMazo, "cell 3 6");
+		
+		lblEmpates = new JLabel("");
+		contentPane.add(lblEmpates, "cell 2 6");
+		
+		lblDerrotas = new JLabel("");
+		contentPane.add(lblDerrotas, "cell 2 6");
 	}
 	
 	public void empiezaJuego() {
@@ -282,5 +294,12 @@ public class GuiBlackjack extends JFrame {
 	public void ganaNadie() {
 		lblEstado.setText("No hay ganador");
 		JOptionPane.showMessageDialog(this, "No hay ganador, así que se te devolverá la apuesta", "Empate", JOptionPane.WARNING_MESSAGE);
+	}
+
+	public void actualizaContador() {
+		lblVictorias.setText("Victorias: "+Juego.victorias+" | ");
+		lblEmpates.setText("Empates: "+Juego.empates+" | ");
+		lblDerrotas.setText("Derrotas: "+Juego.derrotas+"  ");
+		
 	}
 }

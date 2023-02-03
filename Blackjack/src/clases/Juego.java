@@ -9,13 +9,21 @@ public class Juego {
 	public static Mano jugador;
 	public static Mano banca;
 	private static boolean turnoJugador;
+	public static int victorias;
+	public static int empates;
+	public static int derrotas;
+	
 
 	public static void main(String[] args) {
 
 		try {
+			victorias=0;
+			empates=0;
+			derrotas=0;
 			frame = new GuiBlackjack();
 			frame.setVisible(true);
-			setTurnoJugador(true);
+			frame.actualizaContador();
+//			setTurnoJugador(true);
 			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,6 +45,7 @@ public class Juego {
 			frame.turnoBanca();
 			juegaBanca();
 			quienGana();
+			frame.actualizaContador();
 			frame.finDePartida();
 			while(!isTurnoJugador()) {
 				Thread.onSpinWait();
@@ -68,11 +77,14 @@ public class Juego {
 	public static void quienGana() {
 //		frame.actualizaPuntos();
 		frame.puntuacionFinal();
-		if (banca.valorMano() <= 21 && (jugador.valorMano()<=banca.valorMano() || jugador.valorMano()>21)) {
+		if (banca.valorMano() <= 21 && (jugador.valorMano()<banca.valorMano() || jugador.valorMano()>21)) {
+			derrotas++;
 			frame.ganaBanca();
 		} else if(jugador.valorMano()<=21 && (banca.valorMano()>21 || banca.valorMano()<jugador.valorMano())){
+			victorias++;
 			frame.ganasTu();
 		} else {
+			empates++;
 			frame.ganaNadie();
 		}
 	}
