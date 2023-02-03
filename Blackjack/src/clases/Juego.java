@@ -1,4 +1,6 @@
 package clases;
+import javax.swing.JOptionPane;
+
 import excepciones.NoHayCartasException;
 import gui.GuiBlackjack;
 
@@ -6,8 +8,8 @@ public class Juego {
 	
 	static GuiBlackjack frame;
 	public static Mazo baraja;
-	private static Mano jugador;
-	private static Mano banca;
+	public static Mano jugador;
+	public static Mano banca;
 
 	public static void main(String[] args) {
 
@@ -27,23 +29,27 @@ public class Juego {
 		banca=new Mano();
 	}
 	
-	public static void pedirCarta() throws NoHayCartasException {
+	public static void pideCarta() throws NoHayCartasException {
 		try {
 			jugador.pedirCarta(baraja);
-			frame.muestraCartaJ(jugador.ultimaCarta());
+			frame.muestraCartaJ(jugador.ultimaCarta(),jugador.cartas.size()-1);
+			frame.actualizaPuntos();
+			if(jugador.finDeJuego()) {
+				frame.turnoBanca();
+				juegaBanca();
+			}
 		} catch (NoHayCartasException e) {
-			System.out.println("No hay más cartas en la baraja");
+			System.err.println("No hay más cartas en la baraja");
 		}
-		if(jugador.finDeJuego()) {
-			juegaBanca();
-		}
+		
 	}
 	
 	public static void juegaBanca() throws NoHayCartasException {
 		do {
 			banca.pedirCarta(baraja);
-		} while (banca.valorMano()<17 && (!banca.finDeJuego() || banca.valorMano() < jugador.valorMano()
-				|| jugador.valorMano()<=21));
+			frame.muestraCartaB(banca.ultimaCarta(),banca.cartas.size()-1);
+		} while (banca.valorMano()<17 && !banca.finDeJuego());
+		frame.actualizaPuntos();
 		quienGana();
 	}
 	
@@ -55,10 +61,11 @@ public class Juego {
 		} else {
 			ganaNadie();
 		}
+//		frame.finDePartida();
 	}	
 	
 	private static void ganaNadie() {
-		
+		JOptionPane.showMessageDialog(frame, "Nadie gana...", "Empate", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private static void ganaBanca() {
