@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.EventQueue;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,16 +9,15 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Frame;
 import javax.swing.border.TitledBorder;
 
 import clases.Carta;
@@ -28,8 +26,11 @@ import excepciones.NoHayCartasException;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JCheckBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class GuiBlackjack extends JFrame {
 
@@ -43,6 +44,9 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblPuntosB;
 	private JLabel lblPuntosJ;
 	private JPanel panel;
+	private JPanel panel_1;
+	private AbstractButton btnNuevoJuego;
+	private JCheckBox chkMazo;
 
 	/**
 	 * Launch the application.
@@ -72,33 +76,39 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][][][250,grow][][63.00]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][150]", "[][][][][250][][63.00]"));
 		
-		JButton btnNuevoJuego = new JButton("Nueva Partida");
+		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Juego.nuevoJuego();
-				btnPedirCarta.setEnabled(true);
-				btnPlantarse.setEnabled(true);
-				lblEstado.setText("¿Pides carta o te plantas?");
-				actualizaMazo();
 			}
 		});
 		contentPane.add(btnNuevoJuego, "cell 0 0 2 1,alignx center");
+		
+		JButton btnSalir = new JButton("Salir del juego");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		contentPane.add(btnSalir, "cell 2 0");
 		
 		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
 		contentPane.add(lblNewLabel, "cell 2 1,alignx center");
 		
 		panelJ = new JPanel();
 		panelJ.setMinimumSize(new Dimension(600, 250));
-		panelJ.setBackground(Color.GREEN);
-		panelJ.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelJ.setBackground(new Color(0, 255, 127));
+		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
+				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		contentPane.add(panelJ, "cell 0 1 2 2,grow");
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 //		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "cell 2 2 1 3,grow");
+		scrollPane.setVisible(false);
+		contentPane.add(scrollPane, "cell 2 2 1 4,grow");
 		
 		txtMazo = new JTextArea();
 		scrollPane.setViewportView(txtMazo);
@@ -116,26 +126,37 @@ public class GuiBlackjack extends JFrame {
 		});
 		
 		panel = new JPanel();
-		contentPane.add(panel, "cell 0 3 2 1,grow");
-		panel.setLayout(new MigLayout("", "[221.00][grow]", "[]"));
+		panel.setPreferredSize(new Dimension(100, 30));
+		panel.setMaximumSize(new Dimension(100, 32767));
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		contentPane.add(panel, "cell 1 3,alignx left,growy");
+		panel.setLayout(new MigLayout("", "[grow]", "[]"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Puntos: ");
-		panel.add(lblNewLabel_1, "cell 0 0,alignx right");
+		panel.add(lblNewLabel_1, "flowx,cell 0 0");
 		
 		lblPuntosJ = new JLabel("");
-		panel.add(lblPuntosJ, "cell 1 0");
+		panel.add(lblPuntosJ, "cell 0 0");
 		
 		panelB = new JPanel();
 		panelB.setMinimumSize(new Dimension(600, 250));
-		panelB.setBackground(Color.GREEN);
-		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelB.setBackground(new Color(0, 255, 127));
+		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 
+				"Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
 		contentPane.add(panelB, "cell 0 4 2 1,grow");
 		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_1.setPreferredSize(new Dimension(100, 30));
+		panel_1.setMaximumSize(new Dimension(100, 32767));
+		contentPane.add(panel_1, "cell 1 5,grow");
+		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
+		
 		JLabel lblNewLabel_2 = new JLabel("Puntos: ");
-		contentPane.add(lblNewLabel_2, "cell 0 5,alignx right");
+		panel_1.add(lblNewLabel_2, "flowx,cell 0 0");
 		
 		lblPuntosB = new JLabel("");
-		contentPane.add(lblPuntosB, "cell 1 5");
+		panel_1.add(lblPuntosB, "cell 0 0");
 		contentPane.add(btnPedirCarta, "flowx,cell 0 6");
 		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panelB.setLayout(fl_panelB);
@@ -149,16 +170,30 @@ public class GuiBlackjack extends JFrame {
 		});
 		contentPane.add(btnPlantarse, "flowx,cell 0 6");
 		
-		JButton btnSalir = new JButton("Salir del juego");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+		lblEstado = new JLabel("");
+		contentPane.add(lblEstado, "flowx,cell 1 6");
+		
+		chkMazo = new JCheckBox("Mostrar/Ocultar mazo");
+		chkMazo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				 if (e.getStateChange() == ItemEvent.SELECTED) {
+					 scrollPane.setVisible(true);
+				 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+					 scrollPane.setVisible(false);
+				 }
 			}
 		});
-		contentPane.add(btnSalir, "cell 2 6");
-		
-		lblEstado = new JLabel("");
-		contentPane.add(lblEstado, "cell 1 6");
+		contentPane.add(chkMazo, "cell 2 6");
+	}
+	
+	public void empiezaJuego() {
+		btnNuevoJuego.setEnabled(false);
+		btnPedirCarta.setEnabled(true);
+		btnPlantarse.setEnabled(true);
+		panelJ.removeAll();
+		panelB.removeAll();
+		lblEstado.setText("¿Pides carta o te plantas?");
+		actualizaMazo();
 	}
 	
 	protected void actualizaMazo() {
@@ -179,7 +214,6 @@ public class GuiBlackjack extends JFrame {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			e.printStackTrace();
-//			JOptionPane.showMessageDialog(btnPedirCarta, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}
@@ -197,22 +231,61 @@ public class GuiBlackjack extends JFrame {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public void turnoBanca() {
+		btnPedirCarta.setEnabled(false);
+		btnPlantarse.setEnabled(false);
+		lblEstado.setText("Turno de la banca...");
 		JOptionPane.showMessageDialog(this, "Tu turno ha terminado.\n"+ "Valor de la mano: "
 				+Juego.jugador.valorMano()+"\nTurno de la banca...", "Fin de tu turno", JOptionPane.INFORMATION_MESSAGE);
+
 		try {
 			Juego.juegaBanca();
 		} catch (NoHayCartasException e) {
 			JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+//		try {
+//			Juego.juegaBanca();
+//		} catch (NoHayCartasException e) {
+//			JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
 	}
 
 	public void actualizaPuntos() {
 		lblPuntosJ.setText(""+Juego.jugador.valorMano());
 		lblPuntosB.setText(""+Juego.banca.valorMano());
 		
+	}
+
+	public void finDePartida() {
+		int seguir=JOptionPane.showConfirmDialog(this, "¿Deseas seguir jugando?\nPiénsatelo bien...", "¿Seguir jugando?", JOptionPane.YES_NO_OPTION);
+		
+		switch (seguir) {
+		case JOptionPane.YES_OPTION: {Juego.nuevoJuego();break;}
+		case JOptionPane.NO_OPTION:
+		default: btnNuevoJuego.setEnabled(true);
+		}
+		
+	}
+
+	public void puntuacionFinal() {
+		JOptionPane.showMessageDialog(this, "Puntos de tu mano: "+Juego.jugador.valorMano()
+			+"\n\nPuntos de la banca: "+Juego.banca.valorMano(), "Puntuación final", JOptionPane.INFORMATION_MESSAGE);
+	}
+	public void ganaBanca() {
+		lblEstado.setText("La banca gana :(");
+		JOptionPane.showMessageDialog(this, "Lo sentimos, gana la banca...", "Has perdido", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public void ganasTu() {
+		lblEstado.setText("¡Has ganado! :)");
+		JOptionPane.showMessageDialog(this, "¡Enhorabuena!\n\nEstás en racha :)", "¡Has ganado!", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public void ganaNadie() {
+		lblEstado.setText("No hay ganador");
+		JOptionPane.showMessageDialog(this, "No hay ganador, así que se te devolverá la apuesta", "Empate", JOptionPane.WARNING_MESSAGE);
 	}
 }

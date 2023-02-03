@@ -1,6 +1,4 @@
 package clases;
-import javax.swing.JOptionPane;
-
 import excepciones.NoHayCartasException;
 import gui.GuiBlackjack;
 
@@ -16,6 +14,7 @@ public class Juego {
 		try {
 			frame = new GuiBlackjack();
 			frame.setVisible(true);
+//			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,6 +26,7 @@ public class Juego {
 		baraja.barajar();
 		jugador=new Mano();
 		banca=new Mano();
+		frame.empiezaJuego();
 	}
 	
 	public static void pideCarta() throws NoHayCartasException {
@@ -36,7 +36,6 @@ public class Juego {
 			frame.actualizaPuntos();
 			if(jugador.finDeJuego()) {
 				frame.turnoBanca();
-				juegaBanca();
 			}
 		} catch (NoHayCartasException e) {
 			System.err.println("No hay más cartas en la baraja");
@@ -46,64 +45,29 @@ public class Juego {
 	
 	public static void juegaBanca() throws NoHayCartasException {
 		do {
-			banca.pedirCarta(baraja);
-			frame.muestraCartaB(banca.ultimaCarta(),banca.cartas.size()-1);
+			try {
+				banca.pedirCarta(baraja);
+				frame.muestraCartaB(banca.ultimaCarta(),banca.cartas.size()-1);
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				System.err.println("Error al esperar.");
+			}
 		} while (banca.valorMano()<17 && !banca.finDeJuego());
-		frame.actualizaPuntos();
 		quienGana();
 	}
 	
 	public static void quienGana() {
-		if (banca.valorMano()>=jugador.valorMano() && banca.valorMano() <= 21) {
-			ganaBanca();
-		} else if(jugador.valorMano()<=21){
-			ganasTu();
+		frame.actualizaPuntos();
+		frame.puntuacionFinal();
+		if (banca.valorMano() <= 21 && (jugador.valorMano()<=banca.valorMano() || jugador.valorMano()>21)) {
+			frame.ganaBanca();
+		} else if(jugador.valorMano()<=21 && (banca.valorMano()>21 || banca.valorMano()<jugador.valorMano())){
+			frame.ganasTu();
 		} else {
-			ganaNadie();
+			frame.ganaNadie();
 		}
-//		frame.finDePartida();
+		frame.finDePartida();
 	}	
 	
-	private static void ganaNadie() {
-		JOptionPane.showMessageDialog(frame, "Nadie gana...", "Empate", JOptionPane.INFORMATION_MESSAGE);
-	}
-
-	private static void ganaBanca() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void ganasTu() {
-		// TODO Auto-generated method stub
-		
-	}
-	}
 	
-//	@SuppressWarnings("resource")
-//	Scanner teclado = new Scanner(System.in);
-//	Mazo mazo = new Mazo();
-//	mazo.barajar();
-//	System.out.println(mazo);
-//
-//	Mano jugador = new Mano();
-//	boolean sigue = true;
-//
-//	do {
-//		System.out.println("¿Quiere una carta? S/N");
-//		String respuesta = teclado.nextLine().toLowerCase();
-//		if (respuesta.equals("s")) {
-//			jugador.pedirCarta(mazo);
-//			System.out.println(jugador);
-//		} else if (respuesta.equals("n")) {
-//			sigue = false;
-//			System.out.println("Te has plantado. Puntuación final: " + jugador.valorMano());
-//		}
-//	} while (sigue && !jugador.finDeJuego());
-//
-//	if (jugador.finDeJuego()) {
-//		System.out.println("Has perdido... ");
-//	}
-//
-//}
-
-
+	}
