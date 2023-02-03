@@ -24,7 +24,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-public class Blackjack extends JFrame {
+public class GuiBlackjack extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panel1;
@@ -37,7 +37,7 @@ public class Blackjack extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Blackjack frame = new Blackjack();
+					GuiBlackjack frame = new GuiBlackjack();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class Blackjack extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Blackjack() {
+	public GuiBlackjack() {
 		setTitle("Blackjack");
 		setMinimumSize(new Dimension(1360, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
