@@ -50,6 +50,7 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblVictorias;
 	private JLabel lblEmpates;
 	private JLabel lblDerrotas;
+	private JPanel panel_2;
 
 	/**
 	 * Launch the application.
@@ -79,7 +80,7 @@ public class GuiBlackjack extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][grow][150]", "[][][48.00][center][top][250,center][top][63.00]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][grow][150]", "[][][48.00][center][top][250,center][top][grow]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -147,18 +148,20 @@ public class GuiBlackjack extends JFrame {
 		panel.add(lblPuntosJ, "cell 0 0");
 		
 		panelB = new JPanel();
+		panelB.setPreferredSize(new Dimension(600, 250));
+		panelB.setMaximumSize(new Dimension(32767, 250));
 		panelB.setMinimumSize(new Dimension(600, 250));
 		panelB.setBackground(new Color(0, 255, 127));
 		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 
 				"Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
-		contentPane.add(panelB, "cell 0 5 3 1,grow");
+		contentPane.add(panelB, "cell 0 5 3 1,growx");
 		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setPreferredSize(new Dimension(160, 30));
 		panel_1.setMaximumSize(new Dimension(160, 30));
-		contentPane.add(panel_1, "cell 1 6,grow");
-		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
+		contentPane.add(panel_1, "cell 1 6,growx,aligny top");
+		panel_1.setLayout(new MigLayout("", "[grow]", "[top]"));
 		
 		JLabel lblNewLabel_2 = new JLabel("Puntos: de la banca:");
 		panel_1.add(lblNewLabel_2, "flowx,cell 0 0");
@@ -187,16 +190,20 @@ public class GuiBlackjack extends JFrame {
 				 }
 			}
 		});
+		contentPane.add(chkMazo, "cell 3 6,aligny top");
 		
-		lblVictorias = new JLabel("");
-		contentPane.add(lblVictorias, "flowx,cell 2 6");
-		contentPane.add(chkMazo, "cell 3 6");
-		
-		lblEmpates = new JLabel("");
-		contentPane.add(lblEmpates, "cell 2 6");
+		panel_2 = new JPanel();
+		contentPane.add(panel_2, "cell 2 7,grow");
+		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 		
 		lblDerrotas = new JLabel("");
-		contentPane.add(lblDerrotas, "cell 2 6");
+		panel_2.add(lblDerrotas, "cell 0 0");
+		
+		lblEmpates = new JLabel("");
+		panel_2.add(lblEmpates, "cell 0 0");
+		
+		lblVictorias = new JLabel("");
+		panel_2.add(lblVictorias, "cell 0 0");
 	}
 	
 	public void empiezaJuego() {
@@ -209,7 +216,7 @@ public class GuiBlackjack extends JFrame {
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
-		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21)");
+		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21 puntos)");
 		actualizaMazo();
 	}
 	
