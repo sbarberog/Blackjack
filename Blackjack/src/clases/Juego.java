@@ -1,6 +1,7 @@
 package clases;
 import excepciones.NoHayCartasException;
 import gui.GuiBlackjack;
+import gui.Sonido;
 
 public class Juego {
 	
@@ -12,6 +13,7 @@ public class Juego {
 	public static int victorias;
 	public static int empates;
 	public static int derrotas;
+	private static boolean sonido;
 	
 
 	public static void main(String[] args) {
@@ -23,7 +25,7 @@ public class Juego {
 			frame = new GuiBlackjack();
 			frame.setVisible(true);
 			frame.actualizaContador();
-//			setTurnoJugador(true);
+			setSonido(true);
 			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -39,6 +41,8 @@ public class Juego {
 			jugador=new Mano();
 			banca=new Mano();
 			frame.empiezaJuego();
+			if(getSonido())
+				Sonido.sonidoBarajar();
 			while(isTurnoJugador()) {
 				Thread.onSpinWait();
 			};
@@ -54,6 +58,8 @@ public class Juego {
 	
 	public static void pideCarta() throws NoHayCartasException {
 			jugador.pedirCarta(baraja);
+			if(getSonido())
+				Sonido.sonidoNaipe();
 			frame.muestraCartaJ(jugador.ultimaCarta(),jugador.cartas.size()-1);
 			frame.actualizaPuntos();
 			if(jugador.finDeJuego()) {
@@ -65,6 +71,8 @@ public class Juego {
 		do {
 			try {
 				banca.pedirCarta(baraja);
+				if(getSonido())
+					Sonido.sonidoNaipe();
 				frame.muestraCartaB(banca.ultimaCarta(),banca.cartas.size()-1);
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -78,12 +86,18 @@ public class Juego {
 		frame.puntuacionFinal();
 		if (banca.valorMano() <= 21 && (jugador.valorMano()<banca.valorMano() || jugador.valorMano()>21)) {
 			derrotas++;
+			if(getSonido())
+				Sonido.sonidoDerrota();
 			frame.ganaBanca();
 		} else if(jugador.valorMano()<=21 && (banca.valorMano()>21 || banca.valorMano()<jugador.valorMano())){
 			victorias++;
+			if(getSonido())
+				Sonido.sonidoVictoria();
 			frame.ganasTu();
 		} else {
 			empates++;
+			if(getSonido())
+				Sonido.sonidoEmpate();
 			frame.ganaNadie();
 		}
 	}
@@ -96,5 +110,13 @@ public class Juego {
 		Juego.turnoJugador = turnoJugador;
 	}	
 	
-	
+	public static void setSonido(boolean s) {
+		if(s) sonido=true;
+		else sonido=false;
 	}
+	
+	public static boolean getSonido() {
+		if(sonido) return true;
+		else return false;
+	}
+}
