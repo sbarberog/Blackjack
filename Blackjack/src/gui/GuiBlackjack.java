@@ -84,7 +84,7 @@ public class GuiBlackjack extends JFrame {
 		setTitle("Blackjack v1.5");
 		setMinimumSize(new Dimension(1400, 780));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 50, 1450, 830);
+		setBounds(50, 10, 1450, 790);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -153,6 +153,7 @@ public class GuiBlackjack extends JFrame {
 		panel_3.setLayout(new MigLayout("", "[221.00][grow][grow]", "[48.00][top][top]"));
 		
 		panelJ = new JPanel();
+		panelJ.setPreferredSize(new Dimension(600, 240));
 		panelJ.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -165,7 +166,7 @@ public class GuiBlackjack extends JFrame {
 			}
 		});
 		panel_3.add(panelJ, "cell 0 0 3 2,growx,aligny top");
-		panelJ.setMinimumSize(new Dimension(600, 250));
+		panelJ.setMinimumSize(new Dimension(600, 240));
 		panelJ.setBackground(new Color(127, 255, 0));
 		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
 				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -190,7 +191,7 @@ public class GuiBlackjack extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
-		contentPane.add(scrollPane, "cell 4 3 1 2,growx,aligny top");
+		contentPane.add(scrollPane, "cell 4 3 1 3,growx,aligny top");
 		
 		txtMazo = new JTextArea();
 		txtMazo.setEditable(false);
@@ -202,9 +203,9 @@ public class GuiBlackjack extends JFrame {
 		
 		panelB = new JPanel();
 		panel_4.add(panelB, "cell 0 0 3 1,growx,aligny center");
-		panelB.setPreferredSize(new Dimension(600, 250));
+		panelB.setPreferredSize(new Dimension(600, 240));
 		panelB.setMaximumSize(new Dimension(32767, 250));
-		panelB.setMinimumSize(new Dimension(600, 250));
+		panelB.setMinimumSize(new Dimension(600, 240));
 		panelB.setBackground(new Color(128, 0, 0));
 		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
 		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
@@ -222,20 +223,6 @@ public class GuiBlackjack extends JFrame {
 		
 		lblPuntosB = new JLabel("");
 		panel_1.add(lblPuntosB, "cell 0 0");
-		
-		chkMazo = new JCheckBox("Mostrar mazo (testeo)");
-		chkMazo.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				 if (e.getStateChange() == ItemEvent.SELECTED) {
-					 lblMazo.setVisible(true);
-					 scrollPane.setVisible(true);
-				 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					 scrollPane.setVisible(false);
-					 lblMazo.setVisible(false);
-				 }
-			}
-		});
-		contentPane.add(chkMazo, "cell 4 5,aligny top");
 		
 		panel_2 = new JPanel();
 		contentPane.add(panel_2, "flowx,cell 2 6 2 1,alignx right,aligny top");
@@ -257,6 +244,20 @@ public class GuiBlackjack extends JFrame {
 			}
 		});
 		contentPane.add(btnSalir, "cell 3 0,alignx center");
+		
+		chkMazo = new JCheckBox("Mostrar mazo (testeo)");
+		chkMazo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				 if (e.getStateChange() == ItemEvent.SELECTED) {
+					 lblMazo.setVisible(true);
+					 scrollPane.setVisible(true);
+				 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+					 scrollPane.setVisible(false);
+					 lblMazo.setVisible(false);
+				 }
+			}
+		});
+		contentPane.add(chkMazo, "cell 4 6,aligny top");
 	}
 	
 	public void empiezaJuego() {
@@ -272,6 +273,7 @@ public class GuiBlackjack extends JFrame {
 		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();
+		btnPedirCarta.requestFocusInWindow();
 	}
 	
 	protected void actualizaMazo() {

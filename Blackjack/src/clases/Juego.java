@@ -1,7 +1,6 @@
 package clases;
 import excepciones.NoHayCartasException;
 import gui.GuiBlackjack;
-import gui.Sonido;
 
 public class Juego {
 	

@@ -1,4 +1,4 @@
-package gui;
+package clases;
 import jaco.mp3.player.MP3Player;
 import java.io.File;
 
