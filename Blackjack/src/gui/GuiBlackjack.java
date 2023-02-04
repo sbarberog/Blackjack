@@ -51,6 +51,8 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblEmpates;
 	private JLabel lblDerrotas;
 	private JPanel panel_2;
+	private JPanel panel_4;
+	private JPanel panel_3;
 
 	/**
 	 * Launch the application.
@@ -72,15 +74,15 @@ public class GuiBlackjack extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiBlackjack() {
-		setTitle("Blackjack");
-		setMinimumSize(new Dimension(1360, 600));
+		setTitle("Blackjack v1.3");
+		setMinimumSize(new Dimension(1400, 780));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 100, 1410, 700);
+		setBounds(50, 50, 1450, 830);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221.00][grow][grow][150]", "[][][48.00][center][top][250,center][top][grow]"));
+		contentPane.setLayout(new MigLayout("", "[221.00][grow][grow][150]", "[][grow][][][48.00,center][top][250,center][top][35:35.00,grow,top]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -117,28 +119,23 @@ public class GuiBlackjack extends JFrame {
 		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
 		contentPane.add(lblNewLabel, "cell 3 2,alignx center,aligny bottom");
 		
+		panel_3 = new JPanel();
+		contentPane.add(panel_3, "cell 0 4 3 2,growx,aligny center");
+		panel_3.setLayout(new MigLayout("", "[221.00][grow][grow]", "[48.00][top][top]"));
+		
 		panelJ = new JPanel();
+		panel_3.add(panelJ, "cell 0 0 3 2,growx,aligny center");
 		panelJ.setMinimumSize(new Dimension(600, 250));
 		panelJ.setBackground(new Color(0, 255, 127));
 		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
 				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		contentPane.add(panelJ, "cell 0 2 3 2,grow");
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
-//		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVisible(false);
-		contentPane.add(scrollPane, "cell 3 3 1 3,grow");
-		
-		txtMazo = new JTextArea();
-		txtMazo.setEditable(false);
-		scrollPane.setViewportView(txtMazo);
 		
 		panel = new JPanel();
+		panel_3.add(panel, "cell 1 2,alignx left,aligny top");
 		panel.setPreferredSize(new Dimension(160, 30));
 		panel.setMaximumSize(new Dimension(160, 30));
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		contentPane.add(panel, "cell 1 4,alignx left,growy");
 		panel.setLayout(new MigLayout("", "[grow]", "[]"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Puntos de tu mano:");
@@ -146,21 +143,36 @@ public class GuiBlackjack extends JFrame {
 		
 		lblPuntosJ = new JLabel("");
 		panel.add(lblPuntosJ, "cell 0 0");
+//		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVisible(false);
+		contentPane.add(scrollPane, "cell 3 5 1 2,growx,aligny top");
+		
+		txtMazo = new JTextArea();
+		txtMazo.setEditable(false);
+		scrollPane.setViewportView(txtMazo);
+		
+		panel_4 = new JPanel();
+		contentPane.add(panel_4, "cell 0 6 3 2,growx,aligny center");
+		panel_4.setLayout(new MigLayout("", "[221.00][grow][grow]", "[250,center][center]"));
 		
 		panelB = new JPanel();
+		panel_4.add(panelB, "cell 0 0 3 1,growx,aligny center");
 		panelB.setPreferredSize(new Dimension(600, 250));
 		panelB.setMaximumSize(new Dimension(32767, 250));
 		panelB.setMinimumSize(new Dimension(600, 250));
 		panelB.setBackground(new Color(0, 255, 127));
 		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 
 				"Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
-		contentPane.add(panelB, "cell 0 5 3 1,growx");
+		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
+		panelB.setLayout(fl_panelB);
 		
 		panel_1 = new JPanel();
+		panel_4.add(panel_1, "cell 1 1,growx,aligny top");
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setPreferredSize(new Dimension(160, 30));
 		panel_1.setMaximumSize(new Dimension(160, 30));
-		contentPane.add(panel_1, "cell 1 6,growx,aligny top");
 		panel_1.setLayout(new MigLayout("", "[grow]", "[top]"));
 		
 		JLabel lblNewLabel_2 = new JLabel("Puntos: de la banca:");
@@ -168,8 +180,6 @@ public class GuiBlackjack extends JFrame {
 		
 		lblPuntosB = new JLabel("");
 		panel_1.add(lblPuntosB, "cell 0 0");
-		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
-		panelB.setLayout(fl_panelB);
 		
 		btnPlantarse = new JButton("Plantarse");
 		btnPlantarse.setEnabled(false);
@@ -190,10 +200,10 @@ public class GuiBlackjack extends JFrame {
 				 }
 			}
 		});
-		contentPane.add(chkMazo, "cell 3 6,aligny top");
+		contentPane.add(chkMazo, "cell 3 7,aligny top");
 		
 		panel_2 = new JPanel();
-		contentPane.add(panel_2, "cell 2 7,grow");
+		contentPane.add(panel_2, "cell 2 8,alignx center,aligny top");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 		
 		lblDerrotas = new JLabel("");

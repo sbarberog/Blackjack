@@ -33,12 +33,13 @@ public class Juego {
 	
 	public static void nuevoJuego() throws NoHayCartasException {
 		do{
+			setTurnoJugador(true);
 			baraja=new Mazo();
 			baraja.barajar();
 			jugador=new Mano();
 			banca=new Mano();
-			setTurnoJugador(true);
 			frame.empiezaJuego();
+			frame.actualizaPuntos();
 			while(isTurnoJugador()) {
 				Thread.onSpinWait();
 			};
