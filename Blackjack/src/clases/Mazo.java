@@ -1,8 +1,8 @@
 package clases;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 import clases.Carta.Palo;
 import excepciones.NoHayCartasException;
@@ -10,38 +10,40 @@ import excepciones.NoHayCartasException;
 public class Mazo {
 
 	protected List<Carta> cartas;
-
+	
 	public Mazo() {
-		cartas = new ArrayList<Carta>();
-		for (Palo p : Palo.values()) {
-			for (int num = 1; num <= 13; num++) {
-				Carta c = new Carta(num, p);
-				cartas.add(c);
+		this.cartas = new ArrayList<Carta>();	
+		for(Palo palo: Palo.values()) {
+			for (int i = 1; i <= 13; i++) {
+				Carta carta = new Carta(i,palo);
+				this.cartas.add(carta);
 			}
 		}
 	}
-
+	
+	
 	public void barajar() {
-		Collections.shuffle(this.cartas);
+		Collections.shuffle(cartas);
 	}
+
 
 	@Override
 	public String toString() {
-		String texto = "";
-		for (Carta c : cartas) {
-			texto = texto + c.toString() + "\n";
+		String res="";
+		for (Carta carta : cartas) {
+			res=res+carta.toString()+ "\n";
 		}
-		return texto;
+		return res;
 	}
-
+	
 	public Carta solicitarCarta() throws NoHayCartasException {
-		if (this.cartas.size() == 0) {
+		if (this.cartas.size()==0) {
 			throw new NoHayCartasException();
 		}
-		Carta c = this.cartas.get(0);
-		cartas.remove(0);
-		// cartas.remove(c); también funcionaría
-		return c;
+		Carta carta = this.cartas.get(0);
+		this.cartas.remove(0);
+		return carta;
 	}
-
+	
+	
 }
