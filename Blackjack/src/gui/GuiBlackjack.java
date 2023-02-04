@@ -202,17 +202,17 @@ public class GuiBlackjack extends JFrame {
 		contentPane.add(chkMazo, "cell 3 7,aligny top");
 		
 		panel_2 = new JPanel();
-		contentPane.add(panel_2, "cell 2 8,alignx center,aligny top");
+		contentPane.add(panel_2, "flowx,cell 2 8,alignx right,aligny top");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 		
-		lblDerrotas = new JLabel("");
-		panel_2.add(lblDerrotas, "cell 0 0");
+		lblVictorias = new JLabel("v");
+		panel_2.add(lblVictorias, "flowx,cell 0 0");
 		
-		lblEmpates = new JLabel("");
+		lblEmpates = new JLabel("e");
 		panel_2.add(lblEmpates, "cell 0 0");
 		
-		lblVictorias = new JLabel("");
-		panel_2.add(lblVictorias, "cell 0 0");
+		lblDerrotas = new JLabel("d");
+		panel_2.add(lblDerrotas, "cell 0 0");
 	}
 	
 	public void empiezaJuego() {
@@ -227,6 +227,8 @@ public class GuiBlackjack extends JFrame {
 		panelB.repaint();
 		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21 puntos)");
 		actualizaMazo();
+		actualizaPuntos();
+		Sonido.sonidoBarajar();
 	}
 	
 	protected void actualizaMazo() {
@@ -243,6 +245,7 @@ public class GuiBlackjack extends JFrame {
 			panelJ.revalidate();
 			panelJ.repaint();
 			actualizaMazo();
+			Sonido.sonidoNaipe();
 		} catch(IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
@@ -261,6 +264,7 @@ public class GuiBlackjack extends JFrame {
 			panelB.repaint();
 			actualizaPuntos();
 			actualizaMazo();
+			Sonido.sonidoNaipe();
 		} catch(IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
@@ -283,6 +287,7 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void finDePartida() {
+		actualizaContador();
 		int seguir=JOptionPane.showConfirmDialog(this, "¿Deseas seguir jugando?\nPiénsatelo bien...", "¿Seguir jugando?", JOptionPane.YES_NO_OPTION);
 		
 		switch (seguir) {
@@ -299,16 +304,19 @@ public class GuiBlackjack extends JFrame {
 	}
 	public void ganaBanca() {
 		lblEstado.setText("La banca gana :(");
+		Sonido.sonidoDerrota();
 		JOptionPane.showMessageDialog(this, "Lo sentimos, gana la banca...", "Has perdido", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void ganasTu() {
 		lblEstado.setText("¡Has ganado! :)");
+		Sonido.sonidoVictoria();
 		JOptionPane.showMessageDialog(this, "¡Enhorabuena!\n\nEstás en racha :)", "¡Has ganado!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void ganaNadie() {
 		lblEstado.setText("No hay ganador");
+		Sonido.sonidoEmpate();
 		JOptionPane.showMessageDialog(this, "No hay ganador, así que se te devolverá la apuesta", "Empate", JOptionPane.WARNING_MESSAGE);
 	}
 

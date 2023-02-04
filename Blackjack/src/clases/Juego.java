@@ -39,14 +39,12 @@ public class Juego {
 			jugador=new Mano();
 			banca=new Mano();
 			frame.empiezaJuego();
-			frame.actualizaPuntos();
 			while(isTurnoJugador()) {
 				Thread.onSpinWait();
 			};
 			frame.turnoBanca();
 			juegaBanca();
 			quienGana();
-			frame.actualizaContador();
 			frame.finDePartida();
 			while(!isTurnoJugador()) {
 				Thread.onSpinWait();
