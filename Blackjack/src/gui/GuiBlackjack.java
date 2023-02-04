@@ -117,7 +117,7 @@ public class GuiBlackjack extends JFrame {
 		contentPane.add(lblEstado, "flowx,cell 1 1 2 1");
 		
 		JLabel lblNewLabel = new JLabel("Mazo (testeo)");
-		contentPane.add(lblNewLabel, "cell 3 2,alignx center,aligny bottom");
+		contentPane.add(lblNewLabel, "cell 3 3,alignx center,aligny bottom");
 		
 		panel_3 = new JPanel();
 		contentPane.add(panel_3, "cell 0 4 3 2,growx,aligny center");
@@ -126,7 +126,7 @@ public class GuiBlackjack extends JFrame {
 		panelJ = new JPanel();
 		panel_3.add(panelJ, "cell 0 0 3 2,growx,aligny center");
 		panelJ.setMinimumSize(new Dimension(600, 250));
-		panelJ.setBackground(new Color(0, 255, 127));
+		panelJ.setBackground(new Color(127, 255, 0));
 		panelJ.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
 				"Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
@@ -147,7 +147,7 @@ public class GuiBlackjack extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
-		contentPane.add(scrollPane, "cell 3 5 1 2,growx,aligny top");
+		contentPane.add(scrollPane, "cell 3 4 1 3,growx,aligny top");
 		
 		txtMazo = new JTextArea();
 		txtMazo.setEditable(false);
@@ -162,9 +162,8 @@ public class GuiBlackjack extends JFrame {
 		panelB.setPreferredSize(new Dimension(600, 250));
 		panelB.setMaximumSize(new Dimension(32767, 250));
 		panelB.setMinimumSize(new Dimension(600, 250));
-		panelB.setBackground(new Color(0, 255, 127));
-		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), 
-				"Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
+		panelB.setBackground(new Color(128, 0, 0));
+		panelB.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
 		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panelB.setLayout(fl_panelB);
 		
