@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -34,6 +35,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
+import java.awt.Frame;
 
 public class GuiBlackjack extends JFrame {
 
@@ -81,15 +83,27 @@ public class GuiBlackjack extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiBlackjack() {
-		setTitle("Blackjack v1.5");
+		setExtendedState(Frame.MAXIMIZED_BOTH);
+		setTitle("Blackjack v1.5.1");
 		setMinimumSize(new Dimension(1400, 780));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50, 10, 1450, 790);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		ImageIcon pedir=null,pasar=null;
+		try {
+			pedir = new ImageIcon(
+			        ImageIO.read(getClass().getResource("/pedir"+".png")));
+			pasar = new ImageIcon(
+			        ImageIO.read(getClass().getResource("/pasar"+".png")));
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][450.00,grow][150]", "[][50:n:50][15:n:15][top][300:300:300,center][top][35:35.00,grow,top]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][450.00,grow][150]", "[][90:n:90][15:n:15][top][300:300:300,center][top][35:35.00,grow,top]"));
 		
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -107,12 +121,14 @@ public class GuiBlackjack extends JFrame {
 		lblEstado = new JLabel("");
 		panel_5.add(lblEstado, "cell 0 0,alignx center,aligny center");
 		
-		btnPedirCarta = new JButton("Pedir Carta");
-		panel_5.add(btnPedirCarta, "cell 1 0");
+		btnPedirCarta = new JButton(pedir);
+		btnPedirCarta.setText(" Pedir Carta");
+		panel_5.add(btnPedirCarta, "cell 1 0,aligny top");
 		btnPedirCarta.setEnabled(false);
 		
-		btnPlantarse = new JButton("Plantarse");
-		panel_5.add(btnPlantarse, "cell 2 0");
+		btnPlantarse = new JButton(pasar);
+		btnPlantarse.setText("Plantarse");
+		panel_5.add(btnPlantarse, "cell 2 0,aligny top");
 		btnPlantarse.setEnabled(false);
 		btnPlantarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
