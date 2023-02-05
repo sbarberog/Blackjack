@@ -18,13 +18,13 @@ public class Juego {
 	public static void main(String[] args) {
 
 		try {
+			setSonido(true);
 			victorias=0;
 			empates=0;
 			derrotas=0;
 			frame = new GuiBlackjack();
 			frame.setVisible(true);
 			frame.actualizaContador();
-			setSonido(true);
 			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,17 +54,18 @@ public class Juego {
 			};
 		} while(isTurnoJugador());
 	}
+
 	
 	public static void pideCarta() throws NoHayCartasException {
-			jugador.pedirCarta(baraja);
-			if(getSonido())
-				Sonido.sonidoNaipe();
-			frame.muestraCartaJ(jugador.ultimaCarta(),jugador.cartas.size()-1);
-			frame.actualizaPuntos();
-			if(jugador.finDeJuego()) {
-				setTurnoJugador(false);
-			}
+		jugador.pedirCarta(baraja);
+		if(getSonido())
+			Sonido.sonidoNaipe();
+		frame.muestraCartaJ(jugador.ultimaCarta(),jugador.cartas.size()-1);
+		frame.actualizaPuntos();
+		if(jugador.finDeJuego()) {
+			setTurnoJugador(false);
 		}
+	}
 			
 	public static void juegaBanca() throws NoHayCartasException {
 		do {
