@@ -62,6 +62,7 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblNewLabel;
 	private JPanel panel_5;
 	private static String pathCarta="/cartas/";
+	private static String pathIcono="/iconos/";
 
 	/**
 	 * Launch the application.
@@ -94,9 +95,9 @@ public class GuiBlackjack extends JFrame {
 		ImageIcon pedir=null,pasar=null;
 		try {
 			pedir = new ImageIcon(
-			        ImageIO.read(getClass().getResource("/pedir"+".png")));
+			        ImageIO.read(getClass().getResource(pathIcono+"pedir"+".png")));
 			pasar = new ImageIcon(
-			        ImageIO.read(getClass().getResource("/pasar"+".png")));
+			        ImageIO.read(getClass().getResource(pathIcono+"pasar"+".png")));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
