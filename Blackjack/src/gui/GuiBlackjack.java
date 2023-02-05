@@ -131,6 +131,7 @@ public class GuiBlackjack extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiBlackjack() {
+		setExtendedState(Frame.MAXIMIZED_BOTH);
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -147,11 +148,10 @@ public class GuiBlackjack extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setTitle("Blackjack v1.6");
-		setMinimumSize(new Dimension(1400, 780));
+		setMinimumSize(new Dimension(1400, 800));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 10, 1450, 790);
+		setBounds(50, 10, 1450, 810);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -450,7 +450,7 @@ public class GuiBlackjack extends JFrame {
 		panel_1.add(lblPuntosB, "cell 0 0");
 
 		panel_2 = new JPanel();
-		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny center");
+		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny bottom");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 
 		lblVictorias = new JLabel("v");
