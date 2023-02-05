@@ -5,7 +5,7 @@ import java.io.File;
 public class Sonido {
 	
 	private static String[] barajar= {"barajar1","barajar2","barajar3"};
-	private static String[] naipe= {"naipe1","naipe2","naipe3"};
+	private static String[] naipe= {"naipe1","naipe2","naipe3","naipe4","naipe5"};
 	private static String path="sonidos/";
 	
 //	 public static void main(String[] args) {
