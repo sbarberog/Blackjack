@@ -312,7 +312,7 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][150:150:150]", "[90:n:90][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][150:150:150]", "[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
 
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -326,10 +326,10 @@ public class GuiBlackjack extends JFrame {
 		panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		contentPane.add(panel_5, "cell 1 0 2 1,grow");
-		panel_5.setLayout(new MigLayout("", "[500:n:500][][]", "[58.00:n:30]"));
+		panel_5.setLayout(new MigLayout("", "[500:n:500][][]", "[]"));
 
 		lblEstado = new JLabel("");
-		lblEstado.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		lblEstado.setFont(new Font("SansSerif", Font.BOLD, 14));
 		panel_5.add(lblEstado, "cell 0 0,alignx center,aligny center");
 
 		btnPedirCarta = new JButton(pedir);
