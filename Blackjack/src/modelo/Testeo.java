@@ -1,6 +1,6 @@
-package clases;
+package modelo;
 
-import clases.Carta.Palo;
+import modelo.Carta.Palo;
 
 public class Testeo {
 

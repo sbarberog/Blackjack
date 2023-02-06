@@ -1,7 +1,9 @@
-package clases;
+package controlador;
 
 import excepciones.NoHayCartasException;
-import gui.GuiBlackjack;
+import modelo.Mano;
+import modelo.Mazo;
+import vista.GuiBlackjack;
 
 public class Juego {
 
@@ -61,7 +63,7 @@ public class Juego {
 		jugador.pedirCarta(baraja);
 		if (getSonido())
 			Sonido.sonidoNaipe();
-		frame.muestraCartaJ(jugador.ultimaCarta(), jugador.cartas.size() - 1);
+		frame.muestraCartaJ(jugador.ultimaCarta(), jugador.getCartas().size() - 1);
 		frame.actualizaPuntos();
 		if (jugador.finDeJuego()) {
 			setTurnoJugador(false);
@@ -74,7 +76,7 @@ public class Juego {
 				banca.pedirCarta(baraja);
 				if (getSonido())
 					Sonido.sonidoNaipe();
-				frame.muestraCartaB(banca.ultimaCarta(), banca.cartas.size() - 1);
+				frame.muestraCartaB(banca.ultimaCarta(), banca.getCartas().size() - 1);
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				System.err.println("Error al esperar.");

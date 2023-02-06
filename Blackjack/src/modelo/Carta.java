@@ -1,4 +1,4 @@
-package clases;
+package modelo;
 
 public class Carta {
 
@@ -39,7 +39,7 @@ public class Carta {
 
 	@Override
 	public String toString() {
-		return "[" + numero + "-" + palo + "]";
+		return "[ " + numero + " - " + palo + " ]";
 	}
 
 	public String imagenCarta() {

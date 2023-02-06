@@ -1,11 +1,11 @@
-package clases;
+package modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import clases.Carta.Palo;
 import excepciones.NoHayCartasException;
+import modelo.Carta.Palo;
 
 public class Mazo {
 
@@ -19,6 +19,14 @@ public class Mazo {
 				this.cartas.add(carta);
 			}
 		}
+	}
+
+	public List<Carta> getCartas() {
+		return cartas;
+	}
+
+	public void setCartas(List<Carta> cartas) {
+		this.cartas = cartas;
 	}
 
 	public void barajar() {

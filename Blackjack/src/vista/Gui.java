@@ -1,4 +1,4 @@
-package clases;
+package vista;
 
 import java.awt.EventQueue;
 
@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import excepciones.NoHayCartasException;
+import modelo.Mano;
+import modelo.Mazo;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
