@@ -6,10 +6,10 @@ public class Carta {
 		TRÉBOLES, DIAMANTES, CORAZONES, PICAS
 	};
 
-	public static int valor[] = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
-	public static String numCarta[] = { "AS", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
-	public static String[] suits = { "_of_clubs", "_of_diamonds", "_of_hearts", "_of_spades" };
-	public static String[] numbers = { "ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king" };
+	public int valor[] = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
+	public String numCarta[] = { "AS", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+	public String[] suits = { "_of_clubs", "_of_diamonds", "_of_hearts", "_of_spades" };
+	public String[] numbers = { "ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king" };
 
 	private int numero;
 	private Palo palo;

@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Gui extends JFrame {
+public class Gui_old extends JFrame {
 
 	private JPanel contentPane;
 	private JTextArea txtMano;
@@ -40,7 +40,7 @@ public class Gui extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Gui frame = new Gui();
+					Gui_old frame = new Gui_old();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +52,7 @@ public class Gui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Gui() {
+	public Gui_old() {
 		setTitle("Blackjack");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 647, 336);

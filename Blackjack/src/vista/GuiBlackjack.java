@@ -22,8 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
-import controlador.Juego;
-import controlador.Sonido;
+import controlador.Controlador;
 import excepciones.NoHayCartasException;
 import modelo.Carta;
 
@@ -106,7 +105,8 @@ public class GuiBlackjack extends JFrame {
 	private JPanel panelDibujo;
 	private JPanel panel_8;
 	private JLabel lblpuedesHacerClick;
-	
+	private Controlador controlador;
+	private JLabel lblPartidasJ;
 
 	/**
 	 * Launch the application.
@@ -194,12 +194,12 @@ public class GuiBlackjack extends JFrame {
 		chkMenuSonido.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					Juego.setSonido(true);
+					controlador.setSonido(true);
 				} else {
-					Juego.setSonido(false);
-					Sonido.soundOff();
+					controlador.setSonido(false);
+					controlador.soundOff();
 				}
-				chkSonido.setSelected(Juego.getSonido());
+				chkSonido.setSelected(controlador.getSonido());
 			}
 		});
 		mnNewMenu_1.add(chkMenuSonido);
@@ -214,20 +214,20 @@ public class GuiBlackjack extends JFrame {
 				}
 			}
 		});
-		
+
 		rbtMenuMusica = new JCheckBoxMenuItem("Música de fondo");
 		rbtMenuMusica.setSelected(true);
 		rbtMenuMusica.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					Sonido.musicaOn();
+					controlador.musicaOn();
 				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					Sonido.musicaOff();
+					controlador.musicaOff();
 				}
 			}
 		});
 		mnNewMenu_1.add(rbtMenuMusica);
-		
+
 		separator_1 = new JSeparator();
 		mnNewMenu_1.add(separator_1);
 		mnNewMenu_1.add(chkMenuMazo);
@@ -313,12 +313,13 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][150:150:150]", "[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][150:150:150]",
+				"[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
 
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Juego.setTurnoJugador(true);
+				controlador.setTurnoJugador(true);
 			}
 		});
 		contentPane.add(btnNuevoJuego, "flowx,cell 0 0,alignx center,growy");
@@ -346,13 +347,13 @@ public class GuiBlackjack extends JFrame {
 		btnPlantarse.setEnabled(false);
 		btnPlantarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Juego.setTurnoJugador(false);
+				controlador.setTurnoJugador(false);
 			}
 		});
 		btnPedirCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Juego.pideCarta();
+					controlador.pideCarta();
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -360,19 +361,18 @@ public class GuiBlackjack extends JFrame {
 			}
 		});
 
-		chkSonido = new JCheckBox(textoSonido(Juego.getSonido()));
-		chkSonido.setSelected(Juego.getSonido());
+		chkSonido = new JCheckBox();
 		chkSonido.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					Juego.setSonido(true);
+					controlador.setSonido(true);
 					chkSonido.setText(textoSonido(true));
 				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					Juego.setSonido(false);
-					Sonido.soundOff();
+					controlador.setSonido(false);
+					controlador.soundOff();
 					chkSonido.setText(textoSonido(false));
 				}
-				chkMenuSonido.setSelected(Juego.getSonido());
+				chkMenuSonido.setSelected(controlador.getSonido());
 			}
 		});
 		contentPane.add(chkSonido, "cell 3 0,alignx left");
@@ -404,8 +404,8 @@ public class GuiBlackjack extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
-					if (Juego.isTurnoJugador())
-						Juego.pideCarta();
+					if (controlador.isTurnoJugador())
+						controlador.pideCarta();
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -438,7 +438,7 @@ public class GuiBlackjack extends JFrame {
 		scrollPane = new JScrollPane();
 		scrollPane.setOpaque(true);
 		scrollPane.setVisible(false);
-		
+
 		panelDibujo = new JPanel();
 		panelDibujo.setRequestFocusEnabled(false);
 		panelDibujo.setOpaque(false);
@@ -484,8 +484,8 @@ public class GuiBlackjack extends JFrame {
 		panelB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(Juego.isTurnoJugador())
-					Juego.setTurnoJugador(false);
+				if (controlador.isTurnoJugador())
+					controlador.setTurnoJugador(false);
 			}
 		});
 
@@ -502,14 +502,14 @@ public class GuiBlackjack extends JFrame {
 		lblPuntosB = new JLabel("");
 		lblPuntosB.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_1.add(lblPuntosB, "cell 0 0");
-		
+
 		lblpuedesHacerClick = new JLabel("(Puedes hacer click aquí para plantarte)");
 		panel_7.add(lblpuedesHacerClick, "cell 2 1");
-		
+
 		panel_8 = new JPanel();
 		contentPane.add(panel_8, "cell 1 3,alignx center,aligny bottom");
 		panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
-		
+
 		chkMazo = new JCheckBox("Mostrar mazo (testeo)");
 		panel_8.add(chkMazo, "cell 0 0,alignx right,aligny center");
 		chkMazo.addItemListener(new ItemListener() {
@@ -526,9 +526,13 @@ public class GuiBlackjack extends JFrame {
 		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny bottom");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 
+		lblPartidasJ = new JLabel("P");
+		lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
+		panel_2.add(lblPartidasJ, "flowx,cell 0 0");
+
 		lblVictorias = new JLabel("v");
 		lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblVictorias, "flowx,cell 0 0");
+		panel_2.add(lblVictorias, "cell 0 0");
 
 		lblEmpates = new JLabel("e");
 		lblEmpates.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -537,9 +541,7 @@ public class GuiBlackjack extends JFrame {
 		lblDerrotas = new JLabel("d");
 		lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_2.add(lblDerrotas, "cell 0 0");
-		
 
-		Sonido.musicaOn();
 	}
 
 	protected void mostrarMazo(boolean b) {
@@ -576,7 +578,7 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	protected void actualizaMazo() {
-		txtMazo.setText(Juego.baraja.toString());
+		txtMazo.setText(controlador.getBaraja());
 		txtMazo.setCaretPosition(0);
 		;
 	}
@@ -622,14 +624,14 @@ public class GuiBlackjack extends JFrame {
 		btnPedirCarta.setEnabled(false);
 		btnPlantarse.setEnabled(false);
 		lblEstado.setText("Turno de la banca...");
-		JOptionPane.showMessageDialog(this, "Tu turno ha terminado.\n" + "Valor de la mano: "
-				+ Juego.jugador.valorMano() + "\nTurno de la banca...", "Fin de tu turno",
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this,
+				"Tu turno ha terminado.\n" + "Valor de la mano: " + controlador.valorManoJ() + "\nTurno de la banca...",
+				"Fin de tu turno", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void actualizaPuntos() {
-		lblPuntosJ.setText("" + Juego.jugador.valorMano());
-		lblPuntosB.setText("" + Juego.banca.valorMano());
+		lblPuntosJ.setText("" + controlador.valorManoJ());
+		lblPuntosB.setText("" + controlador.valorManoB());
 
 	}
 
@@ -640,7 +642,7 @@ public class GuiBlackjack extends JFrame {
 
 		switch (seguir) {
 		case JOptionPane.YES_OPTION:
-			Juego.setTurnoJugador(true);
+			controlador.setTurnoJugador(true);
 		case JOptionPane.NO_OPTION:
 		default:
 			btnNuevoJuego.setEnabled(true);
@@ -649,8 +651,8 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void puntuacionFinal() {
-		JOptionPane.showMessageDialog(this, "Puntos de tu mano: " + Juego.jugador.valorMano()
-				+ "\n\nPuntos de la banca: " + Juego.banca.valorMano(), "Puntuación final",
+		JOptionPane.showMessageDialog(this, "Puntos de tu mano: " + controlador.valorManoJ()
+				+ "\n\nPuntos de la banca: " + controlador.valorManoB(), "Puntuación final",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -672,9 +674,10 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void actualizaContador() {
-		lblVictorias.setText("Victorias: " + Juego.victorias + " | ");
-		lblEmpates.setText("Empates: " + Juego.empates + " | ");
-		lblDerrotas.setText("Derrotas: " + Juego.derrotas + "  ");
+		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    ///    ");
+		lblVictorias.setText("Victorias: " + controlador.getVictorias() + " | ");
+		lblEmpates.setText("Empates: " + controlador.getEmpates() + " | ");
+		lblDerrotas.setText("Derrotas: " + controlador.getDerrotas() + "  ");
 
 	}
 
@@ -685,4 +688,11 @@ public class GuiBlackjack extends JFrame {
 			return "Efectos de sonido OFF";
 	}
 
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
+
+	public void actualizaCheckboxes() {
+		chkSonido.setText(textoSonido(controlador.getSonido()));
+	}
 }
