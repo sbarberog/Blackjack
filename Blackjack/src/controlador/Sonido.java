@@ -22,6 +22,7 @@ public class Sonido {
 	public static void musicaOn() {
 		sMusica=new MP3Player(new File(path + "seduction-jazz" + ".mp3"));
 		sMusica.play();
+		sMusica.setRepeat(true);
 	}
 	
 	public static void musicaOff() {

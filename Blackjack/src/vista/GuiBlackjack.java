@@ -105,6 +105,7 @@ public class GuiBlackjack extends JFrame {
 	private JSeparator separator_1;
 	private JPanel panelDibujo;
 	private JPanel panel_8;
+	private JLabel lblpuedesHacerClick;
 	
 
 	/**
@@ -430,7 +431,7 @@ public class GuiBlackjack extends JFrame {
 		lblPuntosJ.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel.add(lblPuntosJ, "cell 0 0");
 
-		lblNewLabel = new JLabel("(Puedes hacer click en la mesa para pedir carta)");
+		lblNewLabel = new JLabel("(Puedes hacer click aquí para pedir carta)");
 		panel_6.add(lblNewLabel, "cell 2 2");
 //		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -446,7 +447,7 @@ public class GuiBlackjack extends JFrame {
 		contentPane.add(scrollPane, "cell 5 1 1 2,growx,aligny top");
 		ImageIcon arte = null;
 		try {
-			arte = new ImageIcon(ImageIO.read(getClass().getResource(pathCarta + "cartas4" + ".png")));
+			arte = new ImageIcon(ImageIO.read(getClass().getResource(pathIcono + "cartas4" + ".png")));
 		} catch (IOException e1) {
 			System.err.println("Arte no encontrado");
 		}
@@ -480,6 +481,13 @@ public class GuiBlackjack extends JFrame {
 		panelB.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		FlowLayout fl_panelB = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		panelB.setLayout(fl_panelB);
+		panelB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(Juego.isTurnoJugador())
+					Juego.setTurnoJugador(false);
+			}
+		});
 
 		panel_1 = new JPanel();
 		panel_7.add(panel_1, "cell 1 1");
@@ -494,6 +502,9 @@ public class GuiBlackjack extends JFrame {
 		lblPuntosB = new JLabel("");
 		lblPuntosB.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_1.add(lblPuntosB, "cell 0 0");
+		
+		lblpuedesHacerClick = new JLabel("(Puedes hacer click aquí para plantarte)");
+		panel_7.add(lblpuedesHacerClick, "cell 2 1");
 		
 		panel_8 = new JPanel();
 		contentPane.add(panel_8, "cell 1 3,alignx center,aligny bottom");
