@@ -7,12 +7,12 @@ import excepciones.NoHayCartasException;
 public class Mano extends Mazo {
 
 	public Mano() {
-		this.cartas = new ArrayList<Carta>();
+		this.baraja = new ArrayList<Carta>();
 	}
 
 	public int valorMano() {
 		int valor = 0;
-		for (Carta carta : this.cartas) {
+		for (Carta carta : this.baraja) {
 			valor = valor + carta.getValor();
 		}
 		return valor;
@@ -34,11 +34,11 @@ public class Mano extends Mazo {
 
 	public void pedirCarta(Mazo m) throws NoHayCartasException {
 		Carta c = m.solicitarCarta();
-		this.cartas.add(c);
+		this.baraja.add(c);
 	}
 
 	public Carta ultimaCarta() {
-		return this.cartas.get(this.cartas.size() - 1);
+		return this.baraja.get(this.baraja.size() - 1);
 	}
 
 }

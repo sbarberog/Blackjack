@@ -34,15 +34,15 @@ public class Audio {
 		}
 	}
 
-	public void soundOff() {
+	public void efectosOff() {
 		try {
-			sBarajar.stop();
-			sNaipe.stop();
-			sVictoria.stop();
-			sDerrota.stop();
-			sEmpate.stop();
+			if(!sBarajar.isStopped()) 	sBarajar.stop();
+			if(!sNaipe.isStopped()) 	sNaipe.stop();
+			if(!sVictoria.isStopped()) 	sVictoria.stop();
+			if(!sDerrota.isStopped())	sDerrota.stop();
+			if(!sEmpate.isStopped())	sEmpate.stop();
 		} catch (NullPointerException e) {
-			System.err.println("Sonido nulo");
+			System.out.println("Excepción al intentar apagar los efectos.");
 		}
 	}
 

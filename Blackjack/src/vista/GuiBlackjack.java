@@ -72,7 +72,7 @@ public class GuiBlackjack extends JFrame {
 	private JPanel panel_2;
 	private JPanel panel_4;
 	private JPanel panel_3;
-	private JCheckBox chkSonido;
+	private JCheckBox chkEfectos;
 	private JLabel lblNewLabel;
 	private JPanel panel_5;
 	private static String pathCarta = "/cartas/";
@@ -81,7 +81,7 @@ public class GuiBlackjack extends JFrame {
 	private JMenu mnNewMenu;
 	private JMenuItem mntmNewMenuItem;
 	private JMenu mnNewMenu_1;
-	private JCheckBoxMenuItem chkMenuSonido;
+	private JCheckBoxMenuItem rbtMenuSonido;
 	private JCheckBoxMenuItem chkMenuMazo;
 	private JMenu mnNewMenu_2;
 	private JSeparator separator;
@@ -107,6 +107,8 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblpuedesHacerClick;
 	private Controlador controlador;
 	private JLabel lblPartidasJ;
+	private JCheckBox chkMusica;
+	private JButton btnSalir;
 
 	/**
 	 * Launch the application.
@@ -138,8 +140,8 @@ public class GuiBlackjack extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiBlackjack() {
+		setPreferredSize(new Dimension(1450, 815));
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		setExtendedState(Frame.MAXIMIZED_BOTH);
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -156,10 +158,10 @@ public class GuiBlackjack extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		setTitle("Blackjack v1.7");
-		setMinimumSize(new Dimension(1400, 800));
+		setTitle("Blackjack v1.8");
+		setMinimumSize(new Dimension(1450, 815));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 10, 1450, 810);
+		setBounds(50, 10, 1448, 817);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -189,20 +191,19 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_1 = new JMenu("Opciones");
 		menuBar.add(mnNewMenu_1);
 
-		chkMenuSonido = new JCheckBoxMenuItem("Efectos de sonido");
-		chkMenuSonido.setSelected(true);
-		chkMenuSonido.addItemListener(new ItemListener() {
+		rbtMenuSonido = new JCheckBoxMenuItem("Efectos de sonido");
+		rbtMenuSonido.setSelected(true);
+		rbtMenuSonido.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					controlador.setSonido(true);
+					controlador.setEfectos(true);
 				} else {
-					controlador.setSonido(false);
-					controlador.soundOff();
+					controlador.setEfectos(false);
 				}
-				chkSonido.setSelected(controlador.getSonido());
+				chkEfectos.setSelected(controlador.isEfectos());
 			}
 		});
-		mnNewMenu_1.add(chkMenuSonido);
+		mnNewMenu_1.add(rbtMenuSonido);
 
 		chkMenuMazo = new JCheckBoxMenuItem("Mostrar/Ocultar mazo");
 		chkMenuMazo.addItemListener(new ItemListener() {
@@ -220,10 +221,13 @@ public class GuiBlackjack extends JFrame {
 		rbtMenuMusica.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					controlador.musicaOn();
-				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					controlador.musicaOff();
+					if(!controlador.isMusica())
+						controlador.setMusica(true);
+				} else {
+					if(controlador.isMusica())
+						controlador.setMusica(false);
 				}
+				chkMusica.setSelected(controlador.isMusica());
 			}
 		});
 		mnNewMenu_1.add(rbtMenuMusica);
@@ -313,8 +317,7 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][150:150:150]",
-				"[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
 
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -361,23 +364,25 @@ public class GuiBlackjack extends JFrame {
 			}
 		});
 
-		chkSonido = new JCheckBox();
-		chkSonido.addItemListener(new ItemListener() {
+		chkEfectos = new JCheckBox();
+		chkEfectos.setFocusable(false);
+		chkEfectos.setSelected(true);
+		chkEfectos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					controlador.setSonido(true);
-					chkSonido.setText(textoSonido(true));
+					controlador.setEfectos(true);
+					chkEfectos.setText(textoSonido(true));
 				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					controlador.setSonido(false);
-					controlador.soundOff();
-					chkSonido.setText(textoSonido(false));
+					controlador.setEfectos(false);
+					chkEfectos.setText(textoSonido(false));
 				}
-				chkMenuSonido.setSelected(controlador.getSonido());
+				rbtMenuSonido.setSelected(controlador.isEfectos());
+				actualizaCheckboxes();
 			}
 		});
-		contentPane.add(chkSonido, "cell 3 0,alignx left");
+		contentPane.add(chkEfectos, "flowy,cell 3 0,alignx left");
 
-		JButton btnSalir = new JButton("Salir del juego");
+		btnSalir = new JButton("Salir del juego");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -511,6 +516,7 @@ public class GuiBlackjack extends JFrame {
 		panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
 
 		chkMazo = new JCheckBox("Mostrar mazo (testeo)");
+		chkMazo.setFocusable(false);
 		panel_8.add(chkMazo, "cell 0 0,alignx right,aligny center");
 		chkMazo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -541,6 +547,24 @@ public class GuiBlackjack extends JFrame {
 		lblDerrotas = new JLabel("d");
 		lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_2.add(lblDerrotas, "cell 0 0");
+		
+		chkMusica = new JCheckBox("");
+		chkMusica.setFocusable(false);
+		chkMusica.setSelected(true);
+		chkMusica.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if(!controlador.isMusica())
+						controlador.setMusica(true);
+				} else if (e.getStateChange() == ItemEvent.DESELECTED){
+					if(controlador.isMusica())
+						controlador.setMusica(false);
+				}
+				rbtMenuMusica.setSelected(controlador.isMusica());
+				actualizaCheckboxes();
+			}
+		});
+		contentPane.add(chkMusica, "cell 3 0");
 
 	}
 
@@ -551,7 +575,7 @@ public class GuiBlackjack extends JFrame {
 //			scrollPane
 			txtMazo.requestFocusInWindow();
 			chkMenuMazo.setSelected(true);
-			chkMazo.setSelected(b);
+			chkMazo.setSelected(true);
 		} else {
 			scrollPane.setVisible(false);
 //			 lblMazo.setVisible(false);
@@ -565,19 +589,20 @@ public class GuiBlackjack extends JFrame {
 		btnNuevoJuego.setEnabled(false);
 		btnPedirCarta.setEnabled(true);
 		btnPlantarse.setEnabled(true);
+		btnSalir.setEnabled(false);
 		panelJ.removeAll();
 		panelJ.revalidate();
 		panelJ.repaint();
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
-		lblEstado.setText("¿Pides carta o te plantas? (No te puedes pasar de 21 puntos)");
+		lblEstado.setText("¿Pides carta o te plantas? (intenta no pasarte de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();
 		btnPedirCarta.requestFocusInWindow();
 	}
 
-	protected void actualizaMazo() {
+	public void actualizaMazo() {
 		txtMazo.setText(controlador.getBaraja());
 		txtMazo.setCaretPosition(0);
 		;
@@ -594,7 +619,6 @@ public class GuiBlackjack extends JFrame {
 			panelJ.add(new JLabel(image), pos);
 			panelJ.revalidate();
 			panelJ.repaint();
-			actualizaMazo();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
@@ -611,8 +635,6 @@ public class GuiBlackjack extends JFrame {
 			panelB.add(new JLabel(image), pos);
 			panelB.revalidate();
 			panelB.repaint();
-			actualizaPuntos();
-			actualizaMazo();
 		} catch (IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
@@ -623,6 +645,7 @@ public class GuiBlackjack extends JFrame {
 	public void turnoBanca() {
 		btnPedirCarta.setEnabled(false);
 		btnPlantarse.setEnabled(false);
+//		btnSalir.setEnabled(false);
 		lblEstado.setText("Turno de la banca...");
 		JOptionPane.showMessageDialog(this,
 				"Tu turno ha terminado.\n" + "Valor de la mano: " + controlador.valorManoJ() + "\nTurno de la banca...",
@@ -636,7 +659,6 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void finDePartida() {
-		actualizaContador();
 		int seguir = JOptionPane.showConfirmDialog(this, "¿Deseas seguir jugando?\nPiénsatelo bien...",
 				"¿Seguir jugando?", JOptionPane.YES_NO_OPTION);
 
@@ -646,6 +668,7 @@ public class GuiBlackjack extends JFrame {
 		case JOptionPane.NO_OPTION:
 		default:
 			btnNuevoJuego.setEnabled(true);
+			btnSalir.setEnabled(true);
 		}
 
 	}
@@ -693,6 +716,16 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void actualizaCheckboxes() {
-		chkSonido.setText(textoSonido(controlador.getSonido()));
+		chkEfectos.setText(textoSonido(controlador.isEfectos()));
+//		chkMusica.setSelected(controlador.isMusica());
+		chkMusica.setText(textoMusica(controlador.isMusica()));
+//		rbtMenuMusica.setSelected(controlador.isMusica());
+	}
+
+	private String textoMusica(boolean b) {
+		if (b)
+			return "Música ON";
+		else
+			return "Música OFF";
 	}
 }

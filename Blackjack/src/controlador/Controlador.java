@@ -16,6 +16,7 @@ public class Controlador {
 	private static boolean efectos;
 	private static Audio audio;
 	private static Jugador jugador;
+	private boolean musica;
 
 //	public static void main(String[] args) {
 //
@@ -44,8 +45,8 @@ public class Controlador {
 			ventanaPpal.actualizaContador();
 			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
-			musicaOn();
-			setSonido(true);
+			setEfectos(true);
+			setMusica(true);
 			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,7 +62,7 @@ public class Controlador {
 			manoJ = new Mano();
 			manoB = new Mano();
 			ventanaPpal.empiezaJuego();
-			if (getSonido())
+			if (isEfectos())
 				audio.sonidoBarajar();
 			while (isTurnoJugador()) {
 				Thread.onSpinWait();
@@ -70,6 +71,7 @@ public class Controlador {
 			ventanaPpal.turnoBanca();
 			juegaBanca();
 			quienGana();
+			ventanaPpal.actualizaContador();
 			ventanaPpal.finDePartida();
 			while (!isTurnoJugador()) {
 				Thread.onSpinWait();
@@ -80,10 +82,11 @@ public class Controlador {
 
 	public void pideCarta() throws NoHayCartasException {
 		manoJ.pedirCarta(baraja);
-		if (getSonido())
+		if (isEfectos())
 			audio.sonidoNaipe();
 		ventanaPpal.muestraCartaJ(manoJ.ultimaCarta(), manoJ.getCartas().size() - 1);
 		ventanaPpal.actualizaPuntos();
+		ventanaPpal.actualizaMazo();
 		if (manoJ.finDeJuego()) {
 			setTurnoJugador(false);
 		}
@@ -96,6 +99,8 @@ public class Controlador {
 				if (efectos)
 					audio.sonidoNaipe();
 				ventanaPpal.muestraCartaB(manoB.ultimaCarta(), manoB.getCartas().size() - 1);
+				ventanaPpal.actualizaPuntos();
+				ventanaPpal.actualizaMazo();
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				System.err.println("Error al esperar.");
@@ -133,31 +138,46 @@ public class Controlador {
 		Controlador.turnoJugador = turnoJugador;
 	}
 
-	public void setSonido(boolean s) {
-		if (s)
+	public void setEfectos(boolean s) {
+		if (s) {
 			efectos = true;
-		else
+		}else {
 			efectos = false;
+			audio.efectosOff();
+		}
 	}
 
-	public boolean getSonido() {
-		if (efectos)
-			return true;
-		else
-			return false;
+	public boolean isEfectos() {
+		return efectos;
+	}
+	
+	public void setMusica(boolean b) {
+		musica=b;
+		if(b) {
+			audio.musicaOn();
+		} else {
+			audio.musicaOff();
+		}
 	}
 
-	public void soundOff() {
-		audio.soundOff();
-	}
-
-	public void musicaOn() {
-		audio.musicaOn();
-	}
-
-	public void musicaOff() {
-		audio.musicaOff();
-	}
+//	public void efectosOff() {
+//		audio.soundOff();
+//	}
+//
+//	public void efectosOn() {
+//		audio.musicaOn();
+//	}
+//
+//	public void musicaOff() {
+//		musica=false;
+//		audio.musicaOff();
+//	}
+//
+//	public void musicaOn() {
+//		musica=true;
+//		audio.musicaOn();
+//		
+//	}
 
 	public String getBaraja() {
 
@@ -193,4 +213,9 @@ public class Controlador {
 
 		return jugador.getPartidasJ();
 	}
+
+	public boolean isMusica() {
+		return musica;
+	}
+
 }
