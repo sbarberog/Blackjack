@@ -588,7 +588,7 @@ public class GuiBlackjack extends JFrame {
 	public void empiezaJuego() {
 		btnNuevoJuego.setEnabled(false);
 		btnPedirCarta.setEnabled(true);
-		btnPlantarse.setEnabled(true);
+//		btnPlantarse.setEnabled(true);
 		btnSalir.setEnabled(false);
 		panelJ.removeAll();
 		panelJ.revalidate();
@@ -619,6 +619,8 @@ public class GuiBlackjack extends JFrame {
 			panelJ.add(new JLabel(image), pos);
 			panelJ.revalidate();
 			panelJ.repaint();
+//			if(!btnPlantarse.isEnabled()) 
+				btnPlantarse.setEnabled(true);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
