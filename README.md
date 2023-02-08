@@ -1,3 +1,3 @@
 # Blackjack
 
-Juego sencillo de Blackjack, con interfaz gráfica y sonidos incorporados.
+Juego sencillo de Blackjack. La interfaz gráfica incorpora música y efectos de sonido.

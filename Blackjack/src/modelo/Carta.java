@@ -16,7 +16,7 @@ public class Carta {
 	private int numero;
 	private Palo palo;
 
-	private Carta(int numero, Palo palo) {
+	Carta(int numero, Palo palo) {
 		if (numero > 0 && numero < 14) {
 			this.numero = numero;
 		}
