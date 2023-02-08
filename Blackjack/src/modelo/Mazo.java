@@ -37,16 +37,18 @@ public class Mazo {
 		// aquí empieza la magia
 		if (true) {
 			if (this.baraja.get(0).getValor() == 10) {
-				int rand1 = (int) (Math.random() * 8) + 2;
-				int rand2 = 11 - rand1;
+				int valor1 = (int) (Math.random() * 8) + 2;
+				int valor2 = 11 - valor1;
 				int i = 0;
 				for (Carta carta1 : this.baraja) {
-					if (carta1.getValor() == rand1) {
+					if (carta1.getValor() == valor1) {
 						intercambiar(carta1, i, 1);
 						int j = 0;
 						for (Carta carta2 : this.baraja) {
-							if (carta2.getValor() == rand2)
+							if (carta2.getValor() == valor2) {
 								intercambiar(carta2, j, 2);
+								return;
+							}
 							j++;
 						}
 					}
