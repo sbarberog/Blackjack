@@ -70,5 +70,4 @@ public class Carta {
 //		return Arrays.equals(valor, other.valor);
 //	}
 
-	
 }

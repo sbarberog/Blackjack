@@ -1,5 +1,7 @@
 package controlador;
 
+import javax.swing.JOptionPane;
+
 import excepciones.NoHayCartasException;
 import modelo.Jugador;
 import modelo.Mano;
@@ -45,6 +47,7 @@ public class Controlador {
 			ventanaPpal.actualizaContador();
 			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
+			setTurnoJugador(false);
 			setEfectos(true);
 			setMusica(true);
 			nuevoJuego();
@@ -54,9 +57,11 @@ public class Controlador {
 
 	}
 
-	public void nuevoJuego() throws NoHayCartasException {
+	public void nuevoJuego() {
 		do {
-			setTurnoJugador(true);
+			while (!isTurnoJugador()) {
+				Thread.onSpinWait();
+			}
 			baraja = new Mazo();
 			baraja.barajar();
 			manoJ = new Mano();
@@ -67,7 +72,6 @@ public class Controlador {
 			while (isTurnoJugador()) {
 				Thread.onSpinWait();
 			}
-			;
 			ventanaPpal.turnoBanca();
 			juegaBanca();
 			quienGana();
@@ -76,7 +80,6 @@ public class Controlador {
 			while (!isTurnoJugador()) {
 				Thread.onSpinWait();
 			}
-			;
 		} while (isTurnoJugador());
 	}
 
@@ -92,7 +95,7 @@ public class Controlador {
 		}
 	}
 
-	public static void juegaBanca() throws NoHayCartasException {
+	public static void juegaBanca() {
 		do {
 			try {
 				manoB.pedirCarta(baraja);
@@ -104,6 +107,9 @@ public class Controlador {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				System.err.println("Error al esperar.");
+			} catch (NoHayCartasException e) {
+				JOptionPane.showMessageDialog(ventanaPpal, "No quedan cartas en la baraja", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		} while (manoB.valorMano() < 17 && !manoB.finDeJuego());
 	}
@@ -141,7 +147,7 @@ public class Controlador {
 	public void setEfectos(boolean s) {
 		if (s) {
 			efectos = true;
-		}else {
+		} else {
 			efectos = false;
 			audio.efectosOff();
 		}
@@ -150,10 +156,10 @@ public class Controlador {
 	public boolean isEfectos() {
 		return efectos;
 	}
-	
+
 	public void setMusica(boolean b) {
-		musica=b;
-		if(b) {
+		musica = b;
+		if (b) {
 			audio.musicaOn();
 		} else {
 			audio.musicaOff();

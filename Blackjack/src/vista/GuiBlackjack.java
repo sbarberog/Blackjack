@@ -34,7 +34,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Frame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -221,10 +220,10 @@ public class GuiBlackjack extends JFrame {
 		rbtMenuMusica.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					if(!controlador.isMusica())
+					if (!controlador.isMusica())
 						controlador.setMusica(true);
 				} else {
-					if(controlador.isMusica())
+					if (controlador.isMusica())
 						controlador.setMusica(false);
 				}
 				chkMusica.setSelected(controlador.isMusica());
@@ -317,7 +316,8 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]",
+				"[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
 
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
@@ -547,17 +547,17 @@ public class GuiBlackjack extends JFrame {
 		lblDerrotas = new JLabel("d");
 		lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_2.add(lblDerrotas, "cell 0 0");
-		
+
 		chkMusica = new JCheckBox("");
 		chkMusica.setFocusable(false);
 		chkMusica.setSelected(true);
 		chkMusica.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					if(!controlador.isMusica())
+					if (!controlador.isMusica())
 						controlador.setMusica(true);
-				} else if (e.getStateChange() == ItemEvent.DESELECTED){
-					if(controlador.isMusica())
+				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+					if (controlador.isMusica())
 						controlador.setMusica(false);
 				}
 				rbtMenuMusica.setSelected(controlador.isMusica());
@@ -620,7 +620,7 @@ public class GuiBlackjack extends JFrame {
 			panelJ.revalidate();
 			panelJ.repaint();
 //			if(!btnPlantarse.isEnabled()) 
-				btnPlantarse.setEnabled(true);
+			btnPlantarse.setEnabled(true);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);

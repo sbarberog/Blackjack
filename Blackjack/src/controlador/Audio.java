@@ -36,11 +36,16 @@ public class Audio {
 
 	public void efectosOff() {
 		try {
-			if(!sBarajar.isStopped()) 	sBarajar.stop();
-			if(!sNaipe.isStopped()) 	sNaipe.stop();
-			if(!sVictoria.isStopped()) 	sVictoria.stop();
-			if(!sDerrota.isStopped())	sDerrota.stop();
-			if(!sEmpate.isStopped())	sEmpate.stop();
+			if (!sBarajar.isStopped())
+				sBarajar.stop();
+			if (!sNaipe.isStopped())
+				sNaipe.stop();
+			if (!sVictoria.isStopped())
+				sVictoria.stop();
+			if (!sDerrota.isStopped())
+				sDerrota.stop();
+			if (!sEmpate.isStopped())
+				sEmpate.stop();
 		} catch (NullPointerException e) {
 			System.out.println("Excepción al intentar apagar los efectos.");
 		}
