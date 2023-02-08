@@ -33,7 +33,8 @@ public class Mazo {
 //		int rand= (int)Math.random()*10;
 //		System.out.println(rand);
 		Collections.shuffle(baraja);
-
+		
+		// aquí empieza la magia
 		if (true) {
 			if (this.baraja.get(0).getValor() == 10) {
 				int rand1=(int)(Math.random()*8)+2;
