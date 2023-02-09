@@ -8,17 +8,30 @@ public class Jugador {
 	private int idJugador;
 	private String nombre;
 	private Date fechaInicial;
+	private int victorias;
+	private int empates;
+	private int derrotas;
+	private int partidasTotales;
 	
 	public Jugador() {
 		this.setIdJugador(0);
 		this.setNombre("");
 		this.fechaInicial = null;
+		this.victorias=0;
+		this.empates=0;
+		this.derrotas=0;
+		this.partidasTotales=0;
 	}
 	
-	public Jugador(int idJugador, String nombre, Date fechaInicial) {
+	public Jugador(int idJugador, String nombre, Date fechaInicial, int victorias, int empates, int derrotas,
+			int partidasTotales) {
 		this.setIdJugador(idJugador);
 		this.setNombre(nombre);
 		this.fechaInicial = fechaInicial;
+		this.victorias = victorias;
+		this.empates = empates;
+		this.derrotas = derrotas;
+		this.partidasTotales = partidasTotales;
 	}
 	
 	public Jugador(String nombre) {
@@ -49,6 +62,38 @@ public class Jugador {
 
 	public void setFechaInicial(Date fechaInicial) {
 		this.fechaInicial = fechaInicial;
+	}
+	
+	public int getVictorias() {
+		return victorias;
+	}
+
+	public void setVictorias(int victorias) {
+		this.victorias = victorias;
+	}
+
+	public int getEmpates() {
+		return empates;
+	}
+
+	public void setEmpates(int empates) {
+		this.empates = empates;
+	}
+
+	public int getDerrotas() {
+		return derrotas;
+	}
+
+	public void setDerrotas(int derrotas) {
+		this.derrotas = derrotas;
+	}
+
+	public int getPartidasTotales() {
+		return partidasTotales;
+	}
+
+	public void setPartidasTotales(int partidasTotales) {
+		this.partidasTotales = partidasTotales;
 	}
 
 	@Override

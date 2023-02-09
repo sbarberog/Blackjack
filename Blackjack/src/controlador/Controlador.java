@@ -3,23 +3,28 @@ package controlador;
 import javax.swing.JOptionPane;
 
 import dao.JugadorDAO;
+import dao.PartidaDAO;
 import excepciones.NoHayCartasException;
+import modelo.Jugador;
 import modelo.JugadorOffline;
 import modelo.Mano;
 import modelo.Mazo;
 import vista.GuiBlackjack;
+import vista.GuiNuevoJugador;
 
 public class Controlador {
 
 	private static GuiBlackjack ventanaPpal;
+	private static GuiNuevoJugador guiNuevoJugador;
 	private static JugadorDAO jugadorDAO;
+	private static PartidaDAO partidaDAO;
 	private static Mazo baraja;
 	private static Mano manoJ;
 	private static Mano manoB;
 	private static boolean turnoJugador;
 	private static boolean efectos;
 	private static Audio audio;
-	private static JugadorOffline jugador;
+	private static JugadorOffline jugadorOffline;
 	private boolean musica;
 
 //	public static void main(String[] args) {
@@ -42,12 +47,15 @@ public class Controlador {
 	public void iniciarPrograma() {
 		try {
 			ventanaPpal = new GuiBlackjack();
+			guiNuevoJugador=new GuiNuevoJugador();
 			audio = new Audio();
-			jugador = new JugadorOffline();
+			jugadorOffline = new JugadorOffline();
 
 			ventanaPpal.setControlador(this);
+			guiNuevoJugador.setControlador(this);
 			
 			jugadorDAO=new JugadorDAO();
+			partidaDAO= new PartidaDAO();
 			
 			ventanaPpal.actualizaContador();
 			ventanaPpal.actualizaCheckboxes();
@@ -122,19 +130,19 @@ public class Controlador {
 	public static void quienGana() {
 //		frame.actualizaPuntos();
 		ventanaPpal.puntuacionFinal();
-		jugador.setPartidasJ(jugador.getPartidasJ() + 1);
+		jugadorOffline.setPartidasJ(jugadorOffline.getPartidasJ() + 1);
 		if (manoB.valorMano() <= 21 && (manoJ.valorMano() < manoB.valorMano() || manoJ.valorMano() > 21)) {
-			jugador.setDerrotas(jugador.getDerrotas() + 1);
+			jugadorOffline.setDerrotas(jugadorOffline.getDerrotas() + 1);
 			if (efectos)
 				audio.sonidoDerrota();
 			ventanaPpal.ganaBanca();
 		} else if (manoJ.valorMano() <= 21 && (manoB.valorMano() > 21 || manoB.valorMano() < manoJ.valorMano())) {
-			jugador.setVictorias(jugador.getVictorias() + 1);
+			jugadorOffline.setVictorias(jugadorOffline.getVictorias() + 1);
 			if (efectos)
 				audio.sonidoVictoria();
 			ventanaPpal.ganasTu();
 		} else {
-			jugador.setEmpates(jugador.getEmpates() + 1);
+			jugadorOffline.setEmpates(jugadorOffline.getEmpates() + 1);
 			if (efectos)
 				audio.sonidoEmpate();
 			ventanaPpal.ganaNadie();
@@ -207,26 +215,33 @@ public class Controlador {
 
 	public int getVictorias() {
 
-		return jugador.getVictorias();
+		return jugadorOffline.getVictorias();
 	}
 
 	public int getEmpates() {
 
-		return jugador.getEmpates();
+		return jugadorOffline.getEmpates();
 	}
 
 	public int getDerrotas() {
 
-		return jugador.getDerrotas();
+		return jugadorOffline.getDerrotas();
 	}
 
 	public int getPartidasJ() {
 
-		return jugador.getPartidasJ();
+		return jugadorOffline.getPartidasJ();
 	}
 
 	public boolean isMusica() {
 		return musica;
+	}
+
+	public void crearJugador(String nombre) {
+		Jugador j = new Jugador();
+		j.setNombre(nombre);
+		jugadorDAO.insertarJugador(j);
+		
 	}
 
 }

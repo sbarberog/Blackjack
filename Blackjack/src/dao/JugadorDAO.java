@@ -64,43 +64,51 @@ public class JugadorDAO {
     }
 
     
-//    public Centro obtenerCentro(int cod_centro) {
-//    	// Obtenemos una conexion a la base de datos.
-//		Connection con = conexion.getConexion();
-//		PreparedStatement consulta = null;
-//		ResultSet resultado = null;
-//		Centro c=null;
-//		
-//		try {
-//			consulta = con.prepareStatement("select * from centros"
-//					+ " where cod_centro = ?");
-//			consulta.setInt(1, cod_centro);
-//			resultado=consulta.executeQuery();
-//			
-//			// Bucle para recorrer todas las filas que devuelve la consulta
-//			if (resultado.next()) {
-//				String nombre = resultado.getString("nombre");
-//				String direccion = resultado.getString("direccion");
-//				
-//				c = new Centro(cod_centro, nombre,direccion);
-//			}
-//			
-//		} catch (SQLException e) {
-//			System.out.println("Error al realizar la consulta sobre centros: "
-//		         +e.getMessage());
-//		} finally {
-//			try {
-//				resultado.close();
-//				consulta.close();
-//				conexion.desconectar();
-//			} catch (SQLException e) {
-//				System.out.println("Error al liberar recursos: "+e.getMessage());
-//			} catch (Exception e) {
-//				
-//			}
-//		}
-//		return c;
-//    }
+    public Jugador obtenerJugador(String nombre) {
+    	// Obtenemos una conexion a la base de datos.
+		Connection con = conexion.getConexion();
+		PreparedStatement consulta = null;
+		ResultSet res = null;
+		Jugador c = new Jugador();
+		
+		try {
+			consulta = con.prepareStatement(
+					"select id_jugador, nombre, fecha_inicial, sum(resultado='V') victorias, "
+							+ "sum(resultado='E') empates, sum(resultado='D') derrotas, count (id_partida) partidas_totales\n"
+					+ " from jugadores join partidas using (id_jugador)\n"
+					+ " where nombre like ? \n"
+					+ " group by id_jugador");
+			consulta.setString(1, nombre);
+			res=consulta.executeQuery();
+			
+			// Bucle para recorrer todas las filas que devuelve la consulta
+			if (res.next()) {
+				c = new Jugador();
+				c.setIdJugador(res.getInt("id_jugador"));
+				c.setNombre(res.getString("nombre"));
+				c.setFechaInicial(res.getDate("fecha_inicial"));
+				c.setVictorias(res.getInt("victorias"));
+				c.setEmpates(res.getInt("empates"));
+				c.setDerrotas(res.getInt("derrotas"));
+				c.setPartidasTotales(res.getInt("partidas_totales"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error al realizar la consulta sobre centros: "
+		         +e.getMessage());
+		} finally {
+			try {
+				res.close();
+				consulta.close();
+				conexion.desconectar();
+			} catch (SQLException e) {
+				System.out.println("Error al liberar recursos: "+e.getMessage());
+			} catch (Exception e) {
+				
+			}
+		}
+		return c;
+    }
 //
 //
     public int insertarJugador(Jugador j) {

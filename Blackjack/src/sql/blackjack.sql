@@ -28,6 +28,7 @@ create table
         time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
     );
 
+
 alter table partidas 
 ADD CONSTRAINT fk_partidas_id_jugador_jugadores
 Foreign Key (id_jugador) REFERENCES jugadores(id_jugador);
