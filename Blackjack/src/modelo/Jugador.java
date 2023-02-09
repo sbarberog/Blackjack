@@ -1,63 +1,59 @@
 package modelo;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class Jugador {
 
-	private int victorias;
-	private int empates;
-	private int derrotas;
-	private int partidasJ;
-
+	private int idJugador;
+	private String nombre;
+	private Date fechaInicial;
+	
 	public Jugador() {
-		this.victorias = 0;
-		this.empates = 0;
-		this.derrotas = 0;
-		this.partidasJ = 0;
+		this.setIdJugador(0);
+		this.setNombre("");
+		this.fechaInicial = null;
+	}
+	
+	public Jugador(int idJugador, String nombre, Date fechaInicial) {
+		this.setIdJugador(idJugador);
+		this.setNombre(nombre);
+		this.fechaInicial = fechaInicial;
+	}
+	
+	public Jugador(String nombre) {
+		this.setNombre(nombre);
 	}
 
-	public Jugador(int victorias, int empates, int derrotas, int partidasJ) {
-		this.victorias = victorias;
-		this.empates = empates;
-		this.derrotas = derrotas;
-		this.partidasJ = partidasJ;
+	public int getIdJugador() {
+		return idJugador;
 	}
 
-	public int getVictorias() {
-		return victorias;
+	public void setIdJugador(int idJugador) {
+		if(idJugador>=0)
+			this.idJugador = idJugador;
 	}
 
-	public void setVictorias(int victorias) {
-		this.victorias = victorias;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public int getEmpates() {
-		return empates;
+	public void setNombre(String nombre) {
+		if(nombre.length()<=30)
+			this.nombre = nombre;
 	}
 
-	public void setEmpates(int empates) {
-		this.empates = empates;
+	public Date getFechaInicial() {
+		return fechaInicial;
 	}
 
-	public int getDerrotas() {
-		return derrotas;
-	}
-
-	public void setDerrotas(int derrotas) {
-		this.derrotas = derrotas;
-	}
-
-	public int getPartidasJ() {
-		return partidasJ;
-	}
-
-	public void setPartidasJ(int partidasJ) {
-		this.partidasJ = partidasJ;
+	public void setFechaInicial(Date fechaInicial) {
+		this.fechaInicial = fechaInicial;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(derrotas, empates, partidasJ, victorias);
+		return Objects.hash(idJugador, nombre);
 	}
 
 	@Override
@@ -69,14 +65,13 @@ public class Jugador {
 		if (getClass() != obj.getClass())
 			return false;
 		Jugador other = (Jugador) obj;
-		return derrotas == other.derrotas && empates == other.empates && partidasJ == other.partidasJ
-				&& victorias == other.victorias;
+		return idJugador == other.idJugador && Objects.equals(nombre, other.nombre);
 	}
 
 	@Override
 	public String toString() {
-		return "Jugador [victorias=" + victorias + ", empates=" + empates + ", derrotas=" + derrotas
-				+ ", partidasJugadas=" + partidasJ + "]";
+		return "Jugador [idJugador=" + idJugador + ", nombre=" + nombre + ", fechaInicial=" + fechaInicial + "]";
 	}
-
+	
+	
 }

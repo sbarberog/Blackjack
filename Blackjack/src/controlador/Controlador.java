@@ -2,22 +2,24 @@ package controlador;
 
 import javax.swing.JOptionPane;
 
+import dao.JugadorDAO;
 import excepciones.NoHayCartasException;
-import modelo.Jugador;
+import modelo.JugadorOffline;
 import modelo.Mano;
 import modelo.Mazo;
 import vista.GuiBlackjack;
 
 public class Controlador {
 
-	static GuiBlackjack ventanaPpal;
+	private static GuiBlackjack ventanaPpal;
+	private static JugadorDAO jugadorDAO;
 	private static Mazo baraja;
 	private static Mano manoJ;
 	private static Mano manoB;
 	private static boolean turnoJugador;
 	private static boolean efectos;
 	private static Audio audio;
-	private static Jugador jugador;
+	private static JugadorOffline jugador;
 	private boolean musica;
 
 //	public static void main(String[] args) {
@@ -41,9 +43,12 @@ public class Controlador {
 		try {
 			ventanaPpal = new GuiBlackjack();
 			audio = new Audio();
-			jugador = new Jugador();
+			jugador = new JugadorOffline();
 
 			ventanaPpal.setControlador(this);
+			
+			jugadorDAO=new JugadorDAO();
+			
 			ventanaPpal.actualizaContador();
 			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
