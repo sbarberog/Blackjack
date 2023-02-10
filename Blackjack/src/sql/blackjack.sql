@@ -37,5 +37,5 @@ drop view if exists datos_jugador;
 create view datos_jugador
 as select id_jugador,nombre,fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, 
     sum(resultado='D') derrotas, count (id_partida) partidas_totales
-    from jugadores join partidas using (id_jugador)
+    from jugadores left join partidas using (id_jugador)
     group by id_jugador;
