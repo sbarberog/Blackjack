@@ -1,4 +1,4 @@
--- Active: 1675880132561@@127.0.0.1@3306@blackjack
+-- Active: 1667910690622@@127.0.0.1@3306@blackjack
 
 drop database if exists blackjack;
 
@@ -14,7 +14,7 @@ create table
     if not exists jugadores (
         id_jugador int unsigned AUTO_INCREMENT PRIMARY KEY,
         nombre varchar(30) UNIQUE KEY,
-        fecha_inicial DATE DEFAULT (CURRENT_DATE())
+        fecha_registro DATE DEFAULT (CURRENT_DATE())
     );
 
 drop table if exists partidas;
@@ -33,3 +33,9 @@ alter table partidas
 ADD CONSTRAINT fk_partidas_id_jugador_jugadores
 Foreign Key (id_jugador) REFERENCES jugadores(id_jugador);
 
+drop view if exists datos_jugador;
+create view datos_jugador
+as select id_jugador,nombre,fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, 
+    sum(resultado='D') derrotas, count (id_partida) partidas_totales
+    from jugadores join partidas using (id_jugador)
+    group by id_jugador;

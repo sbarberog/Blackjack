@@ -35,14 +35,18 @@ public class JugadorDAO {
 		
 		try {
 			consulta = con.createStatement();
-			res = consulta.executeQuery("select * from jugadores");
+			res = consulta.executeQuery("select * from datos_jugador");
 			
 			// Bucle para recorrer todas las filas que devuelve la consulta
 			while(res.next()) {
 				Jugador j = new Jugador();
 				j.setIdJugador(res.getInt("id_jugador"));
 				j.setNombre(res.getString("nombre"));
-				j.setFechaInicial(res.getDate("fecha_inicial"));
+				j.setFechaRegistro(res.getDate("fecha_registro"));
+				j.setVictorias(res.getInt("victorias"));
+				j.setEmpates(res.getInt("empates"));
+				j.setDerrotas(res.getInt("derrotas"));
+				j.setPartidasTotales(res.getInt("partidas_totales"));
 				
 				lista.add(j);
 			}
@@ -69,28 +73,28 @@ public class JugadorDAO {
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
 		ResultSet res = null;
-		Jugador c = new Jugador();
+		Jugador j = new Jugador();
 		
 		try {
 			consulta = con.prepareStatement(
-					"select id_jugador, nombre, fecha_inicial, sum(resultado='V') victorias, "
-							+ "sum(resultado='E') empates, sum(resultado='D') derrotas, count (id_partida) partidas_totales\n"
-					+ " from jugadores join partidas using (id_jugador)\n"
-					+ " where nombre like ? \n"
-					+ " group by id_jugador");
+					"select id_jugador,nombre,fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, \r\n"
+					+ "    sum(resultado='D') derrotas, count (id_partida) partidas_totales\r\n"
+					+ "    from jugadores join partidas using (id_jugador)\r\n"
+					+ "	   where nombre like ? \r\n"
+					+ "    group by id_jugador");
 			consulta.setString(1, nombre);
 			res=consulta.executeQuery();
 			
 			// Bucle para recorrer todas las filas que devuelve la consulta
 			if (res.next()) {
-				c = new Jugador();
-				c.setIdJugador(res.getInt("id_jugador"));
-				c.setNombre(res.getString("nombre"));
-				c.setFechaInicial(res.getDate("fecha_inicial"));
-				c.setVictorias(res.getInt("victorias"));
-				c.setEmpates(res.getInt("empates"));
-				c.setDerrotas(res.getInt("derrotas"));
-				c.setPartidasTotales(res.getInt("partidas_totales"));
+				j = new Jugador();
+				j.setIdJugador(res.getInt("id_jugador"));
+				j.setNombre(res.getString("nombre"));
+				j.setFechaRegistro(res.getDate("fecha_inicial"));
+				j.setVictorias(res.getInt("victorias"));
+				j.setEmpates(res.getInt("empates"));
+				j.setDerrotas(res.getInt("derrotas"));
+				j.setPartidasTotales(res.getInt("partidas_totales"));
 			}
 			
 		} catch (SQLException e) {
@@ -107,7 +111,7 @@ public class JugadorDAO {
 				
 			}
 		}
-		return c;
+		return j;
     }
 //
 //

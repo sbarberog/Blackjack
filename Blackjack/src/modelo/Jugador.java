@@ -7,7 +7,7 @@ public class Jugador {
 
 	private int idJugador;
 	private String nombre;
-	private Date fechaInicial;
+	private Date fechaRegistro;
 	private int victorias;
 	private int empates;
 	private int derrotas;
@@ -16,7 +16,7 @@ public class Jugador {
 	public Jugador() {
 		this.setIdJugador(0);
 		this.setNombre("");
-		this.fechaInicial = null;
+		this.fechaRegistro = null;
 		this.victorias=0;
 		this.empates=0;
 		this.derrotas=0;
@@ -27,7 +27,7 @@ public class Jugador {
 			int partidasTotales) {
 		this.setIdJugador(idJugador);
 		this.setNombre(nombre);
-		this.fechaInicial = fechaInicial;
+		this.fechaRegistro = fechaInicial;
 		this.victorias = victorias;
 		this.empates = empates;
 		this.derrotas = derrotas;
@@ -56,12 +56,12 @@ public class Jugador {
 			this.nombre = nombre;
 	}
 
-	public Date getFechaInicial() {
-		return fechaInicial;
+	public Date getFechaRegistro() {
+		return fechaRegistro;
 	}
 
-	public void setFechaInicial(Date fechaInicial) {
-		this.fechaInicial = fechaInicial;
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
 	
 	public int getVictorias() {
@@ -115,7 +115,7 @@ public class Jugador {
 
 	@Override
 	public String toString() {
-		return "Jugador [idJugador=" + idJugador + ", nombre=" + nombre + ", fechaInicial=" + fechaInicial + "]";
+		return "Jugador [idJugador=" + idJugador + ", nombre=" + nombre + ", fechaRegistro=" + fechaRegistro + "]";
 	}
 	
 	
