@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -68,7 +69,7 @@ public class JugadorDAO {
     }
 
     
-    public Jugador obtenerJugador(String nombre) {
+    public Jugador obtenerDatosJugador(String nombre) {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
@@ -114,16 +115,16 @@ public class JugadorDAO {
 		return j;
     }
 
-    public int obtenerIdJugador(String nombre) {
+    public Jugador obtenerJugador(String nombre) {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
 		ResultSet res = null;
-		int id_jugador=0;
+		Jugador j = new Jugador();
 		
 		try {
 			consulta = con.prepareStatement(
-					"select id_jugador\r\n"
+					"select id_jugador,fecha_registro\r\n"
 					+ "    from jugadores\r\n"
 					+ "	   where nombre like ? ");
 			consulta.setString(1, nombre);
@@ -131,7 +132,9 @@ public class JugadorDAO {
 			
 			// Bucle para recorrer todas las filas que devuelve la consulta
 			if (res.next()) {
-				id_jugador=res.getInt("id_jugador");
+				j.setIdJugador(res.getInt("id_jugador"));
+				j.setNombre(nombre);
+				j.setFechaRegistro(res.getDate("fecha_registro"));
 			}
 			
 		} catch (SQLException e) {
@@ -148,11 +151,11 @@ public class JugadorDAO {
 				
 			}
 		}
-		return id_jugador;
+		return j;
     }
     
     
-    public int insertarJugador(Jugador j) {
+    public int insertarJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
@@ -162,12 +165,16 @@ public class JugadorDAO {
 			consulta = con.prepareStatement("INSERT INTO jugadores (nombre)"
 					+ " VALUES (?)");
 			
-			consulta.setString(1, j.getNombre());
+			consulta.setString(1, nombre);
 			resultado=consulta.executeUpdate();
-
+		}catch(SQLIntegrityConstraintViolationException e) {
+			System.out.println("Error de clave duplicada al realizar la inserción del jugador: "
+			        +e.getMessage());
+			throw e;
 		} catch (SQLException e) {
 			System.out.println("Error al realizar la inserción del jugador: "
 		        +e.getMessage());
+			throw e;
 		} finally {
 			try {
 				consulta.close();

@@ -1,5 +1,8 @@
 package controlador;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.swing.JOptionPane;
 
 import dao.JugadorDAO;
@@ -9,6 +12,7 @@ import modelo.Jugador;
 import modelo.JugadorOffline;
 import modelo.Mano;
 import modelo.Mazo;
+import modelo.Partida;
 import vista.GuiBlackjack;
 import vista.GuiNuevoJugador;
 
@@ -24,9 +28,9 @@ public class Controlador {
 	private static boolean turnoJugador;
 	private static boolean efectos;
 	private static Audio audio;
-	private static JugadorOffline jugadorOffline;
 	private boolean musica;
-	private Jugador jugador;
+	private static Partida partida;
+	private static Jugador jugador;
 
 //	public static void main(String[] args) {
 //
@@ -50,8 +54,8 @@ public class Controlador {
 			ventanaPpal = new GuiBlackjack();
 			guiNuevoJugador=new GuiNuevoJugador();
 			audio = new Audio();
-			jugadorOffline = new JugadorOffline();
 			jugador= new Jugador();
+			partida= new Partida();
 
 			ventanaPpal.setControlador(this);
 			guiNuevoJugador.setControlador(this);
@@ -59,7 +63,7 @@ public class Controlador {
 			jugadorDAO=new JugadorDAO();
 			partidaDAO= new PartidaDAO();
 			
-			ventanaPpal.actualizaContador();
+			ventanaPpal.actualizaDatosJugador();
 			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
 			setTurnoJugador(false);
@@ -90,13 +94,16 @@ public class Controlador {
 			ventanaPpal.turnoBanca();
 			juegaBanca();
 			quienGana();
-			ventanaPpal.actualizaContador();
+			partidaDAO.insertarPartida(partida);
+			ventanaPpal.actualizaDatosJugador();
 			ventanaPpal.finDePartida();
 			while (!isTurnoJugador()) {
 				Thread.onSpinWait();
 			}
 		} while (isTurnoJugador());
 	}
+	
+	
 
 	public void pideCarta() throws NoHayCartasException {
 		manoJ.pedirCarta(baraja);
@@ -132,19 +139,26 @@ public class Controlador {
 	public static void quienGana() {
 //		frame.actualizaPuntos();
 		ventanaPpal.puntuacionFinal();
-		jugadorOffline.setPartidasJ(jugadorOffline.getPartidasJ() + 1);
+		partida.setIdJugador(jugador.getIdJugador());
+		partida.setPuntosJ(manoJ.valorMano());
+		partida.setPuntosB(manoB.valorMano());
+		jugador.setPartidasTotales(jugador.getPartidasTotales() + 1);
+		
 		if (manoB.valorMano() <= 21 && (manoJ.valorMano() < manoB.valorMano() || manoJ.valorMano() > 21)) {
-			jugadorOffline.setDerrotas(jugadorOffline.getDerrotas() + 1);
+			jugador.setDerrotas(jugador.getDerrotas() + 1);
+			partida.setResultado(-1);
 			if (efectos)
 				audio.sonidoDerrota();
 			ventanaPpal.ganaBanca();
 		} else if (manoJ.valorMano() <= 21 && (manoB.valorMano() > 21 || manoB.valorMano() < manoJ.valorMano())) {
-			jugadorOffline.setVictorias(jugadorOffline.getVictorias() + 1);
+			jugador.setVictorias(jugador.getVictorias() + 1);
+			partida.setResultado(1);
 			if (efectos)
 				audio.sonidoVictoria();
 			ventanaPpal.ganasTu();
 		} else {
-			jugadorOffline.setEmpates(jugadorOffline.getEmpates() + 1);
+			jugador.setEmpates(jugador.getEmpates() + 1);
+			partida.setResultado(0);
 			if (efectos)
 				audio.sonidoEmpate();
 			ventanaPpal.ganaNadie();
@@ -217,33 +231,37 @@ public class Controlador {
 
 	public int getVictorias() {
 
-		return jugadorOffline.getVictorias();
+		return jugador.getVictorias();
 	}
 
 	public int getEmpates() {
 
-		return jugadorOffline.getEmpates();
+		return jugador.getEmpates();
 	}
 
 	public int getDerrotas() {
 
-		return jugadorOffline.getDerrotas();
+		return jugador.getDerrotas();
 	}
 
 	public int getPartidasJ() {
 
-		return jugadorOffline.getPartidasJ();
+		return jugador.getPartidasTotales();
+	}
+	
+	public String getNombreJugador() {
+		return jugador.getNombre();
 	}
 
 	public boolean isMusica() {
 		return musica;
 	}
 
-	public void insertarJugador(String nombre) {
-		jugador.setNombre(nombre);
-		jugadorDAO.insertarJugador(jugador);
-		jugador.setIdJugador(jugadorDAO.obtenerIdJugador(nombre));
-		setTurnoJugador(true);
+	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException {
+		jugadorDAO.insertarJugador(nombre);
+		jugador=jugadorDAO.obtenerJugador(nombre);
+		ventanaPpal.limpiaMesas();
+		ventanaPpal.actualizaDatosJugador();
 		
 	}
 

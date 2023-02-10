@@ -11,8 +11,11 @@ import javax.swing.border.EmptyBorder;
 import controlador.Controlador;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.awt.event.ActionEvent;
 
 public class GuiNuevoJugador extends JDialog {
@@ -39,7 +42,7 @@ public class GuiNuevoJugador extends JDialog {
 	 */
 	public GuiNuevoJugador() {
 		setTitle("Introducir nuevo jugador");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 436, 136);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -61,8 +64,7 @@ public class GuiNuevoJugador extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
-						controlador.insertarJugador(txtNombre.getText());
+						insertar();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -80,6 +82,24 @@ public class GuiNuevoJugador extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void insertar() {
+		if(txtNombre.getText()==null || txtNombre.getText().isBlank()) {
+			JOptionPane.showMessageDialog(txtNombre, "El nombre no puede estar vacío", "Nombre vacío", JOptionPane.ERROR_MESSAGE);
+		}else {
+			try {
+				controlador.insertarNuevoJugador(txtNombre.getText());
+				setVisible(false);
+			} catch (SQLIntegrityConstraintViolationException e) {
+				JOptionPane.showMessageDialog(txtNombre, "El nombre ya existe. Debe introducir un nombre diferente.", "Nombre inválido", JOptionPane.ERROR_MESSAGE);
+				e.getMessage();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(txtNombre, "Error al introducir los datos", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public void setControlador(Controlador controlador) {

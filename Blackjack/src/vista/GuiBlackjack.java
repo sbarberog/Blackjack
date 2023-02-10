@@ -111,6 +111,7 @@ public class GuiBlackjack extends JFrame {
 	private JButton btnSalir;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNombre;
+	private JButton btnElegirJugador;
 
 	/**
 	 * Launch the application.
@@ -325,10 +326,21 @@ public class GuiBlackjack extends JFrame {
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(controlador.getNombreJugador().equals("")) {
+					controlador.ventanaAnadirJugador();
+				} else
+					controlador.setTurnoJugador(true);
+			}
+		});
+		
+		btnElegirJugador = new JButton("Elegir jugador");
+		btnElegirJugador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				controlador.ventanaAnadirJugador();
 			}
 		});
-		contentPane.add(btnNuevoJuego, "flowx,cell 0 0,alignx center,growy");
+		contentPane.add(btnElegirJugador, "flowx,cell 0 0");
+		contentPane.add(btnNuevoJuego, "cell 0 0,alignx center,growy");
 
 		panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
@@ -425,7 +437,7 @@ public class GuiBlackjack extends JFrame {
 		panelJ.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 		
-		lblNewLabel_3 = new JLabel("Nombre:");
+		lblNewLabel_3 = new JLabel("Nombre: ");
 		panel_6.add(lblNewLabel_3, "flowx,cell 0 2");
 
 		panel = new JPanel();
@@ -597,20 +609,26 @@ public class GuiBlackjack extends JFrame {
 
 	public void empiezaJuego(Jugador j) {
 		btnNuevoJuego.setEnabled(false);
+		btnElegirJugador.setEnabled(false);
 		btnPedirCarta.setEnabled(true);
 //		btnPlantarse.setEnabled(true);
 		btnSalir.setEnabled(false);
+		limpiaMesas();
+		lblNombre.setText(j.getNombre());
+		lblEstado.setText("¿Pides carta o te plantas? (intenta no pasarte de 21 puntos)");
+		actualizaMazo();
+		actualizaPuntos();
+		btnPedirCarta.requestFocusInWindow();
+	}
+
+	public void limpiaMesas() {
 		panelJ.removeAll();
 		panelJ.revalidate();
 		panelJ.repaint();
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
-		lblNombre.setText(j.getNombre());
-		lblEstado.setText("¿Pides carta o te plantas? (intenta no pasarte de 21 puntos)");
-		actualizaMazo();
-		actualizaPuntos();
-		btnPedirCarta.requestFocusInWindow();
+		
 	}
 
 	public void actualizaMazo() {
@@ -681,6 +699,7 @@ public class GuiBlackjack extends JFrame {
 		case JOptionPane.NO_OPTION:
 		default:
 			btnNuevoJuego.setEnabled(true);
+			btnElegirJugador.setEnabled(true);
 			btnSalir.setEnabled(true);
 		}
 
@@ -709,7 +728,8 @@ public class GuiBlackjack extends JFrame {
 				JOptionPane.WARNING_MESSAGE);
 	}
 
-	public void actualizaContador() {
+	public void actualizaDatosJugador() {
+		lblNombre.setText(controlador.getNombreJugador());
 		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    ///    ");
 		lblVictorias.setText("Victorias: " + controlador.getVictorias() + " | ");
 		lblEmpates.setText("Empates: " + controlador.getEmpates() + " | ");
