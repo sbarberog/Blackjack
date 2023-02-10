@@ -61,7 +61,8 @@ public class GuiNuevoJugador extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						controlador.crearJugador(txtNombre.getText());
+						setVisible(false);
+						controlador.insertarJugador(txtNombre.getText());
 					}
 				});
 				okButton.setActionCommand("OK");

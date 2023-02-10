@@ -26,6 +26,7 @@ public class Controlador {
 	private static Audio audio;
 	private static JugadorOffline jugadorOffline;
 	private boolean musica;
+	private Jugador jugador;
 
 //	public static void main(String[] args) {
 //
@@ -50,6 +51,7 @@ public class Controlador {
 			guiNuevoJugador=new GuiNuevoJugador();
 			audio = new Audio();
 			jugadorOffline = new JugadorOffline();
+			jugador= new Jugador();
 
 			ventanaPpal.setControlador(this);
 			guiNuevoJugador.setControlador(this);
@@ -79,7 +81,7 @@ public class Controlador {
 			baraja.barajar();
 			manoJ = new Mano();
 			manoB = new Mano();
-			ventanaPpal.empiezaJuego();
+			ventanaPpal.empiezaJuego(jugador);
 			if (isEfectos())
 				audio.sonidoBarajar();
 			while (isTurnoJugador()) {
@@ -237,11 +239,15 @@ public class Controlador {
 		return musica;
 	}
 
-	public void crearJugador(String nombre) {
-		Jugador j = new Jugador();
-		j.setNombre(nombre);
-		jugadorDAO.insertarJugador(j);
+	public void insertarJugador(String nombre) {
+		jugador.setNombre(nombre);
+		jugadorDAO.insertarJugador(jugador);
+		jugador.setIdJugador(jugadorDAO.obtenerIdJugador(nombre));
+		setTurnoJugador(true);
 		
 	}
 
+	public void ventanaAnadirJugador() {
+		guiNuevoJugador.setVisible(true);
+	}
 }

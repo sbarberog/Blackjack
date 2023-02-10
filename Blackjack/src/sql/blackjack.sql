@@ -1,4 +1,4 @@
--- Active: 1667910690622@@127.0.0.1@3306@blackjack
+-- Active: 1675880132561@@127.0.0.1@3306@blackjack
 
 drop database if exists blackjack;
 

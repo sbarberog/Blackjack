@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
 import controlador.Controlador;
 import excepciones.NoHayCartasException;
 import modelo.Carta;
+import modelo.Jugador;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
@@ -108,6 +109,8 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblPartidasJ;
 	private JCheckBox chkMusica;
 	private JButton btnSalir;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNombre;
 
 	/**
 	 * Launch the application.
@@ -322,7 +325,7 @@ public class GuiBlackjack extends JFrame {
 		btnNuevoJuego = new JButton("Nueva Partida");
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.setTurnoJugador(true);
+				controlador.ventanaAnadirJugador();
 			}
 		});
 		contentPane.add(btnNuevoJuego, "flowx,cell 0 0,alignx center,growy");
@@ -421,6 +424,9 @@ public class GuiBlackjack extends JFrame {
 		panelJ.setBackground(new Color(0, 128, 0));
 		panelJ.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+		
+		lblNewLabel_3 = new JLabel("Nombre:");
+		panel_6.add(lblNewLabel_3, "flowx,cell 0 2");
 
 		panel = new JPanel();
 		panel_6.add(panel, "cell 1 2");
@@ -438,6 +444,10 @@ public class GuiBlackjack extends JFrame {
 
 		lblNewLabel = new JLabel("(Puedes hacer click aquí para pedir carta)");
 		panel_6.add(lblNewLabel, "cell 2 2");
+		
+		lblNombre = new JLabel("");
+		lblNombre.setFont(new Font("SansSerif", Font.BOLD, 12));
+		panel_6.add(lblNombre, "cell 0 2");
 //		panel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 		scrollPane = new JScrollPane();
@@ -585,7 +595,7 @@ public class GuiBlackjack extends JFrame {
 
 	}
 
-	public void empiezaJuego() {
+	public void empiezaJuego(Jugador j) {
 		btnNuevoJuego.setEnabled(false);
 		btnPedirCarta.setEnabled(true);
 //		btnPlantarse.setEnabled(true);
@@ -596,6 +606,7 @@ public class GuiBlackjack extends JFrame {
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
+		lblNombre.setText(j.getNombre());
 		lblEstado.setText("¿Pides carta o te plantas? (intenta no pasarte de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();

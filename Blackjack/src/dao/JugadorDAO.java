@@ -77,7 +77,7 @@ public class JugadorDAO {
 		
 		try {
 			consulta = con.prepareStatement(
-					"select id_jugador,nombre,fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, \r\n"
+					"select id_jugador, nombre, fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, \r\n"
 					+ "    sum(resultado='D') derrotas, count (id_partida) partidas_totales\r\n"
 					+ "    from jugadores join partidas using (id_jugador)\r\n"
 					+ "	   where nombre like ? \r\n"
@@ -98,7 +98,7 @@ public class JugadorDAO {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Error al realizar la consulta sobre centros: "
+			System.out.println("Error al intentar obtener jugador: "
 		         +e.getMessage());
 		} finally {
 			try {
@@ -113,8 +113,45 @@ public class JugadorDAO {
 		}
 		return j;
     }
-//
-//
+
+    public int obtenerIdJugador(String nombre) {
+    	// Obtenemos una conexion a la base de datos.
+		Connection con = conexion.getConexion();
+		PreparedStatement consulta = null;
+		ResultSet res = null;
+		int id_jugador=0;
+		
+		try {
+			consulta = con.prepareStatement(
+					"select id_jugador\r\n"
+					+ "    from jugadores\r\n"
+					+ "	   where nombre like ? ");
+			consulta.setString(1, nombre);
+			res=consulta.executeQuery();
+			
+			// Bucle para recorrer todas las filas que devuelve la consulta
+			if (res.next()) {
+				id_jugador=res.getInt("id_jugador");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error al intentar obtener la ID del jugador: "
+		         +e.getMessage());
+		} finally {
+			try {
+				res.close();
+				consulta.close();
+				conexion.desconectar();
+			} catch (SQLException e) {
+				System.out.println("Error al liberar recursos: "+e.getMessage());
+			} catch (Exception e) {
+				
+			}
+		}
+		return id_jugador;
+    }
+    
+    
     public int insertarJugador(Jugador j) {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
