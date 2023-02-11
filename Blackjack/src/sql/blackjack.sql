@@ -35,7 +35,7 @@ Foreign Key (id_jugador) REFERENCES jugadores(id_jugador);
 
 drop view if exists datos_jugador;
 create view datos_jugador
-as select id_jugador,nombre,fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, 
-    sum(resultado='D') derrotas, count (id_partida) partidas_totales
+as select id_jugador,nombre,fecha_registro, ifnull(0,sum(resultado='V')) victorias, ifnull(0,sum(resultado='E')) empates, 
+    ifnull(0,sum(resultado='D')) derrotas, count (id_partida) partidas_totales
     from jugadores left join partidas using (id_jugador)
     group by id_jugador;
