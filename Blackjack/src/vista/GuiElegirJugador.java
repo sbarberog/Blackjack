@@ -43,7 +43,7 @@ public class GuiElegirJugador extends JDialog {
 	public GuiElegirJugador() {
 		setModal(true);
 		setTitle("Identificación");
-		setBounds(100, 100, 455, 225);
+		setBounds(100, 100, 503, 190);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -66,7 +66,7 @@ public class GuiElegirJugador extends JDialog {
 			contentPanel.add(btnNewButton, "cell 1 4");
 		}
 		{
-			JLabel lblNewLabel_1 = new JLabel("¿Eres un nuevo jugador?");
+			JLabel lblNewLabel_1 = new JLabel("<- Click aquí si eres un nuevo jugador");
 			contentPanel.add(lblNewLabel_1, "cell 2 4");
 		}
 		{

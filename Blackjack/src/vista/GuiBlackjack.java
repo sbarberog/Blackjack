@@ -112,6 +112,7 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNombre;
 	private JButton btnElegirJugador;
+	private JPanel panel_9;
 
 	/**
 	 * Launch the application.
@@ -143,7 +144,7 @@ public class GuiBlackjack extends JFrame {
 	 * Create the frame.
 	 */
 	public GuiBlackjack() {
-		setPreferredSize(new Dimension(1450, 815));
+		setPreferredSize(new Dimension(1450, 830));
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -161,10 +162,10 @@ public class GuiBlackjack extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		setTitle("Blackjack v1.8");
-		setMinimumSize(new Dimension(1450, 815));
+		setTitle("Blackjack v1.9");
+		setMinimumSize(new Dimension(1450, 830));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 10, 1448, 817);
+		setBounds(50, 5, 1500, 835);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -320,27 +321,30 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]",
-				"[90:n:90,center][::300,top][280:400:400,center][35:35.00,grow,bottom]"));
-
-		btnNuevoJuego = new JButton("Nueva Partida");
-		btnNuevoJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(controlador.getNombreJugador().equals("")) {
-					controlador.ventanaElegirJugador();
-				} else
-					controlador.setTurnoJugador(true);
-			}
-		});
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,center][::300,top][280:400:300,center][45:45,grow,top]"));
 		
-		btnElegirJugador = new JButton("Elegir jugador");
-		btnElegirJugador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.ventanaElegirJugador();
-			}
-		});
-		contentPane.add(btnElegirJugador, "flowx,cell 0 0");
-		contentPane.add(btnNuevoJuego, "cell 0 0,alignx center,growy");
+		panel_9 = new JPanel();
+		contentPane.add(panel_9, "cell 0 0,alignx center,growy");
+				panel_9.setLayout(new MigLayout("", "[105px][][]", "[28px][grow,fill]"));
+								
+								btnElegirJugador = new JButton("Elegir jugador");
+								panel_9.add(btnElegirJugador, "cell 0 1,alignx left,aligny top");
+								btnElegirJugador.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										controlador.ventanaElegirJugador();
+									}
+								});
+						
+								btnNuevoJuego = new JButton("Nueva Partida");
+								panel_9.add(btnNuevoJuego, "cell 1 0 1 2,alignx center,growy");
+				btnNuevoJuego.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(controlador.getNombreJugador().equals("")) {
+							controlador.ventanaElegirJugador();
+						} else
+							controlador.setTurnoJugador(true);
+					}
+				});
 
 		panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
@@ -551,7 +555,8 @@ public class GuiBlackjack extends JFrame {
 		});
 
 		panel_2 = new JPanel();
-		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny bottom");
+		panel_2.setBorder(new TitledBorder(null, "Resultados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
 
 		lblPartidasJ = new JLabel("P");

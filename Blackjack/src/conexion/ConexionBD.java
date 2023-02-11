@@ -19,7 +19,7 @@ public class ConexionBD {
 	private static final String database = "blackjack";
 	private static final String usuario = "juego_blackjack";
 	private static final String contrasena = "blackjack";
-	private static final String url="jdbc:mysql://localhost/"+database;
+	private static final String url="jdbc:mysql://192.168.0.106:3306/"+database;
 	
 	private Connection conexion=null;
 	

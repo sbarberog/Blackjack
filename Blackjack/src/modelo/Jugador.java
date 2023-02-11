@@ -115,7 +115,7 @@ public class Jugador {
 
 	@Override
 	public String toString() {
-		return "Jugador [idJugador=" + idJugador + ", nombre=" + nombre + ", fechaRegistro=" + fechaRegistro + "]";
+		return getNombre() + " - (Partidas totales: "+getPartidasTotales()+")";
 	}
 	
 	

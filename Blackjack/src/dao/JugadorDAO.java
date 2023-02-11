@@ -78,9 +78,7 @@ public class JugadorDAO {
 		
 		try {
 			consulta = con.prepareStatement(
-					"select id_jugador, nombre, fecha_registro, sum(resultado='V') victorias, sum(resultado='E') empates, \r\n"
-					+ "    sum(resultado='D') derrotas, count (id_partida) partidas_totales\r\n"
-					+ "    from jugadores join partidas using (id_jugador)\r\n"
+					"select * fron datos_jugador\r\n"
 					+ "	   where nombre like ? \r\n"
 					+ "    group by id_jugador");
 			consulta.setString(1, nombre);
@@ -91,7 +89,7 @@ public class JugadorDAO {
 				j = new Jugador();
 				j.setIdJugador(res.getInt("id_jugador"));
 				j.setNombre(res.getString("nombre"));
-				j.setFechaRegistro(res.getDate("fecha_inicial"));
+				j.setFechaRegistro(res.getDate("fecha_registro"));
 				j.setVictorias(res.getInt("victorias"));
 				j.setEmpates(res.getInt("empates"));
 				j.setDerrotas(res.getInt("derrotas"));
