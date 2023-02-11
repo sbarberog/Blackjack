@@ -115,7 +115,7 @@ public class JugadorDAO {
 		return j;
     }
 
-    public Jugador obtenerJugador(String nombre) {
+    public Jugador obtenerNuevoJugador(String nombre) {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;

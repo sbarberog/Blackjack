@@ -9,27 +9,27 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
+import modelo.Jugador;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class GuiNuevoJugador extends JDialog {
+public class GuiElegirJugador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtNombre;
 	private Controlador controlador;
+	private JComboBox<Jugador> comboBox;
 
 	/**
 	 * Launch the application.
 	 */
 //	public static void main(String[] args) {
 //		try {
-//			GuiNuevoJugador dialog = new GuiNuevoJugador();
+//			GuiElegirJugador dialog = new GuiElegirJugador();
 //			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 //			dialog.setVisible(true);
 //		} catch (Exception e) {
@@ -40,32 +40,44 @@ public class GuiNuevoJugador extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public GuiNuevoJugador() {
+	public GuiElegirJugador() {
 		setModal(true);
-		setTitle("Introducir nuevo jugador");
-		setBounds(100, 100, 436, 136);
+		setTitle("Identificación");
+		setBounds(100, 100, 455, 225);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[][][grow]", "[][]"));
+		contentPanel.setLayout(new MigLayout("", "[][][grow]", "[][][][][]"));
 		{
-			JLabel lblNewLabel = new JLabel("Nombre del jugador:");
+			JLabel lblNewLabel = new JLabel("Selecciona tu nombre:");
 			contentPanel.add(lblNewLabel, "cell 1 1,alignx trailing");
 		}
 		{
-			txtNombre = new JTextField();
-			contentPanel.add(txtNombre, "cell 2 1,growx");
-			txtNombre.setColumns(10);
+			comboBox = new JComboBox<Jugador>();
+			contentPanel.add(comboBox, "cell 2 1,growx");
+		}
+		{
+			JButton btnNewButton = new JButton("Registrar nuevo jugador");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controlador.ventanaAnadirJugador();
+				}
+			});
+			contentPanel.add(btnNewButton, "cell 1 4");
+		}
+		{
+			JLabel lblNewLabel_1 = new JLabel("¿Eres un nuevo jugador?");
+			contentPanel.add(lblNewLabel_1, "cell 2 4");
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Comenzar partida");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						insertar();
+						elegirJugador();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -73,7 +85,7 @@ public class GuiNuevoJugador extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						setVisible(false);
@@ -85,31 +97,29 @@ public class GuiNuevoJugador extends JDialog {
 		}
 	}
 
-	protected void insertar() {
-		if(txtNombre.getText()==null || txtNombre.getText().isBlank()) {
-			JOptionPane.showMessageDialog(txtNombre, "El nombre no puede estar vacío", "Nombre vacío", JOptionPane.ERROR_MESSAGE);
-		}else {
-			try {
-				controlador.insertarNuevoJugador(txtNombre.getText());
-//				setVisible(false);
-			} catch (SQLIntegrityConstraintViolationException e) {
-				JOptionPane.showMessageDialog(txtNombre, "El nombre ya existe. Debe introducir un nombre diferente.", "Nombre inválido", JOptionPane.ERROR_MESSAGE);
-				e.getMessage();
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(txtNombre, "Error al introducir los datos", "Error de inserción", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-			}
+	protected void elegirJugador() {
+		Jugador j=(Jugador) comboBox.getSelectedItem();
+		if(j==null) {
+			JOptionPane.showMessageDialog(contentPanel, "Debe elegir un juador de la lista o crear uno nuevo", "Jugador no seleccionado", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
-
+		controlador.setJugador(j);
+		setVisible(false);
+		controlador.setTurnoJugador(true);
+		
 	}
 
 	public void setControlador(Controlador controlador) {
 		this.controlador=controlador;
 		
 	}
-	
-	public void limpiar() {
-		txtNombre.setText("");
+
+	public void setListaJugadores(ArrayList<Jugador> listaJugadores) {
+		comboBox.removeAllItems();
+		for (Jugador jugador : listaJugadores) {
+			comboBox.addItem(jugador);
+		}
+		
 	}
 
 }

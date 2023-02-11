@@ -2,6 +2,7 @@ package controlador;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -14,6 +15,7 @@ import modelo.Mano;
 import modelo.Mazo;
 import modelo.Partida;
 import vista.GuiBlackjack;
+import vista.GuiElegirJugador;
 import vista.GuiNuevoJugador;
 
 public class Controlador {
@@ -29,8 +31,10 @@ public class Controlador {
 	private static boolean efectos;
 	private static Audio audio;
 	private boolean musica;
+	private static GuiElegirJugador guiElegirJugador;
 	private static Partida partida;
 	private static Jugador jugador;
+	private ArrayList<Jugador> listaJugadores;
 
 //	public static void main(String[] args) {
 //
@@ -53,12 +57,15 @@ public class Controlador {
 		try {
 			ventanaPpal = new GuiBlackjack();
 			guiNuevoJugador=new GuiNuevoJugador();
+			guiElegirJugador=new GuiElegirJugador();
 			audio = new Audio();
 			jugador= new Jugador();
 			partida= new Partida();
+			listaJugadores=new ArrayList<Jugador>();
 
 			ventanaPpal.setControlador(this);
 			guiNuevoJugador.setControlador(this);
+			guiElegirJugador.setControlador(this);
 			
 			jugadorDAO=new JugadorDAO();
 			partidaDAO= new PartidaDAO();
@@ -256,16 +263,30 @@ public class Controlador {
 	public boolean isMusica() {
 		return musica;
 	}
+	
+	public void setJugador(Jugador j) {
+		jugador=j;
+	}
 
 	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException {
 		jugadorDAO.insertarJugador(nombre);
-		jugador=jugadorDAO.obtenerJugador(nombre);
+		jugador=jugadorDAO.obtenerNuevoJugador(nombre);
 		ventanaPpal.limpiaMesas();
 		ventanaPpal.actualizaDatosJugador();
+		guiNuevoJugador.setVisible(false);
+		guiElegirJugador.setVisible(false);
+		setTurnoJugador(true);
 		
 	}
 
 	public void ventanaAnadirJugador() {
+		guiNuevoJugador.limpiar();
 		guiNuevoJugador.setVisible(true);
+	}
+	
+	public void ventanaElegirJugador() {
+		listaJugadores=jugadorDAO.obtenerJugadores();
+		guiElegirJugador.setListaJugadores(listaJugadores);
+		guiElegirJugador.setVisible(true);
 	}
 }

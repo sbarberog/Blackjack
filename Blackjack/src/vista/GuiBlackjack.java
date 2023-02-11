@@ -327,7 +327,7 @@ public class GuiBlackjack extends JFrame {
 		btnNuevoJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(controlador.getNombreJugador().equals("")) {
-					controlador.ventanaAnadirJugador();
+					controlador.ventanaElegirJugador();
 				} else
 					controlador.setTurnoJugador(true);
 			}
@@ -336,7 +336,7 @@ public class GuiBlackjack extends JFrame {
 		btnElegirJugador = new JButton("Elegir jugador");
 		btnElegirJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.ventanaAnadirJugador();
+				controlador.ventanaElegirJugador();
 			}
 		});
 		contentPane.add(btnElegirJugador, "flowx,cell 0 0");
