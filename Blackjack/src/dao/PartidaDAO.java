@@ -24,7 +24,7 @@ public class PartidaDAO {
 		this.conexion = new ConexionBD();
 	}
 
-	public ArrayList<Partida> obtenerPartidas() {
+	public ArrayList<Partida> obtenerPartidas() throws ClassNotFoundException, SQLException {
 		// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		Statement consulta = null;
@@ -102,7 +102,7 @@ public class PartidaDAO {
 //    }
 //
 //
-	public int insertarPartida(Partida p) {
+	public int insertarPartida(Partida p) throws ClassNotFoundException, SQLException {
 		// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;

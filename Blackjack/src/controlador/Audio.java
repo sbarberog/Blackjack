@@ -20,10 +20,19 @@ public class Audio {
 ////		   sonidoBarajar();
 //	}
 
-	public void musicaOn() {
-		sMusica = new MP3Player(new File(path + "seduction-jazz" + ".mp3"));
-		sMusica.play();
+	public void iniciaMusica() {
+		sMusica = new MP3Player();
+		sMusica.addToPlayList(new File(path + "seduction-jazz" + ".mp3"));
+		sMusica.addToPlayList(new File(path + "former-102685" + ".mp3"));
+		sMusica.addToPlayList(new File(path + "casino-124196" + ".mp3"));
 		sMusica.setRepeat(true);
+//		sMusica.setShuffle(true);
+		sMusica.play();
+	}
+	
+	public void musicaOn() {
+		sMusica.skipForward();
+		sMusica.play();
 	}
 
 	public void musicaOff() {

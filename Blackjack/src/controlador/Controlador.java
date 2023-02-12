@@ -10,7 +10,6 @@ import dao.JugadorDAO;
 import dao.PartidaDAO;
 import excepciones.NoHayCartasException;
 import modelo.Jugador;
-import modelo.JugadorOffline;
 import modelo.Mano;
 import modelo.Mazo;
 import modelo.Partida;
@@ -74,6 +73,7 @@ public class Controlador {
 			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
 			setTurnoJugador(false);
+			audio.iniciaMusica();
 			setEfectos(true);
 			setMusica(true);
 			nuevoJuego();
@@ -83,7 +83,7 @@ public class Controlador {
 
 	}
 
-	public void nuevoJuego() {
+	public void nuevoJuego() throws ClassNotFoundException, SQLException, NoHayCartasException, InterruptedException {
 		do {
 			while (!isTurnoJugador()) {
 				Thread.onSpinWait();
@@ -95,7 +95,15 @@ public class Controlador {
 			ventanaPpal.empiezaJuego(jugador);
 			if (isEfectos())
 				audio.sonidoBarajar();
+			setTurnoJugador(false);
+			Thread.sleep(1000);
+			pideCarta();
+			Thread.sleep(1000);
+			setTurnoJugador(true);
+			pideCarta();
+			Thread.sleep(1000);
 			while (isTurnoJugador()) {
+				ventanaPpal.muestraBotonesJ(true);
 				Thread.onSpinWait();
 			}
 			ventanaPpal.turnoBanca();
@@ -268,7 +276,7 @@ public class Controlador {
 		jugador=j;
 	}
 
-	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException {
+	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException, ClassNotFoundException {
 		jugadorDAO.insertarJugador(nombre);
 		jugador=jugadorDAO.obtenerNuevoJugador(nombre);
 		ventanaPpal.limpiaMesas();
@@ -284,7 +292,7 @@ public class Controlador {
 		guiNuevoJugador.setVisible(true);
 	}
 	
-	public void ventanaElegirJugador() {
+	public void ventanaElegirJugador() throws ClassNotFoundException, SQLException {
 		listaJugadores=jugadorDAO.obtenerJugadores();
 		guiElegirJugador.setListaJugadores(listaJugadores);
 		guiElegirJugador.setVisible(true);

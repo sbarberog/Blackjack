@@ -27,7 +27,7 @@ public class JugadorDAO {
     }
 
 
-    public ArrayList<Jugador> obtenerJugadores() {
+    public ArrayList<Jugador> obtenerJugadores() throws ClassNotFoundException, SQLException {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		Statement consulta = null;
@@ -69,7 +69,7 @@ public class JugadorDAO {
     }
 
     
-    public Jugador obtenerDatosJugador(String nombre) {
+    public Jugador obtenerDatosJugador(String nombre) throws ClassNotFoundException, SQLException {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
@@ -113,7 +113,7 @@ public class JugadorDAO {
 		return j;
     }
 
-    public Jugador obtenerNuevoJugador(String nombre) {
+    public Jugador obtenerNuevoJugador(String nombre) throws ClassNotFoundException, SQLException {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;
@@ -153,7 +153,7 @@ public class JugadorDAO {
     }
     
     
-    public int insertarJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException {
+    public int insertarJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException, ClassNotFoundException {
     	// Obtenemos una conexion a la base de datos.
 		Connection con = conexion.getConexion();
 		PreparedStatement consulta = null;

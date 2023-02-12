@@ -98,6 +98,9 @@ public class GuiNuevoJugador extends JDialog {
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(txtNombre, "Error al introducir los datos", "Error de inserción", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
 			}
 		}
 

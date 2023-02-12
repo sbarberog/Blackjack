@@ -1,6 +1,8 @@
 package vista;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -321,17 +323,22 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,center][::300,top][280:400:300,center][45:45,grow,top]"));
+		contentPane.setLayout(new MigLayout("", "[221:221.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
 		
 		panel_9 = new JPanel();
 		contentPane.add(panel_9, "cell 0 0,alignx center,growy");
-				panel_9.setLayout(new MigLayout("", "[105px][][]", "[28px][grow,fill]"));
+				panel_9.setLayout(new MigLayout("", "[105px][][]", "[28px,fill][grow,fill]"));
 								
 								btnElegirJugador = new JButton("Elegir jugador");
 								panel_9.add(btnElegirJugador, "cell 0 1,alignx left,aligny top");
 								btnElegirJugador.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
-										controlador.ventanaElegirJugador();
+										try {
+											controlador.ventanaElegirJugador();
+										} catch (ClassNotFoundException | SQLException e1) {
+											JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+											e1.printStackTrace();
+										}
 									}
 								});
 						
@@ -340,7 +347,12 @@ public class GuiBlackjack extends JFrame {
 				btnNuevoJuego.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(controlador.getNombreJugador().equals("")) {
-							controlador.ventanaElegirJugador();
+							try {
+								controlador.ventanaElegirJugador();
+							} catch (ClassNotFoundException | SQLException e1) {
+								JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+								e1.printStackTrace();
+							}
 						} else
 							controlador.setTurnoJugador(true);
 					}
@@ -375,7 +387,8 @@ public class GuiBlackjack extends JFrame {
 		btnPedirCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					controlador.pideCarta();
+					if (controlador.isTurnoJugador())
+						controlador.pideCarta();
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -615,7 +628,7 @@ public class GuiBlackjack extends JFrame {
 	public void empiezaJuego(Jugador j) {
 		btnNuevoJuego.setEnabled(false);
 		btnElegirJugador.setEnabled(false);
-		btnPedirCarta.setEnabled(true);
+//		btnPedirCarta.setEnabled(true);
 //		btnPlantarse.setEnabled(true);
 		btnSalir.setEnabled(false);
 		limpiaMesas();
@@ -623,6 +636,7 @@ public class GuiBlackjack extends JFrame {
 		lblEstado.setText("¿Pides carta o te plantas? (intenta no pasarte de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();
+		actualizaDatosJugador();
 		btnPedirCarta.requestFocusInWindow();
 	}
 
@@ -654,7 +668,7 @@ public class GuiBlackjack extends JFrame {
 			panelJ.revalidate();
 			panelJ.repaint();
 //			if(!btnPlantarse.isEnabled()) 
-			btnPlantarse.setEnabled(true);
+//			btnPlantarse.setEnabled(true);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "No se ha cargado la imagen", "Error", JOptionPane.ERROR_MESSAGE);
@@ -679,8 +693,7 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void turnoBanca() {
-		btnPedirCarta.setEnabled(false);
-		btnPlantarse.setEnabled(false);
+		muestraBotonesJ(false);
 //		btnSalir.setEnabled(false);
 		lblEstado.setText("Turno de la banca...");
 		JOptionPane.showMessageDialog(this,
@@ -765,5 +778,10 @@ public class GuiBlackjack extends JFrame {
 			return "Música ON";
 		else
 			return "Música OFF";
+	}
+
+	public void muestraBotonesJ(boolean b) {
+		btnPedirCarta.setEnabled(b);
+		btnPlantarse.setEnabled(b);
 	}
 }

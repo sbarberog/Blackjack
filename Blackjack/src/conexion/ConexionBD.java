@@ -19,12 +19,12 @@ public class ConexionBD {
 	private static final String database = "blackjack";
 	private static final String usuario = "juego_blackjack";
 	private static final String contrasena = "blackjack";
-	private static final String url="jdbc:mysql://192.168.0.106:3306/"+database;
+	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
 	
 	private Connection conexion=null;
 	
 	
-	public Connection getConexion() {
+	public Connection getConexion() throws ClassNotFoundException, SQLException {
 		if (conexion!=null) {
 			return conexion;
 		}
@@ -37,8 +37,10 @@ public class ConexionBD {
 			System.out.println("Conexion a "+database+" correcta");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver no registrado");
+			throw e;
 		} catch (SQLException e) {
 			System.out.println("Error SQLException: "+e.getMessage());
+			throw e;
 		}
 		return conexion;
 	}
