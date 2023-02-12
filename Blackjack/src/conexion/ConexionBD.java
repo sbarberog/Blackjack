@@ -20,6 +20,7 @@ public class ConexionBD {
 	private static final String usuario = "juego_blackjack";
 	private static final String contrasena = "blackjack";
 	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
+	private static final String urlSQLite="jdbc:sqlite:sqlite/db/"+database+".db";
 	
 	private Connection conexion=null;
 	
@@ -33,7 +34,7 @@ public class ConexionBD {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			conexion = DriverManager.getConnection(url, usuario, contrasena);
+			conexion = DriverManager.getConnection(urlSQLite, usuario, contrasena);
 			System.out.println("Conexion a "+database+" correcta");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver no registrado");
