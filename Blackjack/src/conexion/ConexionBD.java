@@ -34,7 +34,7 @@ public class ConexionBD {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			conexion = DriverManager.getConnection(urlSQLite, usuario, contrasena);
+			conexion = DriverManager.getConnection(url, usuario, contrasena);
 			System.out.println("Conexion a "+database+" correcta");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver no registrado");

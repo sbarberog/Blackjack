@@ -11,7 +11,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexion.ConexionBD;
+import conexion.ConexionSQLite;
 import modelo.Jugador;
 
 /**
@@ -20,10 +20,10 @@ import modelo.Jugador;
  */
 public class JugadorDAO {
 
-	private ConexionBD conexion;
+	private ConexionSQLite conexion;
 	
     public JugadorDAO() {
-        this.conexion = new ConexionBD();
+        this.conexion = new ConexionSQLite();
     }
 
 
@@ -43,7 +43,7 @@ public class JugadorDAO {
 				Jugador j = new Jugador();
 				j.setIdJugador(res.getInt("id_jugador"));
 				j.setNombre(res.getString("nombre"));
-				j.setFechaRegistro(res.getDate("fecha_registro"));
+//				j.setFechaRegistro(res.getDate("fecha_registro"));
 				j.setVictorias(res.getInt("victorias"));
 				j.setEmpates(res.getInt("empates"));
 				j.setDerrotas(res.getInt("derrotas"));
@@ -132,7 +132,7 @@ public class JugadorDAO {
 			if (res.next()) {
 				j.setIdJugador(res.getInt("id_jugador"));
 				j.setNombre(nombre);
-				j.setFechaRegistro(res.getDate("fecha_registro"));
+//				j.setFechaRegistro(res.getDate("fecha_registro"));
 			}
 			
 		} catch (SQLException e) {

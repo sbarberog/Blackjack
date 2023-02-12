@@ -1,0 +1,24 @@
+
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (1,'pepe','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (3,'sergio','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (5,'javier','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (6,'antonio','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (7,'romeo','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (8,'hellin','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (9,'hellin3','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (10,'sfsdf','2023-02-10');
+INSERT INTO `jugadores`(`id_jugador`,`nombre`,`fecha_registro`) VALUES (11,'fdsgfhg','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (12,'ghjhj','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (13,'vnbgfhgh','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (14,'vmnvbnbvmn','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (15,'xxzvxcv','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (16,'jjhkjhk','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (17,'gfgjhgjgh','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (18,'nm.,.m,.,.','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (24,'fgsdgf','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (25,'hgfhgfdhgf','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (26,'bvbcvfs','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (27,'vnvnxcvn','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (28,'cvbcvn','2023-02-10');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (35,'sfdsgh','2023-02-11');
+INSERT INTO `jugadores` (`id_jugador`,`nombre`,`fecha_registro`) VALUES (43,'Luis Ferrer','2023-02-11');

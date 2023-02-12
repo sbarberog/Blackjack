@@ -6,6 +6,7 @@ package conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.DatabaseMetaData;
 
 /**
  * @author David
@@ -34,7 +35,8 @@ public class ConexionSQLite {
 		try {
 //			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			conexion = DriverManager.getConnection(urlSQLite, usuario, contrasena);
+			conexion = DriverManager.getConnection(urlSQLite);
+			
 			System.out.println("Conexion a "+database+" correcta");
 		} catch (SQLException e) {
 			System.out.println("Error SQLException: "+e.getMessage());

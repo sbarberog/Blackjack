@@ -9,8 +9,8 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="lib" path="RSScaleLabel.jar"/>
-	<classpathentry kind="lib" path="src/driver/jaco-mp3-player-0.9.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/driver/jaco-mp3-player-0.9.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="sqlite/sqlite-jdbc-3.40.1.0.jar"/>
 	<classpathentry kind="lib" path="src/driver/mysql-connector-j-8.0.32.jar"/>
-	<classpathentry kind="lib" path="src/sqlite/connect/sqlite-jdbc-3.40.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
