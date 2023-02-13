@@ -17,9 +17,10 @@ public class ConexionBD {
 	 * Conexión a la BBDD del juego de Blackjack
 	 */
 	private static final String database = "blackjack";
-	private static final String usuario = "juego_blackjack";
-	private static final String contrasena = "blackjack";
-	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
+	private static final String usuario = "sa";
+	private static final String contrasena = "";
+//	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
+	private static final String url= "jdbc:h2:./h2db/"+ database;
 	
 	private Connection conexion=null;
 	
@@ -31,7 +32,7 @@ public class ConexionBD {
 		
 		// Registra el driver de MySQL
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.h2.Driver");
 			
 			conexion = DriverManager.getConnection(url, usuario, contrasena);
 			System.out.println("Conexion a "+database+" correcta");

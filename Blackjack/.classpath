@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="RSScaleLabel.jar"/>
 	<classpathentry kind="lib" path="src/driver/jaco-mp3-player-0.9.3.jar"/>
 	<classpathentry kind="lib" path="src/driver/mysql-connector-j-8.0.32.jar"/>
+	<classpathentry kind="lib" path="h2-2.1.214.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
