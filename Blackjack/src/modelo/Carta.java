@@ -8,7 +8,7 @@ public class Carta {
 		TRÉBOLES, DIAMANTES, CORAZONES, PICAS
 	};
 
-	private int valor[] = { 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
+	private int valor[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10 };
 	private String numCarta[] = { "AS", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 	private String[] suits = { "_of_clubs", "_of_diamonds", "_of_hearts", "_of_spades" };
 	private String[] numbers = { "ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king" };

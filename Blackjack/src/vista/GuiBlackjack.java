@@ -723,9 +723,9 @@ public class GuiBlackjack extends JFrame {
 
 	}
 
-	public void puntuacionFinal() {
-		JOptionPane.showMessageDialog(this, "Puntos de tu mano: " + controlador.valorManoJ()
-				+ "\n\nPuntos de la banca: " + controlador.valorManoB(), "Puntuación final",
+	public void puntuacionFinal(String puntuacionFinal) {
+
+		JOptionPane.showMessageDialog(this, puntuacionFinal, "Puntuación final",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -734,7 +734,7 @@ public class GuiBlackjack extends JFrame {
 		JOptionPane.showMessageDialog(this, "Lo sentimos, gana la banca...", "Has perdido", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void ganasTu() {
+	public void ganaJugador() {
 		lblEstado.setText("¡Has ganado! :)");
 		JOptionPane.showMessageDialog(this, "¡Enhorabuena!\n\nEstás en racha :)", "¡Has ganado!",
 				JOptionPane.INFORMATION_MESSAGE);
@@ -783,5 +783,10 @@ public class GuiBlackjack extends JFrame {
 	public void muestraBotonesJ(boolean b) {
 		btnPedirCarta.setEnabled(b);
 		btnPlantarse.setEnabled(b);
+	}
+
+	public void muestraBlackjack() {
+		JOptionPane.showMessageDialog(this, "¡Es un Blackjack!", "Blackjack", JOptionPane.WARNING_MESSAGE);
+		
 	}
 }

@@ -13,7 +13,10 @@ public class Mano extends Mazo {
 	public int valorMano() {
 		int valor = 0;
 		for (Carta carta : this.baraja) {
-			valor = valor + carta.getValor();
+			if(carta.getValor()==1 && valor<11)
+				valor=valor+11;
+			else 
+				valor = valor + carta.getValor();
 		}
 		return valor;
 	}
@@ -41,4 +44,10 @@ public class Mano extends Mazo {
 		return this.baraja.get(this.baraja.size() - 1);
 	}
 
+	public boolean esBlackjack() {
+		if(this.valorMano()==21 && baraja.size()==2) {
+			return true;
+		}
+		return false;
+	}
 }

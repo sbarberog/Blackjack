@@ -35,28 +35,28 @@ public class Mazo {
 		Collections.shuffle(baraja);
 
 		// aquí empieza la magia
-		if (true) {
-			if (this.baraja.get(0).getValor() == 10) {
-				int valor1 = (int) (Math.random() * 8) + 2;
-				int valor2 = 11 - valor1;
-				int i = 0;
-				for (Carta carta1 : this.baraja) {
-					if (carta1.getValor() == valor1) {
-						intercambiar(carta1, i, 1);
-						int j = 0;
-						for (Carta carta2 : this.baraja) {
-							if (carta2.getValor() == valor2) {
-								intercambiar(carta2, j, 2);
-								return;
-							}
-							j++;
-						}
-					}
-
-					i++;
-				}
-			}
-		}
+//		if (true) {
+//			if (this.baraja.get(0).getValor() == 10) {
+//				int valor1 = (int) (Math.random() * 8) + 2;
+//				int valor2 = 11 - valor1;
+//				int i = 0;
+//				for (Carta carta1 : this.baraja) {
+//					if (carta1.getValor() == valor1) {
+//						intercambiar(carta1, i, 1);
+//						int j = 0;
+//						for (Carta carta2 : this.baraja) {
+//							if (carta2.getValor() == valor2) {
+//								intercambiar(carta2, j, 2);
+//								return;
+//							}
+//							j++;
+//						}
+//					}
+//
+//					i++;
+//				}
+//			}
+//		}
 	}
 
 	@Override

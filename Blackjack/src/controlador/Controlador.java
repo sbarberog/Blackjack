@@ -106,8 +106,15 @@ public class Controlador {
 				ventanaPpal.muestraBotonesJ(true);
 				Thread.onSpinWait();
 			}
+			if(manoJ.esBlackjack()) {
+				ventanaPpal.muestraBlackjack();
+			}
 			ventanaPpal.turnoBanca();
 			juegaBanca();
+			if(manoB.esBlackjack()) {
+				ventanaPpal.muestraBlackjack();
+			}
+			ventanaPpal.puntuacionFinal(mensajePuntuacion());
 			quienGana();
 			partidaDAO.insertarPartida(partida);
 			ventanaPpal.actualizaDatosJugador();
@@ -119,6 +126,21 @@ public class Controlador {
 	}
 	
 	
+	/**
+	 * Calcula el mensaje que deberá mostrarse en la ventana del resultado final, teniendo en cuenta las manos con un blackjack.
+	 * @return String con el texto del resultado de la partida
+	 */
+	private String mensajePuntuacion() {
+		String blackjackJ="";
+		String blackjackB="";
+		if(manoJ.esBlackjack())
+			blackjackJ="\n¡Has sacado blackjack!";
+		if(manoB.esBlackjack())
+			blackjackB="\n¡Ha sacado blackjack!";
+		
+		return "Puntos de tu mano: " + valorManoJ() + blackjackJ
+			+ "\n\nPuntos de la banca: " + valorManoB() + blackjackB;
+	}
 
 	public void pideCarta() throws NoHayCartasException {
 		manoJ.pedirCarta(baraja);
@@ -153,30 +175,32 @@ public class Controlador {
 
 	public static void quienGana() {
 //		frame.actualizaPuntos();
-		ventanaPpal.puntuacionFinal();
 		partida.setIdJugador(jugador.getIdJugador());
 		partida.setPuntosJ(manoJ.valorMano());
 		partida.setPuntosB(manoB.valorMano());
 		jugador.setPartidasTotales(jugador.getPartidasTotales() + 1);
 		
-		if (manoB.valorMano() <= 21 && (manoJ.valorMano() < manoB.valorMano() || manoJ.valorMano() > 21)) {
-			jugador.setDerrotas(jugador.getDerrotas() + 1);
-			partida.setResultado(-1);
-			if (efectos)
-				audio.sonidoDerrota();
-			ventanaPpal.ganaBanca();
-		} else if (manoJ.valorMano() <= 21 && (manoB.valorMano() > 21 || manoB.valorMano() < manoJ.valorMano())) {
-			jugador.setVictorias(jugador.getVictorias() + 1);
-			partida.setResultado(1);
-			if (efectos)
-				audio.sonidoVictoria();
-			ventanaPpal.ganasTu();
-		} else {
+		int valorJ=manoJ.valorMano();
+		int valorB=manoB.valorMano();
+		
+		if((valorJ==valorB && valorJ<=21 && valorB<=21 && manoJ.esBlackjack()==manoB.esBlackjack()) || (valorJ>21 && valorB>21)) {
 			jugador.setEmpates(jugador.getEmpates() + 1);
 			partida.setResultado(0);
 			if (efectos)
 				audio.sonidoEmpate();
 			ventanaPpal.ganaNadie();
+		} else if ((valorJ <= 21 && (valorB > 21 || valorB < valorJ)) || (manoJ.esBlackjack() && !manoB.esBlackjack())) {
+			jugador.setVictorias(jugador.getVictorias() + 1);
+			partida.setResultado(1);
+			if (efectos)
+				audio.sonidoVictoria();
+			ventanaPpal.ganaJugador();
+		} else {
+			jugador.setDerrotas(jugador.getDerrotas() + 1);
+			partida.setResultado(-1);
+			if (efectos)
+				audio.sonidoDerrota();
+			ventanaPpal.ganaBanca();
 		}
 	}
 
