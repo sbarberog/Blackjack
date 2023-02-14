@@ -8,19 +8,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * @author David
- *
+ * @author Sergio
+ * Conexión a la BBDD del juego de Blackjack
  */
 public class ConexionBD {
 
 	/**
 	 * Conexión a la BBDD del juego de Blackjack
 	 */
+//	private static final String driverMysql="com.mysql.cj.jdbc.Driver";
+	private static final String driverH2="org.h2.Driver";
 	private static final String database = "blackjack";
-	private static final String usuario = "sa";
-	private static final String contrasena = "";
+//	private static final String usuario = "juego_blackjack";
+//	private static final String contrasena = "blackjack";
+	private static final String usuarioH2 = "sa";
+	private static final String contrasenaH2 = "";
 //	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
-	private static final String url= "jdbc:h2:./h2db/"+ database;
+	private static final String urlH2= "jdbc:h2:./h2db/"+ database;
 	
 	private Connection conexion=null;
 	
@@ -32,9 +36,9 @@ public class ConexionBD {
 		
 		// Registra el driver de MySQL
 		try {
-			Class.forName("org.h2.Driver");
+			Class.forName(driverH2);
 			
-			conexion = DriverManager.getConnection(url, usuario, contrasena);
+			conexion = DriverManager.getConnection(urlH2, usuarioH2, contrasenaH2);
 			System.out.println("Conexion a "+database+" correcta");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver no registrado");
