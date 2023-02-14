@@ -13,6 +13,7 @@ import modelo.Jugador;
 import modelo.Mano;
 import modelo.Mazo;
 import modelo.Partida;
+import vista.GuiApuesta;
 import vista.GuiBlackjack;
 import vista.GuiElegirJugador;
 import vista.GuiNuevoJugador;
@@ -31,32 +32,17 @@ public class Controlador {
 	private static Audio audio;
 	private boolean musica;
 	private static GuiElegirJugador guiElegirJugador;
+	private static GuiApuesta ventanaApuesta;
 	private static Partida partida;
 	private static Jugador jugador;
 	private ArrayList<Jugador> listaJugadores;
-
-//	public static void main(String[] args) {
-//
-//		try {
-//			setSonido(true);
-//			victorias = 0;
-//			empates = 0;
-//			derrotas = 0;
-//			frame = new GuiBlackjack();
-//			frame.setVisible(true);
-//			frame.actualizaContador();
-//			nuevoJuego();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
 
 	public void iniciarPrograma() {
 		try {
 			ventanaPpal = new GuiBlackjack();
 			guiNuevoJugador=new GuiNuevoJugador();
 			guiElegirJugador=new GuiElegirJugador();
+			ventanaApuesta= new GuiApuesta();
 			audio = new Audio();
 			jugador= new Jugador();
 			partida= new Partida();
@@ -65,6 +51,7 @@ public class Controlador {
 			ventanaPpal.setControlador(this);
 			guiNuevoJugador.setControlador(this);
 			guiElegirJugador.setControlador(this);
+			ventanaApuesta.setControlador(this);
 			
 			jugadorDAO=new JugadorDAO();
 			partidaDAO= new PartidaDAO();
@@ -76,6 +63,7 @@ public class Controlador {
 			audio.iniciaMusica();
 			setEfectos(true);
 			setMusica(true);
+			ventanaElegirJugador();
 			nuevoJuego();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,13 +90,16 @@ public class Controlador {
 			setTurnoJugador(true);
 			pideCarta();
 			Thread.sleep(1000);
-			while (isTurnoJugador()) {
-				ventanaPpal.muestraBotonesJ(true);
-				Thread.onSpinWait();
-			}
 			if(manoJ.esBlackjack()) {
 				ventanaPpal.muestraBlackjack();
+			} else {
+				ventanaPpal.muestraDoblar(true);
+				ventanaPpal.muestraBotonesJ(true);
+				while (isTurnoJugador()) {
+					Thread.onSpinWait();
+				}
 			}
+			ventanaPpal.muestraDoblar(false);
 			ventanaPpal.turnoBanca();
 			juegaBanca();
 			if(manoB.esBlackjack()) {
@@ -143,6 +134,7 @@ public class Controlador {
 	}
 
 	public void pideCarta() throws NoHayCartasException {
+		ventanaPpal.muestraDoblar(false);
 		manoJ.pedirCarta(baraja);
 		if (isEfectos())
 			audio.sonidoNaipe();
@@ -183,25 +175,64 @@ public class Controlador {
 		int valorJ=manoJ.valorMano();
 		int valorB=manoB.valorMano();
 		
-		if((valorJ==valorB && valorJ<=21 && valorB<=21 && manoJ.esBlackjack()==manoB.esBlackjack()) || (valorJ>21 && valorB>21)) {
-			jugador.setEmpates(jugador.getEmpates() + 1);
-			partida.setResultado(0);
-			if (efectos)
-				audio.sonidoEmpate();
-			ventanaPpal.ganaNadie();
-		} else if ((valorJ <= 21 && (valorB > 21 || valorB < valorJ)) || (manoJ.esBlackjack() && !manoB.esBlackjack())) {
-			jugador.setVictorias(jugador.getVictorias() + 1);
-			partida.setResultado(1);
-			if (efectos)
-				audio.sonidoVictoria();
-			ventanaPpal.ganaJugador();
-		} else {
-			jugador.setDerrotas(jugador.getDerrotas() + 1);
-			partida.setResultado(-1);
-			if (efectos)
-				audio.sonidoDerrota();
-			ventanaPpal.ganaBanca();
+//		if((valorJ==valorB && valorJ<=21 && valorB<=21 && manoJ.esBlackjack()==manoB.esBlackjack()) || (valorJ>21 && valorB>21)) {
+//			empate();
+//		} else if ((valorJ <= 21 && (valorB > 21 || valorB < valorJ)) || (manoJ.esBlackjack() && !manoB.esBlackjack())) {
+//			victoria();
+//		} else {
+//			derrota();
+//		}
+		
+		// forma más simplificada
+		if(manoJ.esBlackjack()) {
+			if(manoB.esBlackjack()) {
+				empate();
+				return;
+			}else {
+				victoria();
+				return;
+			}
 		}
+		if(manoB.esBlackjack()) {
+			derrota();
+			return;
+		}
+		if(valorJ==valorB || (valorB>21 && valorJ>21)) {
+			empate();
+			return;
+		}
+		if (valorJ<=21) {
+			if(valorJ>valorB || valorB>21) {
+				victoria();
+				return;
+			}
+		}
+		derrota();
+	}
+	
+
+	private static void derrota() {
+		jugador.setDerrotas(jugador.getDerrotas() + 1);
+		partida.setResultado(-1);
+		if (efectos)
+			audio.sonidoDerrota();
+		ventanaPpal.ganaBanca();
+	}
+
+	private static void victoria() {
+		jugador.setVictorias(jugador.getVictorias() + 1);
+		partida.setResultado(1);
+		if (efectos)
+			audio.sonidoVictoria();
+		ventanaPpal.ganaJugador();
+	}
+
+	private static void empate() {
+		jugador.setEmpates(jugador.getEmpates() + 1);
+		partida.setResultado(0);
+		if (efectos)
+			audio.sonidoEmpate();
+		ventanaPpal.ganaNadie();
 	}
 
 	public boolean isTurnoJugador() {
@@ -298,6 +329,7 @@ public class Controlador {
 	
 	public void setJugador(Jugador j) {
 		jugador=j;
+		ventanaPpal.actualizaDatosJugador();
 	}
 
 	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException, ClassNotFoundException {
@@ -320,5 +352,29 @@ public class Controlador {
 		listaJugadores=jugadorDAO.obtenerJugadores();
 		guiElegirJugador.setListaJugadores(listaJugadores);
 		guiElegirJugador.setVisible(true);
+	}
+
+	public void abreApuesta() {
+		ventanaApuesta.preparaVentana(jugador.getFichas());
+		ventanaApuesta.setVisible(true);
+		
+	}
+
+	public void apuesta(int apuesta) {
+		partida.setApuesta(apuesta);
+		jugador.setFichas(jugador.getFichas()-apuesta);
+		setTurnoJugador(true);
+		
+	}
+
+	public int getApuesta() {
+		return partida.getApuesta();
+	}
+
+	public void doblaApuesta() {
+		int apuesta=getApuesta();
+		partida.setApuesta(apuesta*2);
+		jugador.setFichas(jugador.getFichas()-apuesta);
+		ventanaPpal.muestraDoblar(false);
 	}
 }

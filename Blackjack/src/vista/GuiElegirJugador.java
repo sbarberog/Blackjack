@@ -43,7 +43,7 @@ public class GuiElegirJugador extends JDialog {
 	public GuiElegirJugador() {
 		setModal(true);
 		setTitle("Identificación");
-		setBounds(100, 100, 503, 190);
+		setBounds(100, 100, 736, 190);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -74,7 +74,7 @@ public class GuiElegirJugador extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Comenzar partida");
+				JButton okButton = new JButton("Aceptar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						elegirJugador();
@@ -105,7 +105,7 @@ public class GuiElegirJugador extends JDialog {
 		}
 		controlador.setJugador(j);
 		setVisible(false);
-		controlador.setTurnoJugador(true);
+//		controlador.abreApuesta();
 		
 	}
 

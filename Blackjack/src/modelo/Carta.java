@@ -41,7 +41,7 @@ public class Carta {
 
 	@Override
 	public String toString() {
-		return "[ " + numero + " - " + palo + " ]";
+		return "[ " + mostrarNumero() + " - " + getPalo() + " ]";
 	}
 
 	public String imagenCarta() {

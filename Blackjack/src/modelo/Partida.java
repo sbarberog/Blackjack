@@ -11,6 +11,8 @@ public class Partida {
 	private int puntosB;
 	private int resultado;
 	private Timestamp timestamp;
+	private int apuesta;
+	private boolean blackjack;
 	
 	public Partida() {
 		this.idPartida = 0;
@@ -19,15 +21,18 @@ public class Partida {
 		this.puntosB = 0;
 		this.resultado = 0;
 		this.timestamp = null;
+		this.apuesta=0;
+		this.blackjack=false;
 	}
 	
-	public Partida(int idPartida, int idJugador, int puntosJ, int puntosB, int resultado, Timestamp timestamp) {
+	public Partida(int idPartida, int idJugador, int puntosJ, int puntosB, int resultado, Timestamp timestamp, int apuesta, boolean blackjack) {
 		this.idPartida = idPartida;
 		this.idJugador = idJugador;
 		this.puntosJ = puntosJ;
 		this.puntosB = puntosB;
 		this.setResultado(resultado);
 		this.timestamp = timestamp;
+		this.blackjack= blackjack;
 	}
 	
 	public Partida(int idJugador, int puntosJ, int puntosB, int resultado) {
@@ -86,6 +91,22 @@ public class Partida {
 		this.timestamp = timestamp;
 	}
 
+	public int getApuesta() {
+		return apuesta;
+	}
+
+	public void setApuesta(int apuesta) {
+		this.apuesta = apuesta;
+	}
+
+	public boolean isBlackjack() {
+		return blackjack;
+	}
+
+	public void setBlackjack(boolean blackjack) {
+		this.blackjack = blackjack;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idPartida);
@@ -102,13 +123,14 @@ public class Partida {
 		Partida other = (Partida) obj;
 		return idPartida == other.idPartida;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Partida [idPartida=" + idPartida + ", idJugador=" + idJugador + ", puntosJ=" + puntosJ + ", puntosB="
-				+ puntosB + ", resultado=" + resultado + ", timestamp=" + timestamp + "]";
+				+ puntosB + ", resultado=" + resultado + ", timestamp=" + timestamp + ", apuesta=" + apuesta
+				+ ", blackjack=" + blackjack + "]";
 	}
-	
+
 	public String getResultadoEnum() {
 		if(this.getResultado()==-1) {
 			return "D";

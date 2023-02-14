@@ -12,6 +12,7 @@ public class Jugador {
 	private int empates;
 	private int derrotas;
 	private int partidasTotales;
+	private int fichas;
 	
 	public Jugador() {
 		this.setIdJugador(0);
@@ -21,21 +22,34 @@ public class Jugador {
 		this.empates=0;
 		this.derrotas=0;
 		this.partidasTotales=0;
+		this.fichas=100;
 	}
 	
-	public Jugador(int idJugador, String nombre, Date fechaInicial, int victorias, int empates, int derrotas,
-			int partidasTotales) {
+	public Jugador(int idJugador, String nombre, Date fechaRegistro, int victorias, int empates, int derrotas,
+			int partidasTotales, int fichas) {
 		this.setIdJugador(idJugador);
 		this.setNombre(nombre);
-		this.fechaRegistro = fechaInicial;
+		this.fechaRegistro = fechaRegistro;
 		this.victorias = victorias;
 		this.empates = empates;
 		this.derrotas = derrotas;
 		this.partidasTotales = partidasTotales;
+		this.fichas=fichas;
 	}
 	
 	public Jugador(String nombre) {
 		this.setNombre(nombre);
+	}
+
+	public Jugador(Jugador j) {
+		this.setIdJugador(j.idJugador);
+		this.setNombre(j.nombre);
+		this.fechaRegistro = j.fechaRegistro;
+		this.victorias = j.victorias;
+		this.empates = j.empates;
+		this.derrotas = j.derrotas;
+		this.partidasTotales = j.partidasTotales;
+		this.fichas=j.fichas;
 	}
 
 	public int getIdJugador() {
@@ -96,6 +110,14 @@ public class Jugador {
 		this.partidasTotales = partidasTotales;
 	}
 
+	public int getFichas() {
+		return fichas;
+	}
+
+	public void setFichas(int fichas) {
+		this.fichas = fichas;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idJugador, nombre);
@@ -115,7 +137,7 @@ public class Jugador {
 
 	@Override
 	public String toString() {
-		return getNombre() + " - (Partidas totales: "+getPartidasTotales()+")";
+		return getNombre() + " - (Fichas: "+getFichas()+" - Partidas totales: "+getPartidasTotales()+")";
 	}
 	
 	
