@@ -341,6 +341,7 @@ public class Controlador {
 		jugador=j;
 		ventanaPpal.limpiaMesas();
 		ventanaPpal.actualizaDatosJugador();
+		ventanaPpal.mostrarBienvenida(jugador.getNombre());
 	}
 
 	public void insertarNuevoJugador(String nombre) throws SQLIntegrityConstraintViolationException, SQLException, ClassNotFoundException {
@@ -350,7 +351,8 @@ public class Controlador {
 		ventanaPpal.actualizaDatosJugador();
 		guiNuevoJugador.setVisible(false);
 		guiElegirJugador.setVisible(false);
-		setTurnoJugador(true);
+		ventanaPpal.mostrarBienvenida(jugador.getNombre());
+//		setTurnoJugador(true);
 		
 	}
 

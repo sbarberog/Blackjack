@@ -831,4 +831,9 @@ public class GuiBlackjack extends JFrame {
 		JOptionPane.showMessageDialog(this, "¡Es un Blackjack!", "Blackjack", JOptionPane.WARNING_MESSAGE);
 		
 	}
+
+	public void mostrarBienvenida(String nombre) {
+		lblEstado.setText(nombre+", toma asiento.\n¿Deseas jugar una partida de Blackjack?");
+		
+	}
 }
