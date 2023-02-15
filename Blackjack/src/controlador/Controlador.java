@@ -82,7 +82,7 @@ public class Controlador {
 			manoB = new Mano();
 			ventanaPpal.empiezaJuego(jugador);
 			if (isEfectos())
-				audio.sonidoBarajar();
+				audio.apuesta();
 			setTurnoJugador(false);
 			Thread.sleep(1000);
 			pideCarta();
@@ -107,7 +107,10 @@ public class Controlador {
 			}
 			ventanaPpal.puntuacionFinal(mensajePuntuacion());
 			quienGana();
-			partidaDAO.insertarPartida(partida);
+			if(!jugador.getNombre().equalsIgnoreCase("(sin registrar)")) {
+				partidaDAO.insertarPartida(partida);
+				jugadorDAO.actualizaJugador(jugador);
+			}
 			ventanaPpal.actualizaDatosJugador();
 			ventanaPpal.finDePartida();
 			while (!isTurnoJugador()) {
@@ -185,6 +188,7 @@ public class Controlador {
 		
 		// forma más simplificada
 		if(manoJ.esBlackjack()) {
+			partida.setBlackjack(true);
 			if(manoB.esBlackjack()) {
 				empate();
 				return;
@@ -220,16 +224,22 @@ public class Controlador {
 	}
 
 	private static void victoria() {
+		double mult=2;
 		jugador.setVictorias(jugador.getVictorias() + 1);
 		partida.setResultado(1);
+		if(partida.isBlackjack()) {
+			mult=2.5;
+		}
+		jugador.setFichas(jugador.getFichas()+(int)(partida.getApuesta()*mult));
 		if (efectos)
-			audio.sonidoVictoria();
+			audio.ganaFichas();
 		ventanaPpal.ganaJugador();
 	}
 
 	private static void empate() {
 		jugador.setEmpates(jugador.getEmpates() + 1);
 		partida.setResultado(0);
+		jugador.setFichas(jugador.getFichas()+partida.getApuesta());
 		if (efectos)
 			audio.sonidoEmpate();
 		ventanaPpal.ganaNadie();
@@ -329,6 +339,7 @@ public class Controlador {
 	
 	public void setJugador(Jugador j) {
 		jugador=j;
+		ventanaPpal.limpiaMesas();
 		ventanaPpal.actualizaDatosJugador();
 	}
 
@@ -376,5 +387,10 @@ public class Controlador {
 		partida.setApuesta(apuesta*2);
 		jugador.setFichas(jugador.getFichas()-apuesta);
 		ventanaPpal.muestraDoblar(false);
+		ventanaPpal.actualizaDatosJugador();
+	}
+
+	public int getFichas() {
+		return jugador.getFichas();
 	}
 }

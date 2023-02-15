@@ -48,6 +48,8 @@ import javax.swing.border.SoftBevelBorder;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
+import javax.swing.JTextField;
+import java.awt.SystemColor;
 
 public class GuiBlackjack extends JFrame {
 
@@ -61,7 +63,7 @@ public class GuiBlackjack extends JFrame {
 	private JButton btnPlantarse;
 	private JButton btnPedirCarta;
 	private JTextArea txtMazo;
-	private JLabel lblEstado;
+	private JTextArea lblEstado;
 	private JLabel lblPuntosB;
 	private JLabel lblPuntosJ;
 	private JPanel panel;
@@ -118,6 +120,7 @@ public class GuiBlackjack extends JFrame {
 	private JButton btnDoblar;
 	private JLabel lblNewLabel_4;
 	private JLabel lblApuesta;
+	private JLabel lblFichas;
 
 	/**
 	 * Launch the application.
@@ -371,9 +374,14 @@ public class GuiBlackjack extends JFrame {
 				contentPane.add(panel_5, "cell 1 0 2 1,grow");
 				panel_5.setLayout(new MigLayout("", "[500:n:500][142.00][142][]", "[]"));
 				
-						lblEstado = new JLabel("");
+						lblEstado = new JTextArea("\tBienvenido");
+						lblEstado.setWrapStyleWord(true);
+						lblEstado.setLineWrap(true);
+						lblEstado.setForeground(Color.WHITE);
+						lblEstado.setBackground(SystemColor.infoText);
+						lblEstado.setEditable(false);
 						lblEstado.setFont(new Font("SansSerif", Font.BOLD, 14));
-						panel_5.add(lblEstado, "cell 0 0,alignx center,aligny center");
+						panel_5.add(lblEstado, "cell 0 0,grow");
 						
 								btnPedirCarta = new JButton(pedir);
 								btnPedirCarta.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -431,7 +439,7 @@ public class GuiBlackjack extends JFrame {
 		panel_6 = new JPanel();
 		panel_6.setBorder(new TitledBorder(null, "Tu mano", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_3.add(panel_6, "cell 0 0 3 1,grow");
-		panel_6.setLayout(new MigLayout("", "[500:n][707.00,grow][grow]", "[48.00][top][]"));
+		panel_6.setLayout(new MigLayout("", "[300:n][707.00,grow][grow]", "[48.00][top][]"));
 
 		panelJ = new JPanel();
 		panelJ.setMaximumSize(new Dimension(1180, 205));
@@ -534,7 +542,7 @@ public class GuiBlackjack extends JFrame {
 		panel_7.setBorder(
 				new TitledBorder(null, "Mano de la banca", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_4.add(panel_7, "cell 0 0 2 1,grow");
-		panel_7.setLayout(new MigLayout("", "[500:n][720.00,grow][grow]", "[250,center][58.00,grow]"));
+		panel_7.setLayout(new MigLayout("", "[300:n][720.00,grow][grow]", "[250,center][58.00,grow]"));
 
 		panelB = new JPanel();
 		panel_7.add(panelB, "cell 0 0 3 1,growx,aligny center");
@@ -588,13 +596,17 @@ public class GuiBlackjack extends JFrame {
 		});
 
 		panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Resultados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
+		
+		lblFichas = new JLabel("F");
+		lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
+		panel_2.add(lblFichas, "flowx,cell 0 0");
 
 		lblPartidasJ = new JLabel("P");
 		lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblPartidasJ, "flowx,cell 0 0");
+		panel_2.add(lblPartidasJ, "cell 0 0");
 
 		lblVictorias = new JLabel("v");
 		lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -654,7 +666,7 @@ public class GuiBlackjack extends JFrame {
 		btnSalir.setEnabled(false);
 		limpiaMesas();
 		lblNombre.setText(j.getNombre());
-		lblEstado.setText("¿Pides carta, doblas la apuesta o te plantas? (intenta no pasarte de 21 puntos)");
+		lblEstado.setText("¿Pides carta, doblas la apuesta o te plantas?\n(intenta no pasarte de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();
 		actualizaDatosJugador();
@@ -716,7 +728,7 @@ public class GuiBlackjack extends JFrame {
 	public void turnoBanca() {
 		muestraBotonesJ(false);
 //		btnSalir.setEnabled(false);
-		lblEstado.setText("Turno de la banca...");
+		lblEstado.setText("\tTurno de la banca...");
 		JOptionPane.showMessageDialog(this,
 				"Tu turno ha terminado.\n" + "Valor de la mano: " + controlador.valorManoJ() + "\nTurno de la banca...",
 				"Fin de tu turno", JOptionPane.INFORMATION_MESSAGE);
@@ -753,18 +765,18 @@ public class GuiBlackjack extends JFrame {
 	}
 
 	public void ganaBanca() {
-		lblEstado.setText("La banca gana :(");
+		lblEstado.setText("\tLa banca gana :(");
 		JOptionPane.showMessageDialog(this, "Lo sentimos, gana la banca...", "Has perdido", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void ganaJugador() {
-		lblEstado.setText("¡Has ganado! :)");
+		lblEstado.setText("\t¡Has ganado! :)");
 		JOptionPane.showMessageDialog(this, "¡Enhorabuena!\n\nEstás en racha :)", "¡Has ganado!",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void ganaNadie() {
-		lblEstado.setText("No hay ganador");
+		lblEstado.setText("\tNo hay ganador");
 		JOptionPane.showMessageDialog(this, "No hay ganador, así que se te devolverá la apuesta", "Empate",
 				JOptionPane.WARNING_MESSAGE);
 	}
@@ -772,6 +784,7 @@ public class GuiBlackjack extends JFrame {
 	public void actualizaDatosJugador() {
 		lblNombre.setText(controlador.getNombreJugador());
 		lblApuesta.setText("" + controlador.getApuesta());
+		lblFichas.setText("Tus fichas: "+controlador.getFichas()+" | ");
 		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    ///    ");
 		lblVictorias.setText("Victorias: " + controlador.getVictorias() + " | ");
 		lblEmpates.setText("Empates: " + controlador.getEmpates() + " | ");

@@ -43,6 +43,8 @@ public class PartidaDAO {
 				p.setPuntosJ(res.getInt("puntos_jugador"));
 				p.setPuntosB(res.getInt("puntos_banca"));
 				p.setTimestamp(res.getTimestamp("time_stamp"));
+				p.setApuesta(res.getInt("apuesta"));
+				p.setBlackjack(res.getBoolean("blackjack"));
 
 				lista.add(p);
 			}
@@ -110,13 +112,16 @@ public class PartidaDAO {
 
 		try {
 			consulta = con.prepareStatement(
-					"INSERT INTO partidas (id_jugador, puntos_jugador, puntos_banca, resultado)"
-							+ " VALUES (?,?,?,?)");
+					"INSERT INTO partidas (id_jugador, puntos_jugador, puntos_banca, "
+					+ "resultado, apuesta, blackjack)"
+					+ " VALUES (?,?,?,?,?,?)");
 
 			consulta.setInt(1, p.getIdJugador());
 			consulta.setInt(2, p.getPuntosJ());
 			consulta.setInt(3, p.getPuntosB());
 			consulta.setString(4, p.getResultadoEnum());
+			consulta.setInt(5, p.getApuesta());
+			consulta.setBoolean(6, p.isBlackjack());
 			resultado = consulta.executeUpdate();
 
 		} catch (SQLException e) {

@@ -14,6 +14,9 @@ public class Audio {
 	private static MP3Player sDerrota;
 	private static MP3Player sEmpate;
 	private static MP3Player sMusica;
+	private static MP3Player sApuesta;
+	private static MP3Player sDoblaApuesta;
+	private static MP3Player sGanaFichas;
 //	private Controlador controlador;
 
 //	 public static void main(String[] args) {
@@ -76,6 +79,10 @@ public class Audio {
 	public void sonidoVictoria() {
 		sVictoria = new MP3Player(new File(path + "victoria2.mp3"));
 		sVictoria.play();
+//		while (!sVictoria.isStopped()) {
+//			Thread.onSpinWait();
+//		}
+//		ganaFichas();
 	}
 
 	public void sonidoDerrota() {
@@ -88,6 +95,20 @@ public class Audio {
 		sEmpate.play();
 	}
 
+	public void apuesta() {
+		sApuesta = new MP3Player(new File(path + "apuesta.mp3"));
+		sApuesta.play();
+	}
+	
+	public void doblaApuesta() {
+		sDoblaApuesta = new MP3Player(new File(path + "doblaapuesta.mp3"));
+		sDoblaApuesta.play();
+	}
+	
+	public void ganaFichas() {
+		sGanaFichas = new MP3Player(new File(path + "ganafichas.mp3"));
+		sGanaFichas.play();
+	}
 //
 //	public void setControlador(Controlador controlador) {
 //		this.controlador=this;

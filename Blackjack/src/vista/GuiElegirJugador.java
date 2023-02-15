@@ -47,14 +47,14 @@ public class GuiElegirJugador extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[][][grow]", "[][][][][]"));
+		contentPanel.setLayout(new MigLayout("", "[][][grow][grow]", "[][][][][]"));
 		{
 			JLabel lblNewLabel = new JLabel("Selecciona tu nombre:");
 			contentPanel.add(lblNewLabel, "cell 1 1,alignx trailing");
 		}
 		{
 			comboBox = new JComboBox<Jugador>();
-			contentPanel.add(comboBox, "cell 2 1,growx");
+			contentPanel.add(comboBox, "cell 2 1 2 1,growx");
 		}
 		{
 			JButton btnNewButton = new JButton("Registrar nuevo jugador");
@@ -70,6 +70,15 @@ public class GuiElegirJugador extends JDialog {
 			contentPanel.add(lblNewLabel_1, "cell 2 4");
 		}
 		{
+			JButton btnSinRegistro = new JButton("Jugar sin registrarse");
+			btnSinRegistro.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					elegirJugador(false);
+				}
+			});
+			contentPanel.add(btnSinRegistro, "cell 3 4");
+		}
+		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -77,7 +86,7 @@ public class GuiElegirJugador extends JDialog {
 				JButton okButton = new JButton("Aceptar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						elegirJugador();
+						elegirJugador(true);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -97,11 +106,16 @@ public class GuiElegirJugador extends JDialog {
 		}
 	}
 
-	protected void elegirJugador() {
-		Jugador j=(Jugador) comboBox.getSelectedItem();
-		if(j==null) {
-			JOptionPane.showMessageDialog(contentPanel, "Debe elegir un juador de la lista o crear uno nuevo", "Jugador no seleccionado", JOptionPane.ERROR_MESSAGE);
-			return;
+	protected void elegirJugador(boolean b) {
+		Jugador j= new Jugador();
+		if(b) {
+			j=(Jugador) comboBox.getSelectedItem();
+			if(j==null) {
+				JOptionPane.showMessageDialog(contentPanel, "Debe elegir un juador de la lista o crear uno nuevo", "Jugador no seleccionado", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		} else {
+			j.setNombre("(Sin registrar)");
 		}
 		controlador.setJugador(j);
 		setVisible(false);

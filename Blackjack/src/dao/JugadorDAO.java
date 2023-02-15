@@ -48,6 +48,7 @@ public class JugadorDAO {
 				j.setEmpates(res.getInt("empates"));
 				j.setDerrotas(res.getInt("derrotas"));
 				j.setPartidasTotales(res.getInt("partidas_totales"));
+				j.setFichas(res.getInt("fichas"));
 				
 				lista.add(j);
 			}
@@ -94,6 +95,7 @@ public class JugadorDAO {
 				j.setEmpates(res.getInt("empates"));
 				j.setDerrotas(res.getInt("derrotas"));
 				j.setPartidasTotales(res.getInt("partidas_totales"));
+				j.setFichas(res.getInt("fichas"));
 			}
 			
 		} catch (SQLException e) {
@@ -185,6 +187,39 @@ public class JugadorDAO {
 		}
 		return resultado;
     }
+
+
+	public int actualizaJugador(Jugador jugador) throws ClassNotFoundException, SQLException {
+		// Obtenemos una conexion a la base de datos.
+		Connection con = conexion.getConexion();
+		PreparedStatement consulta = null;
+		int resultado=0;
+		
+		try {
+			consulta = con.prepareStatement("UPDATE jugadores \r\n"
+					+ "SET fichas = ?\r\n"
+					+ "WHERE id_jugador = ?;");
+
+			consulta.setInt(1, jugador.getFichas());
+			consulta.setInt(2, jugador.getIdJugador());
+			resultado=consulta.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Error al realizar la actualizacion del jugador: "
+					+e.getMessage());
+		} finally {
+			try {
+				consulta.close();
+				conexion.desconectar();
+			} catch (SQLException e) {
+				System.out.println("Error al liberar recursos: "+e.getMessage());
+			} catch (Exception e) {
+				
+			}
+		}
+		return resultado;
+		
+	}
 
 //    public int actualizarAutor(Centro centro) {
 //    	// Obtenemos una conexion a la base de datos.
