@@ -1058,3 +1058,165 @@ INSERT INTO jugadores (nombre) VALUES (?) [22001-214]
 org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "NOMBRE CHARACTER VARYING(30)": "'fffffffffffffffffffffffffffffffff' (33)"
 Value too long for column "NOMBRE CHARACTER VARYING(30)": "'fffffffffffffffffffffffffffffffff' (33)"; SQL statement:
 INSERT INTO jugadores (nombre) VALUES (?) [22001-214]
+2023-02-15 19:11:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Tipo de dato desconocido : "APUESTA"
+Unknown data type: "APUESTA"; SQL statement:
+create table
+    if not exists partidas (
+        id_partida int AUTO_INCREMENT PRIMARY KEY,
+        id_jugador int not null,
+        puntos_jugador int not null,
+        puntos_banca int not null,
+        resultado enum ('V','E','D') not null,
+        time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+        int apuesta,
+        boolean blackjack
+    ) [50004-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.command.Parser.readIfDataType1(Parser.java:6249)
+	at org.h2.command.Parser.readIfDataType(Parser.java:6087)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:6069)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:5948)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:9331)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:9271)
+	at org.h2.command.Parser.parseCreate(Parser.java:6784)
+	at org.h2.command.Parser.parsePrepared(Parser.java:763)
+	at org.h2.command.Parser.parse(Parser.java:689)
+	at org.h2.command.Parser.parse(Parser.java:661)
+	at org.h2.command.Parser.prepareCommand(Parser.java:569)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:631)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:554)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1116)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:237)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:223)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1339)
+	at org.h2.server.web.WebApp.query(WebApp.java:1137)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1103)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1090)
+	at org.h2.server.web.WebThread.process(WebThread.java:188)
+	at org.h2.server.web.WebThread.run(WebThread.java:101)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-02-15 19:11:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PARTIDAS" no encontrada
+Table "PARTIDAS" not found; SQL statement:
+alter table partidas 
+ADD CONSTRAINT fk_partidas_id_jugador_jugadores
+Foreign Key (id_jugador) REFERENCES jugadores(id_jugador) [42102-214]
+2023-02-15 19:11:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PARTIDAS" no encontrada
+Table "PARTIDAS" not found; SQL statement:
+create view datos_jugador
+as select j.id_jugador, nombre, fecha_registro, fichas, ifnull(sum(resultado='V'),0) victorias, ifnull(sum(resultado='E'),0) empates, 
+    ifnull(sum(resultado='D'),0) derrotas, count(id_partida) partidas_totales 
+    from jugadores j left join partidas p using (id_jugador)
+    group by j.id_jugador
+    order by fichas desc [42102-214]
+2023-02-15 19:29:36 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at conexion.ConexionBD.getConexion(ConexionBD.java:41)
+	at dao.JugadorDAO.obtenerJugadores(JugadorDAO.java:32)
+	at controlador.Controlador.ventanaElegirJugador(Controlador.java:361)
+	at controlador.Controlador.iniciarPrograma(Controlador.java:66)
+	at controlador.Ppal.main(Ppal.java:8)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 22 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:178)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	... 16 more
+2023-02-15 19:29:38 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at conexion.ConexionBD.getConexion(ConexionBD.java:41)
+	at dao.JugadorDAO.obtenerJugadores(JugadorDAO.java:32)
+	at controlador.Controlador.ventanaElegirJugador(Controlador.java:361)
+	at vista.GuiBlackjack$11.actionPerformed(GuiBlackjack.java:343)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2313)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6626)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 56 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/sbarb/git/Blackjack/Blackjack/h2db/blackjack.mv.db [2.1.214/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:178)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	... 50 more
