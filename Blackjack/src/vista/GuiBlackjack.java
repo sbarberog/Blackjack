@@ -170,7 +170,7 @@ public class GuiBlackjack extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		setTitle("Blackjack v1.9");
+		setTitle("Blackjack v1.10 - ¡Apuesta en el casino!");
 		setMinimumSize(new Dimension(1450, 830));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50, 5, 1500, 835);
