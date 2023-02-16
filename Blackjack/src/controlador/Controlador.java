@@ -16,6 +16,7 @@ import modelo.Partida;
 import vista.GuiApuesta;
 import vista.GuiBlackjack;
 import vista.GuiElegirJugador;
+import vista.GuiListaJugadores;
 import vista.GuiNuevoJugador;
 
 public class Controlador {
@@ -36,6 +37,7 @@ public class Controlador {
 	private static Partida partida;
 	private static Jugador jugador;
 	private ArrayList<Jugador> listaJugadores;
+	private GuiListaJugadores guiListaJugadores;
 
 	public void iniciarPrograma() {
 		try {
@@ -43,6 +45,7 @@ public class Controlador {
 			guiNuevoJugador=new GuiNuevoJugador();
 			guiElegirJugador=new GuiElegirJugador();
 			ventanaApuesta= new GuiApuesta();
+			guiListaJugadores=new GuiListaJugadores();
 			audio = new Audio();
 			jugador= new Jugador();
 			partida= new Partida();
@@ -52,6 +55,7 @@ public class Controlador {
 			guiNuevoJugador.setControlador(this);
 			guiElegirJugador.setControlador(this);
 			ventanaApuesta.setControlador(this);
+			guiListaJugadores.setControlador(this);
 			
 			jugadorDAO=new JugadorDAO();
 			partidaDAO= new PartidaDAO();
@@ -394,5 +398,12 @@ public class Controlador {
 
 	public int getFichas() {
 		return jugador.getFichas();
+	}
+
+	public void abreListaJugadores() throws ClassNotFoundException, SQLException {
+		listaJugadores=jugadorDAO.obtenerJugadores();
+		guiListaJugadores.setListaJugadores(listaJugadores);
+		guiListaJugadores.setVisible(true);
+		
 	}
 }

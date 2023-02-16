@@ -12,6 +12,7 @@ import controlador.Controlador;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -64,9 +65,11 @@ public class GuiApuesta extends JDialog {
 		}
 		{
 			spinner = new JSpinner();
+			spinner.setFocusable(false);
 			spinner.setRequestFocusEnabled(false);
 			spinner.setFont(new Font("Tahoma", Font.BOLD, 13));
 			spinner.setModel(new SpinnerNumberModel(10, 10, 100, 10));
+			((DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
 			contentPanel.add(spinner, "cell 2 3");
 		}
 		{

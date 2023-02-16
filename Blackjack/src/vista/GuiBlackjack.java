@@ -121,6 +121,8 @@ public class GuiBlackjack extends JFrame {
 	private JLabel lblNewLabel_4;
 	private JLabel lblApuesta;
 	private JLabel lblFichas;
+	private JMenuItem mbtListaJugadores;
+	private JSeparator separator_2;
 
 	/**
 	 * Launch the application.
@@ -170,7 +172,7 @@ public class GuiBlackjack extends JFrame {
 				e1.printStackTrace();
 			}
 		}
-		setTitle("Blackjack v1.10 - ¡Apuesta en el casino!");
+		setTitle("Blackjack v1.10.1 - ¡Apuesta en el casino!");
 		setMinimumSize(new Dimension(1450, 830));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50, 5, 1500, 835);
@@ -199,6 +201,22 @@ public class GuiBlackjack extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		mbtListaJugadores = new JMenuItem("Ver ranking de jugadores");
+		mbtListaJugadores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					controlador.abreListaJugadores();
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(rootPane, "No se pudo obtener la lista de jugadores", "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnNewMenu.add(mbtListaJugadores);
+		
+		separator_2 = new JSeparator();
+		mnNewMenu.add(separator_2);
 		mnNewMenu.add(mntmNewMenuItem);
 
 		mnNewMenu_1 = new JMenu("Opciones");
@@ -330,7 +348,7 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[160:n][][470.00:n:500][350:350][10:200,grow][180:n:180]", "[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
+		contentPane.setLayout(new MigLayout("", "[160:n][][574.00:n:500][350:350][10:200,grow][180:n:180]", "[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
 				
 						chkEfectos = new JCheckBox();
 						chkEfectos.setFocusable(false);
@@ -587,23 +605,6 @@ public class GuiBlackjack extends JFrame {
 		lblpuedesHacerClick = new JLabel("(Puedes hacer click aquí para plantarte)");
 		panel_7.add(lblpuedesHacerClick, "cell 2 1");
 		
-				panel_8 = new JPanel();
-				contentPane.add(panel_8, "cell 0 3,alignx center,aligny bottom");
-				panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
-				
-						chkMazo = new JCheckBox("Mostrar mazo (testeo)");
-						chkMazo.setFocusable(false);
-						panel_8.add(chkMazo, "cell 0 0,alignx center,aligny center");
-						chkMazo.addItemListener(new ItemListener() {
-							public void itemStateChanged(ItemEvent e) {
-								if (e.getStateChange() == ItemEvent.SELECTED) {
-									mostrarMazo(true);
-								} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-									mostrarMazo(false);
-								}
-							}
-						});
-		
 				chkMusica = new JCheckBox("");
 				chkMusica.setFocusable(false);
 				chkMusica.setSelected(true);
@@ -621,32 +622,49 @@ public class GuiBlackjack extends JFrame {
 					}
 				});
 				contentPane.add(chkMusica, "cell 0 0");
-				
-						panel_2 = new JPanel();
-						panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null,
-								new Color(59, 59, 59)));
-						contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
-						panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
-						
-								lblFichas = new JLabel("F");
-								lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
-								panel_2.add(lblFichas, "flowx,cell 0 0");
-								
-										lblPartidasJ = new JLabel("P");
-										lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
-										panel_2.add(lblPartidasJ, "cell 0 0");
-										
-												lblVictorias = new JLabel("v");
-												lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
-												panel_2.add(lblVictorias, "cell 0 0");
-												
-														lblEmpates = new JLabel("e");
-														lblEmpates.setFont(new Font("SansSerif", Font.BOLD, 12));
-														panel_2.add(lblEmpates, "cell 0 0");
-														
-																lblDerrotas = new JLabel("d");
-																lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
-																panel_2.add(lblDerrotas, "cell 0 0");
+																		
+																				panel_2 = new JPanel();
+																				panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null,
+																						new Color(59, 59, 59)));
+																				contentPane.add(panel_2, "flowx,cell 1 3 2 1,alignx right,aligny top");
+																				panel_2.setLayout(new MigLayout("", "[150:n,grow]", "[top]"));
+																				
+																						lblFichas = new JLabel("F");
+																						lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
+																						panel_2.add(lblFichas, "flowx,cell 0 0,aligny center");
+																						
+																								lblPartidasJ = new JLabel("P");
+																								lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
+																								panel_2.add(lblPartidasJ, "cell 0 0");
+																								
+																										lblVictorias = new JLabel("v");
+																										lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
+																										panel_2.add(lblVictorias, "cell 0 0");
+																										
+																												lblEmpates = new JLabel("e");
+																												lblEmpates.setFont(new Font("SansSerif", Font.BOLD, 12));
+																												panel_2.add(lblEmpates, "cell 0 0");
+																												
+																														lblDerrotas = new JLabel("d");
+																														lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
+																														panel_2.add(lblDerrotas, "cell 0 0");
+																
+																		panel_8 = new JPanel();
+																		contentPane.add(panel_8, "cell 3 3,alignx right,aligny top");
+																		panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
+																		
+																				chkMazo = new JCheckBox("Mostrar mazo (testeo)");
+																				chkMazo.setFocusable(false);
+																				panel_8.add(chkMazo, "cell 0 0,alignx right,aligny top");
+																				chkMazo.addItemListener(new ItemListener() {
+																					public void itemStateChanged(ItemEvent e) {
+																						if (e.getStateChange() == ItemEvent.SELECTED) {
+																							mostrarMazo(true);
+																						} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+																							mostrarMazo(false);
+																						}
+																					}
+																				});
 
 	}
 
@@ -791,8 +809,8 @@ public class GuiBlackjack extends JFrame {
 	public void actualizaDatosJugador() {
 		lblNombre.setText(controlador.getNombreJugador());
 		lblApuesta.setText("" + controlador.getApuesta());
-		lblFichas.setText("Tus fichas: " + controlador.getFichas() + " | ");
-		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    ///    ");
+		lblFichas.setText("< Tus fichas: " + controlador.getFichas() + " > ");
+		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    |    ");
 		lblVictorias.setText("Victorias: " + controlador.getVictorias() + " | ");
 		lblEmpates.setText("Empates: " + controlador.getEmpates() + " | ");
 		lblDerrotas.setText("Derrotas: " + controlador.getDerrotas() + "  ");
