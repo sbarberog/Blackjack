@@ -54,6 +54,7 @@ public class GuiApuesta extends JDialog {
 		}
 		{
 			lblFichas = new JLabel("New label");
+			lblFichas.setFont(new Font("Tahoma", Font.BOLD, 13));
 			contentPanel.add(lblFichas, "cell 2 1");
 		}
 		{
@@ -63,6 +64,7 @@ public class GuiApuesta extends JDialog {
 		}
 		{
 			spinner = new JSpinner();
+			spinner.setRequestFocusEnabled(false);
 			spinner.setFont(new Font("Tahoma", Font.BOLD, 13));
 			spinner.setModel(new SpinnerNumberModel(10, 10, 100, 10));
 			contentPanel.add(spinner, "cell 2 3");

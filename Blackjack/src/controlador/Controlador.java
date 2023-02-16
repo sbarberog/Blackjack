@@ -57,12 +57,12 @@ public class Controlador {
 			partidaDAO= new PartidaDAO();
 			
 			ventanaPpal.actualizaDatosJugador();
-			ventanaPpal.actualizaCheckboxes();
 			ventanaPpal.setVisible(true);
 			setTurnoJugador(false);
 			audio.iniciaMusica();
 			setEfectos(true);
 			setMusica(true);
+			ventanaPpal.actualizaCheckboxes();
 			ventanaElegirJugador();
 			nuevoJuego();
 		} catch (Exception e) {

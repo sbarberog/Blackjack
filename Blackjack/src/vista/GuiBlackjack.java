@@ -330,55 +330,56 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[157.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]",
-				"[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
-
-		panel_9 = new JPanel();
-		contentPane.add(panel_9, "flowx,cell 0 0,alignx center,growy");
-		panel_9.setLayout(new MigLayout("", "[]", "[28px,fill][grow,fill]"));
-
-		btnNuevoJuego = new JButton("Nueva Partida");
-		panel_9.add(btnNuevoJuego, "cell 0 0 1 2,alignx center,growy");
-		btnNuevoJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (controlador.getNombreJugador().equals("")) {
-					try {
-						controlador.ventanaElegirJugador();
-					} catch (ClassNotFoundException | SQLException e1) {
-						JOptionPane.showMessageDialog(rootPane,
-								"No se ha podido establecer la conexión a la base de datos", "Error de conexión",
-								JOptionPane.ERROR_MESSAGE);
-						e1.printStackTrace();
-					}
-				} else
-					controlador.abreApuesta();
-			}
-		});
-
-		chkEfectos = new JCheckBox();
-		chkEfectos.setFocusable(false);
-		chkEfectos.setSelected(true);
-		chkEfectos.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					controlador.setEfectos(true);
-					chkEfectos.setText(textoSonido(true));
-				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					controlador.setEfectos(false);
-					chkEfectos.setText(textoSonido(false));
-				}
-				rbtMenuSonido.setSelected(controlador.isEfectos());
-				actualizaCheckboxes();
-			}
-		});
+		contentPane.setLayout(new MigLayout("", "[160:n][][470.00:n:500][350:350][10:200,grow][180:n:180]", "[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
+				
+						chkEfectos = new JCheckBox();
+						chkEfectos.setFocusable(false);
+						chkEfectos.setSelected(true);
+						chkEfectos.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								if (e.getStateChange() == ItemEvent.SELECTED) {
+									controlador.setEfectos(true);
+									chkEfectos.setText(textoSonido(true));
+								} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+									controlador.setEfectos(false);
+									chkEfectos.setText(textoSonido(false));
+								}
+								rbtMenuSonido.setSelected(controlador.isEfectos());
+								actualizaCheckboxes();
+							}
+						});
+						contentPane.add(chkEfectos, "flowy,cell 0 0,alignx left");
+		
+				panel_9 = new JPanel();
+				contentPane.add(panel_9, "flowx,cell 1 0,alignx center,growy");
+				panel_9.setLayout(new MigLayout("", "[]", "[28px,fill][grow,fill]"));
+				
+						btnNuevoJuego = new JButton("Nueva Partida");
+						panel_9.add(btnNuevoJuego, "cell 0 0 1 2,alignx center,growy");
+						btnNuevoJuego.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								if (controlador.getNombreJugador().equals("")) {
+									try {
+										controlador.ventanaElegirJugador();
+									} catch (ClassNotFoundException | SQLException e1) {
+										JOptionPane.showMessageDialog(rootPane,
+												"No se ha podido establecer la conexión a la base de datos", "Error de conexión",
+												JOptionPane.ERROR_MESSAGE);
+										e1.printStackTrace();
+									}
+								} else
+									controlador.abreApuesta();
+							}
+						});
 
 		panel_5 = new JPanel();
 		panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
-		contentPane.add(panel_5, "cell 1 0 2 1,grow");
+		contentPane.add(panel_5, "cell 2 0 2 1,grow");
 		panel_5.setLayout(new MigLayout("", "[500:n:500][142.00][142][]", "[]"));
 
 		lblEstado = new JTextArea("\tBienvenido");
+		lblEstado.setFocusable(false);
 		lblEstado.setWrapStyleWord(true);
 		lblEstado.setLineWrap(true);
 		lblEstado.setForeground(Color.WHITE);
@@ -398,6 +399,7 @@ public class GuiBlackjack extends JFrame {
 		btnDoblar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.doblaApuesta();
+				btnPedirCarta.requestFocus();
 			}
 		});
 		btnDoblar.setEnabled(false);
@@ -426,7 +428,6 @@ public class GuiBlackjack extends JFrame {
 				}
 			}
 		});
-		contentPane.add(chkEfectos, "flowy,cell 3 0,alignx left");
 
 		btnSalir = new JButton("Salir del juego");
 		btnSalir.addActionListener(new ActionListener() {
@@ -457,6 +458,7 @@ public class GuiBlackjack extends JFrame {
 				try {
 					if (controlador.isTurnoJugador())
 						controlador.pideCarta();
+						muestraDoblar(false);
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -584,67 +586,67 @@ public class GuiBlackjack extends JFrame {
 
 		lblpuedesHacerClick = new JLabel("(Puedes hacer click aquí para plantarte)");
 		panel_7.add(lblpuedesHacerClick, "cell 2 1");
-
-		panel_8 = new JPanel();
-		contentPane.add(panel_8, "cell 1 3,alignx center,aligny bottom");
-		panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
-
-		chkMazo = new JCheckBox("Mostrar mazo (testeo)");
-		chkMazo.setFocusable(false);
-		panel_8.add(chkMazo, "cell 0 0,alignx right,aligny center");
-		chkMazo.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					mostrarMazo(true);
-				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					mostrarMazo(false);
-				}
-			}
-		});
-
-		panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null,
-				new Color(59, 59, 59)));
-		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
-		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
-
-		lblFichas = new JLabel("F");
-		lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblFichas, "flowx,cell 0 0");
-
-		lblPartidasJ = new JLabel("P");
-		lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblPartidasJ, "cell 0 0");
-
-		lblVictorias = new JLabel("v");
-		lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblVictorias, "cell 0 0");
-
-		lblEmpates = new JLabel("e");
-		lblEmpates.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblEmpates, "cell 0 0");
-
-		lblDerrotas = new JLabel("d");
-		lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
-		panel_2.add(lblDerrotas, "cell 0 0");
-
-		chkMusica = new JCheckBox("");
-		chkMusica.setFocusable(false);
-		chkMusica.setSelected(true);
-		chkMusica.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					if (!controlador.isMusica())
-						controlador.setMusica(true);
-				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-					if (controlador.isMusica())
-						controlador.setMusica(false);
-				}
-				rbtMenuMusica.setSelected(controlador.isMusica());
-				actualizaCheckboxes();
-			}
-		});
-		contentPane.add(chkMusica, "cell 3 0");
+		
+				panel_8 = new JPanel();
+				contentPane.add(panel_8, "cell 0 3,alignx center,aligny bottom");
+				panel_8.setLayout(new MigLayout("", "[500:n:500]", "[35:35.00,grow,bottom]"));
+				
+						chkMazo = new JCheckBox("Mostrar mazo (testeo)");
+						chkMazo.setFocusable(false);
+						panel_8.add(chkMazo, "cell 0 0,alignx center,aligny center");
+						chkMazo.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								if (e.getStateChange() == ItemEvent.SELECTED) {
+									mostrarMazo(true);
+								} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+									mostrarMazo(false);
+								}
+							}
+						});
+		
+				chkMusica = new JCheckBox("");
+				chkMusica.setFocusable(false);
+				chkMusica.setSelected(true);
+				chkMusica.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent e) {
+						if (e.getStateChange() == ItemEvent.SELECTED) {
+							if (!controlador.isMusica())
+								controlador.setMusica(true);
+						} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+							if (controlador.isMusica())
+								controlador.setMusica(false);
+						}
+						rbtMenuMusica.setSelected(controlador.isMusica());
+						actualizaCheckboxes();
+					}
+				});
+				contentPane.add(chkMusica, "cell 0 0");
+				
+						panel_2 = new JPanel();
+						panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null,
+								new Color(59, 59, 59)));
+						contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
+						panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
+						
+								lblFichas = new JLabel("F");
+								lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
+								panel_2.add(lblFichas, "flowx,cell 0 0");
+								
+										lblPartidasJ = new JLabel("P");
+										lblPartidasJ.setFont(new Font("SansSerif", Font.BOLD, 12));
+										panel_2.add(lblPartidasJ, "cell 0 0");
+										
+												lblVictorias = new JLabel("v");
+												lblVictorias.setFont(new Font("SansSerif", Font.BOLD, 12));
+												panel_2.add(lblVictorias, "cell 0 0");
+												
+														lblEmpates = new JLabel("e");
+														lblEmpates.setFont(new Font("SansSerif", Font.BOLD, 12));
+														panel_2.add(lblEmpates, "cell 0 0");
+														
+																lblDerrotas = new JLabel("d");
+																lblDerrotas.setFont(new Font("SansSerif", Font.BOLD, 12));
+																panel_2.add(lblDerrotas, "cell 0 0");
 
 	}
 
