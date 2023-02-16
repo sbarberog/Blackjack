@@ -177,10 +177,11 @@ public class GuiBlackjack extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		ImageIcon pedir = null, pasar = null;
+		ImageIcon pedir = null, pasar = null, doblar=null;
 		try {
 			pedir = new ImageIcon(ImageIO.read(getClass().getResource(pathIcono + "pedir" + ".png")));
 			pasar = new ImageIcon(ImageIO.read(getClass().getResource(pathIcono + "pasar" + ".png")));
+			doblar = new ImageIcon(ImageIO.read(getClass().getResource(pathIcono + "double" + ".png")));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -329,27 +330,30 @@ public class GuiBlackjack extends JFrame {
 		mnNewMenu_4.add(chkBancaN);
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[157.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]", "[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
-		
+		contentPane.setLayout(new MigLayout("", "[157.00][500:n:500][350:350][:150:150][10:200,grow][180:n:180]",
+				"[90:n:90,fill][::300,top][280:400:300,center][45:45,grow,top]"));
+
 		panel_9 = new JPanel();
 		contentPane.add(panel_9, "flowx,cell 0 0,alignx center,growy");
-				panel_9.setLayout(new MigLayout("", "[]", "[28px,fill][grow,fill]"));
-						
-								btnNuevoJuego = new JButton("Nueva Partida");
-								panel_9.add(btnNuevoJuego, "cell 0 0 1 2,alignx center,growy");
-				btnNuevoJuego.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if(controlador.getNombreJugador().equals("")) {
-							try {
-								controlador.ventanaElegirJugador();
-							} catch (ClassNotFoundException | SQLException e1) {
-								JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-							}
-						} else
-							controlador.abreApuesta();
+		panel_9.setLayout(new MigLayout("", "[]", "[28px,fill][grow,fill]"));
+
+		btnNuevoJuego = new JButton("Nueva Partida");
+		panel_9.add(btnNuevoJuego, "cell 0 0 1 2,alignx center,growy");
+		btnNuevoJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (controlador.getNombreJugador().equals("")) {
+					try {
+						controlador.ventanaElegirJugador();
+					} catch (ClassNotFoundException | SQLException e1) {
+						JOptionPane.showMessageDialog(rootPane,
+								"No se ha podido establecer la conexión a la base de datos", "Error de conexión",
+								JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
 					}
-				});
+				} else
+					controlador.abreApuesta();
+			}
+		});
 
 		chkEfectos = new JCheckBox();
 		chkEfectos.setFocusable(false);
@@ -367,59 +371,61 @@ public class GuiBlackjack extends JFrame {
 				actualizaCheckboxes();
 			}
 		});
-		
-				panel_5 = new JPanel();
-				panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
-						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
-				contentPane.add(panel_5, "cell 1 0 2 1,grow");
-				panel_5.setLayout(new MigLayout("", "[500:n:500][142.00][142][]", "[]"));
-				
-						lblEstado = new JTextArea("\tBienvenido");
-						lblEstado.setWrapStyleWord(true);
-						lblEstado.setLineWrap(true);
-						lblEstado.setForeground(Color.WHITE);
-						lblEstado.setBackground(SystemColor.infoText);
-						lblEstado.setEditable(false);
-						lblEstado.setFont(new Font("SansSerif", Font.BOLD, 14));
-						panel_5.add(lblEstado, "cell 0 0,grow");
-						
-								btnPedirCarta = new JButton(pedir);
-								btnPedirCarta.setFont(new Font("SansSerif", Font.BOLD, 12));
-								btnPedirCarta.setText(" Pedir Carta");
-								panel_5.add(btnPedirCarta, "cell 1 0,aligny top");
-								btnPedirCarta.setEnabled(false);
-										
-										btnDoblar = new JButton("Doblar apuesta");
-										btnDoblar.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												controlador.doblaApuesta();
-											}
-										});
-										btnDoblar.setEnabled(false);
-										btnDoblar.setFont(new Font("SansSerif", Font.BOLD, 12));
-										panel_5.add(btnDoblar, "cell 2 0,grow");
-								
-										btnPlantarse = new JButton(pasar);
-										btnPlantarse.setFont(new Font("SansSerif", Font.BOLD, 12));
-										btnPlantarse.setText(" Plantarse");
-										panel_5.add(btnPlantarse, "cell 3 0,aligny top");
-										btnPlantarse.setEnabled(false);
-										btnPlantarse.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												controlador.setTurnoJugador(false);
-											}
-										});
-										btnPedirCarta.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												try {
-													if (controlador.isTurnoJugador())
-														controlador.pideCarta();
-												} catch (NoHayCartasException e1) {
-													JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
-															JOptionPane.ERROR_MESSAGE);
-												}
-											}
-										});
+
+		panel_5 = new JPanel();
+		panel_5.setBorder(new TitledBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null), "Mensaje",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 51, 51)));
+		contentPane.add(panel_5, "cell 1 0 2 1,grow");
+		panel_5.setLayout(new MigLayout("", "[500:n:500][142.00][142][]", "[]"));
+
+		lblEstado = new JTextArea("\tBienvenido");
+		lblEstado.setWrapStyleWord(true);
+		lblEstado.setLineWrap(true);
+		lblEstado.setForeground(Color.WHITE);
+		lblEstado.setBackground(SystemColor.infoText);
+		lblEstado.setEditable(false);
+		lblEstado.setFont(new Font("SansSerif", Font.BOLD, 14));
+		panel_5.add(lblEstado, "cell 0 0,grow");
+
+		btnPedirCarta = new JButton(pedir);
+		btnPedirCarta.setFont(new Font("SansSerif", Font.BOLD, 12));
+		btnPedirCarta.setText(" Pedir Carta");
+		panel_5.add(btnPedirCarta, "cell 1 0,aligny top");
+		btnPedirCarta.setEnabled(false);
+
+		btnDoblar = new JButton(doblar);
+		btnDoblar.setText("Doblar apuesta");
+		btnDoblar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.doblaApuesta();
+			}
+		});
+		btnDoblar.setEnabled(false);
+		btnDoblar.setFont(new Font("SansSerif", Font.BOLD, 12));
+		panel_5.add(btnDoblar, "cell 2 0,grow");
+
+		btnPlantarse = new JButton(pasar);
+		btnPlantarse.setFont(new Font("SansSerif", Font.BOLD, 12));
+		btnPlantarse.setText(" Plantarse");
+		panel_5.add(btnPlantarse, "cell 3 0,aligny top");
+		btnPlantarse.setEnabled(false);
+		btnPlantarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.setTurnoJugador(false);
+			}
+		});
+		btnPedirCarta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (controlador.isTurnoJugador())
+						muestraDoblar(false);
+						controlador.pideCarta();
+				} catch (NoHayCartasException e1) {
+					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		contentPane.add(chkEfectos, "flowy,cell 3 0,alignx left");
 
 		btnSalir = new JButton("Salir del juego");
@@ -461,7 +467,7 @@ public class GuiBlackjack extends JFrame {
 		panelJ.setBackground(new Color(0, 128, 0));
 		panelJ.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panelJ.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
-		
+
 		btnElegirJugador = new JButton("Cambiar jugador");
 		panel_6.add(btnElegirJugador, "flowx,cell 0 2");
 		btnElegirJugador.addActionListener(new ActionListener() {
@@ -469,12 +475,13 @@ public class GuiBlackjack extends JFrame {
 				try {
 					controlador.ventanaElegirJugador();
 				} catch (ClassNotFoundException | SQLException e1) {
-					JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(rootPane, "No se ha podido establecer la conexión a la base de datos",
+							"Error de conexión", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		lblNewLabel_3 = new JLabel("Nombre: ");
 		panel_6.add(lblNewLabel_3, "cell 0 2");
 
@@ -494,14 +501,14 @@ public class GuiBlackjack extends JFrame {
 
 		lblNewLabel = new JLabel("(Puedes hacer click aquí para pedir carta)");
 		panel_6.add(lblNewLabel, "cell 2 2");
-		
+
 		lblNombre = new JLabel("");
 		lblNombre.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_6.add(lblNombre, "cell 0 2");
-		
+
 		lblNewLabel_4 = new JLabel("Tu apuesta: ");
 		panel_6.add(lblNewLabel_4, "cell 1 2");
-		
+
 		lblApuesta = new JLabel("(apuesta)");
 		lblApuesta.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_6.add(lblApuesta, "cell 1 2");
@@ -568,7 +575,7 @@ public class GuiBlackjack extends JFrame {
 		panel_1.setMaximumSize(new Dimension(160, 30));
 		panel_1.setLayout(new MigLayout("", "[grow]", "[top]"));
 
-		JLabel lblNewLabel_2 = new JLabel("Puntos: de la banca:");
+		JLabel lblNewLabel_2 = new JLabel("Puntos de la banca:");
 		panel_1.add(lblNewLabel_2, "flowx,cell 0 0");
 
 		lblPuntosB = new JLabel("");
@@ -596,10 +603,11 @@ public class GuiBlackjack extends JFrame {
 		});
 
 		panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
+		panel_2.setBorder(new TitledBorder(null, "Datos del jugador", TitledBorder.LEADING, TitledBorder.TOP, null,
+				new Color(59, 59, 59)));
 		contentPane.add(panel_2, "flowx,cell 2 3 2 1,alignx center,aligny top");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[top]"));
-		
+
 		lblFichas = new JLabel("F");
 		lblFichas.setFont(new Font("SansSerif", Font.BOLD, 12));
 		panel_2.add(lblFichas, "flowx,cell 0 0");
@@ -666,7 +674,7 @@ public class GuiBlackjack extends JFrame {
 		btnSalir.setEnabled(false);
 		limpiaMesas();
 		lblNombre.setText(j.getNombre());
-		lblEstado.setText("¿Pides carta, doblas la apuesta o te plantas?\n(intenta no pasarte de 21 puntos)");
+		lblEstado.setText("¿Pides carta, doblas la apuesta o te plantas?\n(Intenta no pasarte de 21 puntos)");
 		actualizaMazo();
 		actualizaPuntos();
 		actualizaDatosJugador();
@@ -680,13 +688,12 @@ public class GuiBlackjack extends JFrame {
 		panelB.removeAll();
 		panelB.revalidate();
 		panelB.repaint();
-		
+
 	}
 
 	public void actualizaMazo() {
 		txtMazo.setText(controlador.getBaraja());
 		txtMazo.setCaretPosition(0);
-		;
 	}
 
 	public void muestraCartaJ(Carta c, int pos) {
@@ -744,7 +751,6 @@ public class GuiBlackjack extends JFrame {
 		int seguir = JOptionPane.showConfirmDialog(this, "¿Deseas seguir jugando?\nPiénsatelo bien...",
 				"¿Seguir jugando?", JOptionPane.YES_NO_OPTION);
 
-
 		btnNuevoJuego.setEnabled(true);
 		btnElegirJugador.setEnabled(true);
 		btnSalir.setEnabled(true);
@@ -760,8 +766,7 @@ public class GuiBlackjack extends JFrame {
 
 	public void puntuacionFinal(String puntuacionFinal) {
 
-		JOptionPane.showMessageDialog(this, puntuacionFinal, "Puntuación final",
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, puntuacionFinal, "Puntuación final", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void ganaBanca() {
@@ -784,7 +789,7 @@ public class GuiBlackjack extends JFrame {
 	public void actualizaDatosJugador() {
 		lblNombre.setText(controlador.getNombreJugador());
 		lblApuesta.setText("" + controlador.getApuesta());
-		lblFichas.setText("Tus fichas: "+controlador.getFichas()+" | ");
+		lblFichas.setText("Tus fichas: " + controlador.getFichas() + " | ");
 		lblPartidasJ.setText("Partidas Jugadas: " + controlador.getPartidasJ() + "    ///    ");
 		lblVictorias.setText("Victorias: " + controlador.getVictorias() + " | ");
 		lblEmpates.setText("Empates: " + controlador.getEmpates() + " | ");
@@ -821,19 +826,22 @@ public class GuiBlackjack extends JFrame {
 		btnPedirCarta.setEnabled(b);
 		btnPlantarse.setEnabled(b);
 	}
-	
+
 	public void muestraDoblar(boolean b) {
 		btnDoblar.setEnabled(b);
-		lblApuesta.setText(""+controlador.getApuesta());
+		if(b)
+			lblApuesta.setText("" + controlador.getApuesta());
+		else
+			lblEstado.setText("¿Pides carta o te plantas?\n(Intenta no pasarte de 21 puntos)");
 	}
 
 	public void muestraBlackjack() {
 		JOptionPane.showMessageDialog(this, "¡Es un Blackjack!", "Blackjack", JOptionPane.WARNING_MESSAGE);
-		
+
 	}
 
 	public void mostrarBienvenida(String nombre) {
-		lblEstado.setText(nombre+", toma asiento.\n¿Deseas jugar una partida de Blackjack?");
-		
+		lblEstado.setText(nombre + ", toma asiento.\n¿Deseas jugar una partida de Blackjack?");
+
 	}
 }

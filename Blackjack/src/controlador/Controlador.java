@@ -137,7 +137,6 @@ public class Controlador {
 	}
 
 	public void pideCarta() throws NoHayCartasException {
-		ventanaPpal.muestraDoblar(false);
 		manoJ.pedirCarta(baraja);
 		if (isEfectos())
 			audio.sonidoNaipe();
@@ -390,6 +389,7 @@ public class Controlador {
 		jugador.setFichas(jugador.getFichas()-apuesta);
 		ventanaPpal.muestraDoblar(false);
 		ventanaPpal.actualizaDatosJugador();
+		audio.doblaApuesta();
 	}
 
 	public int getFichas() {
