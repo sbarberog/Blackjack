@@ -437,9 +437,9 @@ public class GuiBlackjack extends JFrame {
 		btnPedirCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (controlador.isTurnoJugador())
+					if (controlador.isTurnoJugador()) {
 						muestraDoblar(false);
-						controlador.pideCarta();
+						controlador.pideCarta();}
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -474,9 +474,9 @@ public class GuiBlackjack extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
-					if (controlador.isTurnoJugador())
-						controlador.pideCarta();
+					if (controlador.isTurnoJugador()) {
 						muestraDoblar(false);
+						controlador.pideCarta();}
 				} catch (NoHayCartasException e1) {
 					JOptionPane.showMessageDialog(btnPedirCarta, "No quedan cartas en la baraja", "Error",
 							JOptionPane.ERROR_MESSAGE);

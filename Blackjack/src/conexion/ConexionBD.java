@@ -19,12 +19,16 @@ public class ConexionBD {
 //	private static final String driverMysql="com.mysql.cj.jdbc.Driver";
 	private static final String driverH2="org.h2.Driver";
 	private static final String database = "blackjack";
+//	private static final String databaseFree = "sql7599426";
 //	private static final String usuario = "juego_blackjack";
 //	private static final String contrasena = "blackjack";
 	private static final String usuarioH2 = "sa";
 	private static final String contrasenaH2 = "";
+//	private static final String usuarioFree = "sql7599426";
+//	private static final String contrasenaFree = "KXbGMrYgad";
 //	private static final String url="jdbc:mysql://127.0.0.1:3306/"+database;
 	private static final String urlH2= "jdbc:h2:./h2db/"+ database;
+//	private static final String urlFree= "http://sql7.freemysqlhosting.net:3306/"+ databaseFree;
 	
 	private Connection conexion=null;
 	

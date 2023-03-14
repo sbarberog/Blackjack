@@ -1,6 +1,6 @@
 -- Active: 1675880132561@@127.0.0.1@3306@blackjack
 
-drop database if exists blackjack;
+--drop database if exists blackjack;
 
 create database
     if not exists blackjack character set latin1 collate latin1_spanish_ci;
@@ -8,16 +8,17 @@ create database
 
 use blackjack;
 
+drop table if exists partidas;
 drop table if exists jugadores;
 create table
     if not exists jugadores (
         id_jugador int  AUTO_INCREMENT PRIMARY KEY,
         nombre varchar(30) UNIQUE,
-        fecha_registro DATE DEFAULT (CURRENT_DATE()),
+        fecha_registro DATE DEFAULT (CURDATE()),
         fichas int default 100
-    ) engine innodb;
+    ) engine innodb character set latin1 collate latin1_spanish_ci;
 
-drop table if exists partidas;
+
 create table
     if not exists partidas (
         id_partida int  AUTO_INCREMENT PRIMARY KEY,
@@ -28,7 +29,7 @@ create table
         time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
         apuesta INT,
         blackjack boolean default false
-    ) engine innodb;
+    ) engine innodb character set latin1 collate latin1_spanish_ci;
 
 
 alter table partidas 
@@ -40,5 +41,5 @@ create view datos_jugador
 as select j.id_jugador, nombre, fecha_registro, fichas, ifnull(sum(resultado='V'),0) victorias, ifnull(sum(resultado='E'),0) empates, 
     ifnull(sum(resultado='D'),0) derrotas, count(id_partida) partidas_totales 
     from jugadores j left join partidas p using (id_jugador)
-    group by id_jugador
+    group by j.id_jugador
     order by fichas desc;
