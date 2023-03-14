@@ -6,4 +6,4 @@ The UI incorporates images, background music and sound effects.
 
 
 
-![captura](/captura.png)
+![captura](/Blackjack/captura.png)
