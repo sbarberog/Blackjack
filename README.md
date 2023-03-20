@@ -2,7 +2,7 @@
 
 Simple 1-player Blackjack game with a SQL database that stores user profiles, bets and match results.
 
-The GUI is made with Java Swing and incorporates images, background music and sound effects.
+The GUI was created with Java Swing and incorporates images, background music and sound effects.
 
 
 
